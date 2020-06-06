@@ -1,0 +1,13 @@
+{
+  "name": "loom-common",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "compile": "tsc -p ./"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.3"
+  }
+}

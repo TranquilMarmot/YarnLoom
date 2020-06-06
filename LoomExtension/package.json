@@ -1,0 +1,99 @@
+{
+  "name": "yarn-loom",
+  "displayName": "Yarn Loom",
+  "description": "Adds support for the Yarn Spinner dialogue language.",
+  "version": "1.2.0",
+  "homepage": "https://yarnspinner.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TranquilMarmot/YarnLoom"
+  },
+  "license": "MIT",
+  "keywords": [
+    "yarn spinner",
+    "yarnspinner",
+    "yarn",
+    "game writing",
+    "narrative",
+    "tree",
+    "branch",
+    "branching",
+    "dialog",
+    "dialogue"
+  ],
+  "qna": false,
+  "publisher": "TranquilMarmot",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#C5E29B",
+    "theme": "light"
+  },
+  "engines": {
+    "vscode": "^1.44.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onCustomEditor:yarnLoom.editor"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "yarnspinner",
+        "aliases": [
+          "Yarn Spinner",
+          "yarnspinner",
+          "Yarn"
+        ],
+        "extensions": [
+          ".yarn",
+          ".yarn.txt",
+          ".yarn.node"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "yarnspinner",
+        "scopeName": "source.yarnspinner",
+        "path": "./syntaxes/yarnspinner.tmLanguage.json"
+      }
+    ],
+    "customEditors": [
+      {
+        "viewType": "yarnLoom.editor",
+        "displayName": "Yarn Loom",
+        "selector": [
+          {
+            "filenamePattern": "*.yarn"
+          },
+          {
+            "filenamePattern": "*.yarn.txt"
+          }
+        ],
+        "priority": "default"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run loom:build",
+    "build": "rm -rf out && npm run compile && cd ../LoomEditor && npm install && npm run build && cp -r ./build ../LoomExtension/out",
+    "compile": "cd ../LoomCommon && npm run compile && cd ../LoomExtension && tsc -p ./",
+    "lint": "eslint -c .eslintrc.js --ext .ts ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "@types/rimraf": "^3.0.0",
+    "@types/vscode": "^1.44.0",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "loom-common": "file:../LoomCommon",
+    "rimraf": "^3.0.2",
+    "sanitize-filename": "^1.6.3"
+  }
+}
