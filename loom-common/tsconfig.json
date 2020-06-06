@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
+    "composite": true,
     "module": "commonjs",
     "target": "es2019",
-    "lib": ["ES2019"],
+    "lib": ["ES2019", "DOM"],
     "outDir": "out",
     "sourceMap": true,
     "strict": true,
-    "rootDir": "src",
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", ".vscode-test"],
-  "references": [{ "path": "../LoomCommon" }]
+  "include": ["."],
+  "exclude": ["node_modules", "out"]
 }

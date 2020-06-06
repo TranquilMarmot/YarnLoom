@@ -5,9 +5,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "compile": "tsc -p ./"
+    "build": "tsc -p ./"
   },
-  "devDependencies": {
-    "typescript": "^3.9.3"
+  "engines": {
+    "vscode": "^1.44.0"
   }
 }

@@ -19,18 +19,18 @@ import {
 /**
  * This is a custom text editor provider that will open up `.yarn` files in the Yarn Editor.
  */
-export default class YarnEditorProvider implements CustomTextEditorProvider {
+export default class LoomEditorProvider implements CustomTextEditorProvider {
   /**
    * This is used to trigger calling this on certain file types.
    * See package.json where this is used.
    */
-  private static readonly viewType = "yarnSpinner.editor";
+  private static readonly viewType = "yarnLoom.editor";
 
-  /** Register a YarnEditor provider in the extension context. */
+  /** Register a LoomEditor provider in the extension context. */
   public static register(context: ExtensionContext): Disposable {
-    const provider = new YarnEditorProvider(context);
+    const provider = new LoomEditorProvider(context);
     const providerRegistration = window.registerCustomEditorProvider(
-      YarnEditorProvider.viewType,
+      LoomEditorProvider.viewType,
       provider,
       {
         webviewOptions: {

@@ -12,8 +12,8 @@ import {
 } from "fs";
 import sanitizeFileName from "sanitize-filename";
 
-import type { YarnNode } from "loom-common/YarnNode";
-import { createNodeText, parseNodeText } from "loom-common/YarnNode";
+import type { YarnNode } from "loom-common/out/YarnNode";
+import { createNodeText, parseNodeText } from "loom-common/out/YarnNode";
 
 export interface TemporaryFile {
   /** Full path to this temporary file */

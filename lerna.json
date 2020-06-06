@@ -1,0 +1,4 @@
+{
+  "packages": ["LoomCommon", "LoomEditor", "LoomExtension"],
+  "version": "0.1.0"
+}

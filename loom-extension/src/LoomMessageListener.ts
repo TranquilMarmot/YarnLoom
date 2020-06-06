@@ -9,7 +9,7 @@ import {
   ConfigurationChangeEvent,
 } from "vscode";
 
-import type { YarnNode } from "loom-common/YarnNode";
+import type { YarnNode } from "loom-common/out/YarnNode";
 
 import LoomWebviewPanel from "./LoomWebviewPanel";
 import { createTemporaryFileForNode } from "./TemporaryFiles";

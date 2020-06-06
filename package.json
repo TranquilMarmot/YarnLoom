@@ -1,0 +1,38 @@
+{
+  "name": "yarn-loom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Root package for running scripts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TranquilMarmot/YarnLoom.git"
+  },
+  "dependencies": {
+    "loom-common": "file:loom-common",
+    "loom-editor": "file:loom-editor",
+    "loom-extension": "file:loom-extension"
+  },
+  "scripts": {
+    "build:common": "cd loom-common && npm install && npm run build",
+    "build:editor": "cd loom-editor && npm install && npm run build",
+    "build:extension": "cd loom-extension && npm install && npm run build",
+    "build": "npm run build:common && npm run build:editor && npm run build:extension",
+    "install": "lerna run install && lerna bootstrap"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "@types/rimraf": "^3.0.0",
+    "@types/vscode": "^1.44.0",
+    "lerna": "^3.22.0",
+    "typescript": "^3.9.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.9.1",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8"
+  },
+  "engines": {
+    "vscode": "^1.44.0"
+  }
+}

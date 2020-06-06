@@ -1,6 +1,6 @@
 import { ExtensionContext } from "vscode";
 
-import LoomProvider from "./LoomProvider";
+import LoomProvider from "./LoomEditorProvider";
 import { deleteAllTemporaryFiles } from "./TemporaryFiles";
 
 /**
