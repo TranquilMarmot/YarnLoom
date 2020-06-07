@@ -57,7 +57,7 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run loom:build",
-    "build": "rm -rf out && npm run compile && cd ../loom-editor && npm install && npm run build && cp -r ./build ../loom-extension/out",
+    "build": "rm -rf out && npm run compile && cd ../loom-editor && cp -r ./build ../loom-extension/out",
     "compile": "tsc -p ./",
     "lint": "eslint -c .eslintrc.js --ext .ts ./",
     "watch": "tsc -watch -p ./"

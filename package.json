@@ -14,9 +14,9 @@
   },
   "scripts": {
     "preinstall": "cp loom-common/package.json loom-common/out/package.json",
-    "build:common": "cd loom-common && npm install && npm run build",
-    "build:editor": "cd loom-editor && npm install && npm run build",
-    "build:extension": "cd loom-extension && npm install && npm run build",
+    "build:common": "cd loom-common && npm run build",
+    "build:editor": "cd loom-editor && npm run build",
+    "build:extension": "cd loom-extension && npm run build",
     "build": "npm run build:common && npm run build:editor && npm run build:extension",
     "install": "lerna run install && lerna bootstrap"
   },

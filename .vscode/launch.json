@@ -12,7 +12,7 @@
       "runtimeExecutable": "${execPath}",
       "args": ["--extensionDevelopmentPath=${workspaceRoot}/loom-extension"],
       "outFiles": ["${workspaceFolder}/loom-extension/out/**/*.js"],
-      "preLaunchTask": "npm: watch"
+      "preLaunchTask": "npm: build"
     }
   ]
 }
