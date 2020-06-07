@@ -5,7 +5,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "tsc -p ./"
+    "build": "tsc -p ./ && cp package.json ./out"
   },
   "engines": {
     "vscode": "^1.44.0"

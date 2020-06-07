@@ -1,4 +1,4 @@
 {
-  "packages": ["LoomCommon", "LoomEditor", "LoomExtension"],
+  "packages": ["loom-common", "loom-editor", "loom-extension"],
   "version": "0.1.0"
 }

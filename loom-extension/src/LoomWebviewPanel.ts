@@ -13,11 +13,7 @@ import { YarnEditorMessageTypes } from "./LoomMessageListener";
  * @param extensionPath Path that extension lives at; this comes from the context passed to the extension on creation.
  * @param document Text document that is being opened. Undefined if not opening a document.
  */
-export default (
-  panel: WebviewPanel,
-  extensionPath: string,
-  document?: TextDocument
-) => {
+export default (panel: WebviewPanel, extensionPath: string) => {
   // load the built HTML file from YarnEditor
   let html = readFileSync(
     joinPath(extensionPath, "out", "build", "index.html"),
@@ -39,21 +35,12 @@ export default (
     "<head>",
     `<head>
       <script>
-        // YarnEditor will send events to "window.parent" but that is undefined
-        // in the VSCode webview; by default, browsers will usually set window.parent to window
-        window.parent = window;
-
-        // this lets the editor know we're in the VSCode extension and opening a file...
-        // this is to get around a bug with the editor adding the "Start" node which was
-        // breaking things (because of race conditions)
-        window.editingVsCodeFile = ${!!document};
-
         // shove the VSCode API onto the window so it can be used to send events back to the extension
         // the "acquireVsCodeApi" function is magically injected into the page by the webview, and can only be called ONCE
         window.vsCodeApi = acquireVsCodeApi();
 
         // since the webview doesn't do anything when "alert" is called, we override it here to
-        // send a message back to the extension; this is listened to in YarnEditorMessageListener
+        // send a message back to the extension; this is listened to in LoomMessageListener
         window.alert = function(message) {
           window.vsCodeApi.postMessage({
             type: "${YarnEditorMessageTypes.Alert}",

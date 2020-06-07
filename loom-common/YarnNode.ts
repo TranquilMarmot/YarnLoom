@@ -1,3 +1,8 @@
+export interface YarnNodePosition {
+  x: number;
+  y: number;
+}
+
 /** Represents a node in the Yarn file */
 export interface YarnNode {
   /**
@@ -11,6 +16,14 @@ export interface YarnNode {
 
   /** Actual text of the node */
   body: string;
+
+  position?: YarnNodePosition;
+
+  /** Used in the editor to  */
+  colorID?: number;
+
+  /** List of titles of nodes that this node links to */
+  links?: string[];
 }
 
 /**

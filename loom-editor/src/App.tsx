@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { createNodeText } from "loom-common/out/YarnNode";
+import { createNodeText } from "loom-common/YarnNode";
 
 function App() {
   return (

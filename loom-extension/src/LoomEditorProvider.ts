@@ -88,6 +88,6 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     });
 
     LoomMessageListener(webviewPanel, this.context, document);
-    LoomWebviewPanel(webviewPanel, this.context.extensionPath, document);
+    LoomWebviewPanel(webviewPanel, this.context.extensionPath);
   }
 }

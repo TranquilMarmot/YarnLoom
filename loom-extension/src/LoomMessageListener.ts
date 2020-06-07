@@ -9,7 +9,7 @@ import {
   ConfigurationChangeEvent,
 } from "vscode";
 
-import type { YarnNode } from "loom-common/out/YarnNode";
+import type { YarnNode } from "loom-common/YarnNode";
 
 import LoomWebviewPanel from "./LoomWebviewPanel";
 import { createTemporaryFileForNode } from "./TemporaryFiles";
@@ -99,7 +99,7 @@ export default (
   // when this changes, we just reload the whole webview since that will set all the settings
   workspace.onDidChangeConfiguration((event: ConfigurationChangeEvent) => {
     if (event.affectsConfiguration("yarnSpinner")) {
-      LoomWebviewPanel(webviewPanel, context.extensionPath, document);
+      LoomWebviewPanel(webviewPanel, context.extensionPath);
     }
   });
 };
