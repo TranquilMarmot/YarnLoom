@@ -10,7 +10,7 @@ import {
 import rimraf from "rimraf";
 
 import { YarnNode } from "loom-common/YarnNode";
-import { parseYarnFile } from "loom-common/YarnParser";
+import { parseYarnFile, buildLinksFromNodes } from "loom-common/YarnParser";
 import { setNodes } from "loom-common/EditorActions";
 
 import LoomWebviewPanel from "./LoomWebviewPanel";
@@ -76,6 +76,34 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
         );
       }
     });
+  };
+
+  updateNode = (originalTitle: string, node: YarnNode) => {
+    if (!this.nodes) {
+      throw new Error(
+        `Tried to update node ${originalTitle} but we don't have any nodes!`
+      );
+    }
+
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to update node ${originalTitle} but we don't have a webview!`
+      );
+    }
+
+    const originalNodeIndex = this.nodes.findIndex(
+      (originalNode) => originalNode.title === originalTitle
+    );
+
+    this.nodes = [
+      ...this.nodes.slice(0, originalNodeIndex),
+      ...[node],
+      ...this.nodes.slice(originalNodeIndex + 1),
+    ];
+
+    buildLinksFromNodes(this.nodes);
+
+    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
   };
 
   /**

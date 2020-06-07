@@ -14,6 +14,7 @@ import sanitizeFileName from "sanitize-filename";
 
 import type { YarnNode } from "loom-common/YarnNode";
 import { createNodeText, parseNodeText } from "loom-common/YarnNode";
+import LoomEditorProvider from "./LoomEditorProvider";
 
 export interface TemporaryFile {
   /** Full path to this temporary file */
@@ -71,10 +72,10 @@ export const unwatchTemporaryFilesForDocument = (document: TextDocument) => {
  * This will look like: "{tmpdir}/yarnSpinner/{workspace name}/{MD5 hash of document URI}"
  * @param document Document to create hash for, if we have one
  */
-export const getTemporaryFolderPath = (document?: TextDocument) => {
-  const documentHash = document
-    ? createHash("md5").update(document.uri.toString()).digest("hex")
-    : "";
+export const getTemporaryFolderPath = (document: TextDocument) => {
+  const documentHash = createHash("md5")
+    .update(document.uri.toString())
+    .digest("hex");
   const workspaceName = workspace.name ? sanitizeFileName(workspace.name) : "";
 
   return join(tmpdir(), "yarnSpinner", workspaceName, documentHash);
@@ -92,10 +93,21 @@ export const getTemporaryFolderPath = (document?: TextDocument) => {
  */
 export const createTemporaryFileForNode = (
   node: YarnNode,
-  webview: Webview,
-  document: TextDocument
+  editor: LoomEditorProvider
 ): TemporaryFile => {
-  const tmpFolder = getTemporaryFolderPath(document);
+  if (!editor.document) {
+    throw new Error(
+      `Tried to create temporary file for ${node.title} but no document is open!`
+    );
+  }
+
+  if (!editor.webviewPanel) {
+    throw new Error(
+      `Tried to create temporary file for ${node.title} but no webview exists!`
+    );
+  }
+
+  const tmpFolder = getTemporaryFolderPath(editor.document);
 
   try {
     // make sure our temp directory exists
@@ -114,13 +126,13 @@ export const createTemporaryFileForNode = (
     const watcher = watchTemporaryFileAndUpdateEditorOnChanges(
       tmpFilePath,
       node,
-      webview
+      editor
     );
 
     const temporaryFile: TemporaryFile = {
       path: tmpFilePath,
       watcher,
-      document,
+      document: editor.document,
     };
 
     trackTemporaryFile(temporaryFile);
@@ -142,7 +154,7 @@ export const createTemporaryFileForNode = (
 const watchTemporaryFileAndUpdateEditorOnChanges = (
   tmpFilePath: string,
   originalNode: YarnNode,
-  webview: Webview
+  editor: LoomEditorProvider
 ): FSWatcher =>
   watch(tmpFilePath, () =>
     readFile(tmpFilePath, "utf8", (error, data) => {
@@ -156,15 +168,7 @@ const watchTemporaryFileAndUpdateEditorOnChanges = (
 
         // sometimes this will get triggered before writing the file
         if (updatedNode.title.trim().length > 0) {
-          webview.postMessage({
-            type: "UpdateNode",
-            payload: {
-              // the user could have potentially changed the title of the node in the editor
-              // we send along the original title here so the editor knows which one to update
-              originalNodeTitle: originalNode.title,
-              ...updatedNode,
-            },
-          });
+          editor.updateNode(originalNode.title, updatedNode);
 
           // if the node's title has changed, update the original node's title so that
           // if the user makes another change, the editor changes the proper node

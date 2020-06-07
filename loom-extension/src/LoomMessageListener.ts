@@ -45,11 +45,7 @@ const openNodeInTemporaryFileEditor = (
 
   // this will create a temporary file and add a file watcher on it
   // when the file changes, a message is sent back to the editor
-  const temporaryFile = createTemporaryFileForNode(
-    node,
-    editor.webviewPanel.webview,
-    editor.document
-  );
+  const temporaryFile = createTemporaryFileForNode(node, editor);
 
   // and open it in the editor
   workspace
@@ -67,7 +63,6 @@ const openNodeInTemporaryFileEditor = (
 export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
   // messages sent with "window.vsCodeApi.postMessage({ type: string, payload: string });" from the editor will end up here
   webviewPanel.webview.onDidReceiveMessage((message: EditorActions) => {
-    console.log(message);
     switch (message.type) {
       case YarnEditorMessageTypes.OpenNode:
         openNodeInTemporaryFileEditor(message.payload.nodeId, editor);
