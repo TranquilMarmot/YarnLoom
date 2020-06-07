@@ -9,5 +9,8 @@
   },
   "engines": {
     "vscode": "^1.44.0"
+  },
+  "dependencies": {
+    "typesafe-actions": "^5.1.0"
   }
 }

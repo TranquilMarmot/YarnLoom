@@ -1,7 +1,6 @@
 import { WebviewPanel, Uri, TextDocument, workspace } from "vscode";
 import { readFileSync, readdirSync } from "fs";
 import { join as joinPath } from "path";
-import { YarnEditorMessageTypes } from "./LoomMessageListener";
 
 /**
  * Sets the HTML of the given webview panel to be the yarn editor.
@@ -38,16 +37,6 @@ export default (panel: WebviewPanel, extensionPath: string) => {
         // shove the VSCode API onto the window so it can be used to send events back to the extension
         // the "acquireVsCodeApi" function is magically injected into the page by the webview, and can only be called ONCE
         window.vsCodeApi = acquireVsCodeApi();
-
-        // since the webview doesn't do anything when "alert" is called, we override it here to
-        // send a message back to the extension; this is listened to in LoomMessageListener
-        window.alert = function(message) {
-          window.vsCodeApi.postMessage({
-            type: "${YarnEditorMessageTypes.Alert}",
-            payload: message
-          });
-        };
-        });
       </script>`
   );
 

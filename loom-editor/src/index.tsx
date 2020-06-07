@@ -1,16 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
+import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
-
-window.addEventListener("message", (event) => {
-  console.log(event);
-});
+import { YarnProvider } from "./state/YarnContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <YarnProvider>
+      <App />
+    </YarnProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -9,6 +9,9 @@ import {
 } from "vscode";
 import rimraf from "rimraf";
 
+import { parseYarnFile } from "loom-common/YarnParser";
+import { setNodes } from "loom-common/EditorActions";
+
 import LoomWebviewPanel from "./LoomWebviewPanel";
 import LoomMessageListener from "./LoomMessageListener";
 import {
@@ -89,5 +92,8 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
     LoomMessageListener(webviewPanel, this.context, document);
     LoomWebviewPanel(webviewPanel, this.context.extensionPath);
+
+    const nodes = parseYarnFile(document.getText());
+    webviewPanel.webview.postMessage(setNodes(nodes));
   }
 }
