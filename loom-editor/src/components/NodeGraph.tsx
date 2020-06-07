@@ -9,6 +9,7 @@ import {
 
 import { YarnNode } from "loom-common/YarnNode";
 import { getNodeByTitle } from "loom-common/YarnParser";
+import { openNode } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView from "./NodeGraphView";
@@ -57,6 +58,9 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   },
 };
 
+const onNodeDoubleClicked = (nodeId: string) =>
+  window.vsCodeApi.postMessage(openNode(nodeId));
+
 const NodeGraph: FunctionComponent = () => {
   const [state] = useYarnState();
 
@@ -69,6 +73,7 @@ const NodeGraph: FunctionComponent = () => {
       id="yarn-node-graph"
       data={mapNodesToGraphFormat(state.nodes)}
       config={graphConfig}
+      onDoubleClickNode={onNodeDoubleClicked}
     />
   );
 };

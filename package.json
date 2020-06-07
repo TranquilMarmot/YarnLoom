@@ -13,7 +13,7 @@
     "loom-extension": "file:loom-extension"
   },
   "scripts": {
-    "preinstall": "cp loom-common/package.json loom-common/out/package.json",
+    "preinstall": "mkdir -p loom-common/out && cp loom-common/package.json loom-common/out/package.json",
     "build:common": "cd loom-common && npm run build",
     "build:editor": "cd loom-editor && npm run build",
     "build:extension": "cd loom-extension && npm run build",

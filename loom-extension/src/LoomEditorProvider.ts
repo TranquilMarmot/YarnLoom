@@ -9,6 +9,7 @@ import {
 } from "vscode";
 import rimraf from "rimraf";
 
+import { YarnNode } from "loom-common/YarnNode";
 import { parseYarnFile } from "loom-common/YarnParser";
 import { setNodes } from "loom-common/EditorActions";
 
@@ -47,6 +48,12 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
   context: ExtensionContext;
 
+  nodes?: YarnNode[];
+
+  document?: TextDocument;
+
+  webviewPanel?: WebviewPanel;
+
   constructor(context: ExtensionContext) {
     this.context = context;
   }
@@ -83,6 +90,10 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
       enableScripts: true,
     };
 
+    this.webviewPanel = webviewPanel;
+    this.document = document;
+    this.nodes = parseYarnFile(document.getText());
+
     // track when the document that we're editing is closed
     workspace.onDidCloseTextDocument((e) => {
       if (e.uri === document.uri) {
@@ -90,10 +101,8 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
       }
     });
 
-    LoomMessageListener(webviewPanel, this.context, document);
+    LoomMessageListener(webviewPanel, this);
     LoomWebviewPanel(webviewPanel, this.context.extensionPath);
-
-    const nodes = parseYarnFile(document.getText());
-    webviewPanel.webview.postMessage(setNodes(nodes));
+    webviewPanel.webview.postMessage(setNodes(this.nodes));
   }
 }
