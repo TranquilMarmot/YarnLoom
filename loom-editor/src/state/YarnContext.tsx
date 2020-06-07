@@ -21,8 +21,9 @@ export const YarnProvider: FunctionComponent = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, defaultState);
 
   useEffect(() => {
+    // listen for messages from the extension and dispatch them to the reducer
     window.addEventListener("message", (event) => {
-      console.log(event);
+      dispatch(event.data);
     });
   }, []);
 

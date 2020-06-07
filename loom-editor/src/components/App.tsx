@@ -1,14 +1,13 @@
 import React from "react";
 
-import { createNodeText } from "loom-common/YarnNode";
-
 import "./App.css";
+import NodeGraph from "./NodeGraph";
 
 function App() {
   return (
     <div>
       Loom Editor
-      {createNodeText({ title: "Test", tags: "", body: "Test Test" })}
+      <NodeGraph />
     </div>
   );
 }

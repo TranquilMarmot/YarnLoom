@@ -55,10 +55,12 @@ export const parseYarnFile = (file: string): YarnNode[] => {
     }
   }
 
+  buildLinksFromNodes(nodes);
+
   return nodes;
 };
 
-const getNodeByTitle = (
+export const getNodeByTitle = (
   nodes: YarnNode[],
   title: string
 ): YarnNode | undefined =>
@@ -90,9 +92,5 @@ const getLinkedNodesFromNodeBody = (body: string) => {
   }
 };
 
-export const buildLinksFromNodes = (nodes: YarnNode[]) => {
-  nodes.forEach((node) => {
-    const links = getLinkedNodesFromNodeBody(node.body);
-    node.links = links;
-  });
-};
+export const buildLinksFromNodes = (nodes: YarnNode[]) =>
+  nodes.forEach((node) => (node.links = getLinkedNodesFromNodeBody(node.body)));
