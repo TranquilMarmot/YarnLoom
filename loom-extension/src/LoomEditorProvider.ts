@@ -48,13 +48,17 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     return providerRegistration;
   }
 
+  /** Context that extension is running under */
   context: ExtensionContext;
 
-  nodes: YarnNode[];
-
+  /** Text document that's open */
   document?: TextDocument;
 
+  /** Webview panel displaying editor */
   webviewPanel?: WebviewPanel;
+
+  /** List of yarn nodes in the current document */
+  nodes: YarnNode[];
 
   constructor(context: ExtensionContext) {
     this.context = context;
@@ -125,6 +129,45 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
   };
 
   /**
+   * Update a single node in the document
+   * @param originalTitle Original title of node, in case it was changed during the edit
+   * @param node Node to update
+   */
+  updateNode = (originalTitle: string, node: YarnNode) => {
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to update node ${originalTitle} but we don't have a webview!`
+      );
+    }
+
+    if (!this.document) {
+      throw new Error(
+        `Tried to update node ${originalTitle} but we don't have a document!`
+      );
+    }
+
+    const originalNodeIndex = this.nodes.findIndex(
+      (originalNode) => originalNode.title === originalTitle
+    );
+
+    // update the one node we're updating and leave the rest alone
+    this.nodes = [
+      ...this.nodes.slice(0, originalNodeIndex),
+      ...[node],
+      ...this.nodes.slice(originalNodeIndex + 1),
+    ];
+
+    // re-build the links in case they changed
+    buildLinksFromNodes(this.nodes);
+
+    // update all the nodes in the editor
+    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
+
+    // and finally, apply the actual edit to the text document
+    this.applyNodeEditToDocument(originalTitle, node);
+  };
+
+  /**
    * Apply an edit for a given node to the current text document for this provider.
    *
    * @param originalTitle Original title of the node being edited, in case the title changed
@@ -171,39 +214,5 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
       createNodeText(node)
     );
     workspace.applyEdit(edit);
-  };
-
-  updateNode = (originalTitle: string, node: YarnNode) => {
-    if (!this.webviewPanel) {
-      throw new Error(
-        `Tried to update node ${originalTitle} but we don't have a webview!`
-      );
-    }
-
-    if (!this.document) {
-      throw new Error(
-        `Tried to update node ${originalTitle} but we don't have a document!`
-      );
-    }
-
-    const originalNodeIndex = this.nodes.findIndex(
-      (originalNode) => originalNode.title === originalTitle
-    );
-
-    // update the one node we're updating and leave the rest alone
-    this.nodes = [
-      ...this.nodes.slice(0, originalNodeIndex),
-      ...[node],
-      ...this.nodes.slice(originalNodeIndex + 1),
-    ];
-
-    // re-build the links in case they changed
-    buildLinksFromNodes(this.nodes);
-
-    // update all the nodes in the editor
-    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
-
-    // and finally, apply the actual edit to the text document
-    this.applyNodeEditToDocument(originalTitle, node);
   };
 }

@@ -8,7 +8,7 @@ import {
 } from "react-d3-graph";
 
 import { YarnNode } from "loom-common/YarnNode";
-import { getNodeByTitle } from "loom-common/YarnParser";
+import { getNodeByTitle } from "loom-common/YarnNode";
 import { openNode } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";

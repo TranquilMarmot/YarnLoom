@@ -7,32 +7,30 @@ import {
 
 import EditorActions from "loom-common/EditorActionType";
 import { YarnEditorMessageTypes } from "loom-common/EditorActions";
-import { getNodeByTitle } from "loom-common/YarnParser";
+import { getNodeByTitle } from "loom-common/YarnNode";
 
-import LoomWebviewPanel from "./LoomWebviewPanel";
 import { createTemporaryFileForNode } from "./TemporaryFiles";
 import LoomEditorProvider from "./LoomEditorProvider";
 
+/**
+ * Given a node title, will open that node in a temporary text file
+ * @param nodeTitle Title of node to open in text editor
+ * @param editor Editor provider that contains webview
+ */
 const openNodeInTemporaryFileEditor = (
-  nodeId: string,
+  nodeTitle: string,
   editor: LoomEditorProvider
 ) => {
   if (!editor.webviewPanel) {
     throw new Error(
-      `Tried to find node ${nodeId} but don't have a webview open!`
+      `Tried to find node ${nodeTitle} but don't have a webview open!`
     );
   }
 
-  if (!editor.document) {
-    throw new Error(
-      `Tried to edit node ${nodeId} but don't have a document open!`
-    );
-  }
-
-  const node = getNodeByTitle(editor.nodes, nodeId);
+  const node = getNodeByTitle(editor.nodes, nodeTitle);
 
   if (!node) {
-    throw new Error(`Couldn't find node with title ${nodeId}`);
+    throw new Error(`Couldn't find node with title ${nodeTitle}`);
   }
 
   // this will create a temporary file and add a file watcher on it
@@ -47,7 +45,7 @@ const openNodeInTemporaryFileEditor = (
 
 /**
  * This will attach an event listener to the given webview that can receive
- * events sent to it via `window.vsCodeApi.postMessage` (which is created in YarnEditorWebviewPanel.ts)
+ * events sent to it via `window.vsCodeApi.postMessage` (which is created in LoomWebviewPanel.ts)
  *
  * @param webviewPanel Panel to attach event listener to
  * @param document Document that webview is currently showing (undefined if showing an editor that's not looking at a document)
@@ -68,7 +66,7 @@ export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
   // when this changes, we just reload the whole webview since that will set all the settings
   workspace.onDidChangeConfiguration((event: ConfigurationChangeEvent) => {
     if (event.affectsConfiguration("yarnLoom")) {
-      LoomWebviewPanel(webviewPanel, editor.context.extensionPath);
+      // TODO dispatch events to the redux store
     }
   });
 };

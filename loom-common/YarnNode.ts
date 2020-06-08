@@ -86,3 +86,15 @@ export const parseNodeText = (text: string): YarnNode => {
 
   return node;
 };
+
+/**
+ * Find a node in the node list by its title
+ * @param nodes List of all nodes
+ * @param title Title of node to get
+ * @returns Node with title, or undefined if no node exists with that title
+ */
+export const getNodeByTitle = (
+  nodes: YarnNode[],
+  title: string
+): YarnNode | undefined =>
+  Object.values(nodes).find((node) => node.title.trim() === title.trim());

@@ -19,6 +19,7 @@ export default (panel: WebviewPanel, extensionPath: string) => {
     "utf8"
   );
 
+  // replace anything grabbing stuff from the "static" directory with the proper webview URI
   html = html.replace(
     /\/static/g,
     panel.webview
@@ -26,8 +27,7 @@ export default (panel: WebviewPanel, extensionPath: string) => {
       .toString(true)
   );
 
-  // Here, we add basic functions and changes that are always needed by YarnEditor
-  // in order for it to run in the webview.
+  // Here, we add basic functions and changes that are always needed by the editor in order for it to run in the webview.
   // This is done by "replacing" the <head> tag with the <head> tag + a <script>.
   // This ensures that these scripts are run _before_ the editor is loaded.
   html = html.replace(

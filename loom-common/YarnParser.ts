@@ -1,5 +1,9 @@
 import { YarnNode } from "./YarnNode";
 
+/**
+ * Parse a yarn file into a list of yarn nodes
+ * @param file Text of file to parse
+ */
 export const parseYarnFile = (file: string): YarnNode[] => {
   const emptyNode: YarnNode = {
     title: "",
@@ -8,9 +12,8 @@ export const parseYarnFile = (file: string): YarnNode[] => {
   };
   const nodes: YarnNode[] = [];
   const lines = file.split(/\r?\n/);
-  var obj: YarnNode | undefined = undefined;
-  var index = 0;
-  var readingBody = false;
+  let obj: YarnNode | undefined = undefined;
+  let readingBody = false;
   for (let i = 0; i < lines.length; i++) {
     if (lines[i].trim() === "===") {
       readingBody = false;
@@ -55,34 +58,39 @@ export const parseYarnFile = (file: string): YarnNode[] => {
     }
   }
 
+  // build up the list of links
   buildLinksFromNodes(nodes);
 
   return nodes;
 };
 
-export const getNodeByTitle = (
-  nodes: YarnNode[],
-  title: string
-): YarnNode | undefined =>
-  Object.values(nodes).find((node) => node.title === title);
-
-const getLinkedNodesFromNodeBody = (body: string) => {
+/**
+ * Given the text body of a yarn node, returns the list of titles of nodes that it links to
+ * @param body Body of node to find links for
+ */
+const getLinkedNodesFromNodeBody = (body: string): string[] | undefined => {
+  // links look like `[[Text|Node title]]`
   const links = body.match(/\[\[(.*?)\]\]/g);
 
   if (links != undefined) {
-    let exists: { [key: string]: boolean } = {};
+    // used to keep track of links we've already seen
+    const exists: { [key: string]: boolean } = {};
 
     for (let i = links.length - 1; i >= 0; i--) {
+      // cut off the `[[` and `]]` in the link text
       links[i] = links[i].substr(2, links[i].length - 4).trim();
 
+      // if the link has a `|` we only care about the second part
       if (links[i].indexOf("|") >= 0) {
         links[i] = links[i].split("|")[1];
       }
 
+      // if we've already seen this link, remove it from the list
       if (exists[links[i]] != undefined) {
         links.splice(i, 1);
       }
 
+      // mark the link as seen
       exists[links[i]] = true;
     }
 
@@ -92,5 +100,9 @@ const getLinkedNodesFromNodeBody = (body: string) => {
   }
 };
 
+/**
+ * Re-build the list of links for all the given nodes
+ * @param nodes Nodes to re-build links for
+ */
 export const buildLinksFromNodes = (nodes: YarnNode[]) =>
   nodes.forEach((node) => (node.links = getLinkedNodesFromNodeBody(node.body)));

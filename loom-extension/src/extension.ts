@@ -8,9 +8,8 @@ import { deleteAllTemporaryFiles } from "./TemporaryFiles";
  * It will register "subscriptions" in the context that listen for
  * opening specific file types and commands.
  */
-export const activate = (context: ExtensionContext) => {
+export const activate = (context: ExtensionContext) =>
   context.subscriptions.push(LoomProvider.register(context));
-};
 
 /**
  * The is called when the extension is de-activated.
