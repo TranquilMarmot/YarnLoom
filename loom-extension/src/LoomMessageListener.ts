@@ -17,30 +17,22 @@ const openNodeInTemporaryFileEditor = (
   nodeId: string,
   editor: LoomEditorProvider
 ) => {
-  if (!editor.nodes) {
-    console.error(`Tried to find node ${nodeId} but don't have any nodes!`);
-    return;
-  }
-
   if (!editor.webviewPanel) {
-    console.error(
+    throw new Error(
       `Tried to find node ${nodeId} but don't have a webview open!`
     );
-    return;
   }
 
   if (!editor.document) {
-    console.error(
+    throw new Error(
       `Tried to edit node ${nodeId} but don't have a document open!`
     );
-    return;
   }
 
   const node = getNodeByTitle(editor.nodes, nodeId);
 
   if (!node) {
-    console.error(`Couldn't find node with title ${nodeId}`);
-    return;
+    throw new Error(`Couldn't find node with title ${nodeId}`);
   }
 
   // this will create a temporary file and add a file watcher on it

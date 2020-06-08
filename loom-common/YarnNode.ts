@@ -32,9 +32,17 @@ export interface YarnNode {
  *
  * The --- and === are required for the node to be considered valid.
  */
-export const createNodeText = ({ title, tags, body }: YarnNode): string =>
+export const createNodeText = ({
+  title,
+  tags,
+  body,
+  position,
+  colorID,
+}: YarnNode): string =>
   `title: ${title}
-tags: ${tags}
+tags: ${tags}${position ? `\nposition: ${position.x},${position.y}` : ""}${
+    colorID ? `\ncolorID: ${colorID}` : ""
+  }
 ---
 ${body}
 ===`;
@@ -63,6 +71,11 @@ export const parseNodeText = (text: string): YarnNode => {
         node.title = lines[i].substr(7, lines[i].length - 7);
       } else if (lines[i].indexOf("tags:") > -1) {
         node.tags = lines[i].substr(6, lines[i].length - 6);
+      } else if (lines[i].indexOf("position:") > -1) {
+        const xy = lines[i].substr(9, lines[i].length - 9).split(",");
+        node.position = { x: Number(xy[0].trim()), y: Number(xy[1].trim()) };
+      } else if (lines[i].indexOf("colorID:") > -1) {
+        node.colorID = Number(lines[i].substr(9, lines[i].length - 9).trim());
       } else if (lines[i].trim() == "---") {
         readingBody = true;
       }
