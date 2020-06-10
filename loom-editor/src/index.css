@@ -1,0 +1,13 @@
+html,
+body,
+#root,
+#yarn-node-graph-graph-wrapper,
+#yarn-node-graph-graph-wrapper > svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body {
+  padding: 0;
+  overflow: hidden;
+}

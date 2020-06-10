@@ -16,7 +16,7 @@ import NodeGraphView from "./NodeGraphView";
 
 export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
 
-const mapNodesToGraphFormat = (
+const mapNodesToGraphData = (
   nodes: YarnNode[]
 ): GraphData<YarnGraphNode, GraphLink> => {
   return {
@@ -71,7 +71,7 @@ const NodeGraph: FunctionComponent = () => {
   return (
     <Graph
       id="yarn-node-graph"
-      data={mapNodesToGraphFormat(state.nodes)}
+      data={mapNodesToGraphData(state.nodes)}
       config={graphConfig}
       onDoubleClickNode={onNodeDoubleClicked}
     />
