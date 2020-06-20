@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useCallback } from "react";
 import {
   Graph,
   GraphData,
@@ -16,6 +16,10 @@ import NodeGraphView from "./NodeGraphView";
 
 export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
 
+/**
+ * Given a list of nodes, will map them to nodes for react-d3-graph to render
+ * @param nodes List of all nodes
+ */
 const mapNodesToGraphData = (
   nodes: YarnNode[]
 ): GraphData<YarnGraphNode, GraphLink> => {
@@ -39,11 +43,13 @@ const mapNodesToGraphData = (
   };
 };
 
+/** Base config to use for react-d3-graph */
 const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   nodeHighlightBehavior: true,
   directed: true,
   width: 5000,
   height: 5000,
+  collapsible: true,
   node: {
     size: 1500,
     fontSize: 1,
@@ -58,11 +64,28 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   },
 };
 
+/**
+ * Given the title of a node that was clicked, this will send a message
+ * back to the extension to open the node up in the text editor.
+ * @param nodeId ID (title) of the node that was clicked
+ */
 const onNodeDoubleClicked = (nodeId: string) =>
   window.vsCodeApi.postMessage(openNode(nodeId));
 
 const NodeGraph: FunctionComponent = () => {
   const [state] = useYarnState();
+
+  const graphRef = useCallback((node) => {
+    if (node) {
+      // react-d3-graph doesn't properly place the arrow markers in the right spot,
+      // so once the graph is mounted we select all the markers and manually override their `refX` value
+      // to place them a little higher up on the line... this isn't perfect but it works!
+      const markerDomNodes = document.querySelectorAll("marker");
+      markerDomNodes.forEach((markerNode: SVGMarkerElement) =>
+        markerNode.setAttribute("refX", "125")
+      );
+    }
+  }, []);
 
   if (!state?.nodes || state.nodes.length === 0) {
     return null;
@@ -70,6 +93,7 @@ const NodeGraph: FunctionComponent = () => {
 
   return (
     <Graph
+      ref={graphRef}
       id="yarn-node-graph"
       data={mapNodesToGraphData(state.nodes)}
       config={graphConfig}

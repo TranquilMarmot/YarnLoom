@@ -3,6 +3,7 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 import { YarnGraphNode } from "./NodeGraph";
 
+/** CSS colors to cycle through for the "colorID" of a yarn node */
 const titleColors = [
   "#EBEBEB",
   "#6EA5E0",
@@ -43,19 +44,23 @@ interface NodeGraphViewProps {
   node: YarnGraphNode;
 }
 
-const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({ node }) => {
+const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
+  node: {
+    yarnNode: { colorID, title, body },
+  },
+}) => {
   return (
     <div css={containerStyle}>
       <div
         css={css`
         ${titleStyle}
-        background-color: ${titleColors[node.yarnNode.colorID || 0]} 
+        background-color: ${titleColors[colorID || 0]} 
       `}
       >
-        {node.yarnNode.title}
+        {title}
       </div>
       <div css={bodyStyle}>
-        {node.yarnNode.body.split("\n").map((line) => (
+        {body.split("\n").map((line) => (
           <div>{line.replace(/ /g, "\u00a0")}</div>
         ))}
       </div>

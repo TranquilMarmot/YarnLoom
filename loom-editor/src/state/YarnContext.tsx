@@ -17,6 +17,9 @@ const YarnStateContext = createContext<
   [State | undefined, (action: any) => void]
 >([defaultState, () => {}]);
 
+/**
+ * Wrap components in this to provide them with the required state for the editor to run
+ */
 export const YarnProvider: FunctionComponent = ({ children }) => {
   const [state, dispatch] = useReducer(Reducer, defaultState);
 
@@ -34,6 +37,11 @@ export const YarnProvider: FunctionComponent = ({ children }) => {
   );
 };
 
+/**
+ * Call this as a hook to return a [state, dispatch] array
+ * where state is the current state of the context and dispatch can be used to dispatch
+ * new events to the reducer.
+ */
 export const useYarnState = () => {
   const context = useContext(YarnStateContext);
 
