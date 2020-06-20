@@ -12,6 +12,9 @@ export enum YarnEditorMessageTypes {
 
   /** Set all nodes */
   SetNodes = "SetNodes",
+
+  /** Delete a specific node */
+  DeleteNode = "DeleteNode",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -22,3 +25,6 @@ export const setNode = (node: YarnNode) =>
 
 export const openNode = (nodeId: string) =>
   action(YarnEditorMessageTypes.OpenNode, { nodeId });
+
+export const deleteNode = (nodeTitle: string) =>
+  action(YarnEditorMessageTypes.DeleteNode, { nodeTitle });

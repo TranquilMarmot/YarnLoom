@@ -2,11 +2,9 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { buttonBase } from "../../Styles";
+import { deleteNode } from "loom-common/EditorActions";
 
-interface ConfirmDeleteNodeProps {
-  onClose: () => void;
-}
+import { buttonBase } from "../../Styles";
 
 const containerStyle = css`
   text-align: center;
@@ -25,11 +23,17 @@ const buttonStyle = css`
   padding-right: 10px;
 `;
 
+interface ConfirmDeleteNodeProps {
+  onClose: () => void;
+  nodeTitle: string;
+}
+
 const ConfirmDeleteNode: FunctionComponent<ConfirmDeleteNodeProps> = ({
   onClose,
+  nodeTitle,
 }) => {
   const onDeleteNode = () => {
-    // TODO dispatch action to delete node
+    window.vsCodeApi.postMessage(deleteNode(nodeTitle));
     onClose();
   };
 

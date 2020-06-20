@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState } from "react";
 import { YarnGraphNode } from "../NodeGraph";
-import NodeGraphViewSettings from "./NodeSettings";
+import NodeSettings from "./NodeSettings";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const titleColors = [
@@ -91,7 +91,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         ))}
       </div>
 
-      {settingsOpen && <NodeGraphViewSettings />}
+      {settingsOpen && <NodeSettings nodeTitle={title} />}
     </div>
   );
 };

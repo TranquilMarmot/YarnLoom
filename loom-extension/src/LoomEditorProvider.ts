@@ -8,6 +8,7 @@ import {
   workspace,
   WorkspaceEdit,
   Range,
+  Position,
 } from "vscode";
 import rimraf from "rimraf";
 
@@ -21,7 +22,6 @@ import {
   getTemporaryFolderPath,
   unwatchTemporaryFilesForDocument,
 } from "./TemporaryFiles";
-
 /**
  * This is a custom text editor provider that will open up `.yarn` files in the Yarn Editor.
  */
@@ -79,7 +79,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
     this.webviewPanel = webviewPanel;
     this.document = document;
-    this.nodes = parseYarnFile(document.getText());
+    this.nodes = parseYarnFile(document.getText(), false);
 
     // track when the document that we're editing is closed
     // and delete any temporary files
@@ -93,7 +93,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     // this is so that we can re-update the editor
     workspace.onDidChangeTextDocument((e) => {
       if (e.document.uri === document.uri) {
-        this.nodes = parseYarnFile(e.document.getText());
+        this.nodes = parseYarnFile(e.document.getText(), true);
         webviewPanel.webview.postMessage(setNodes(this.nodes));
       }
     });
@@ -129,6 +129,40 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
   };
 
   /**
+   * Given a node title, will return a range of lines that that node occupies in the backing text document.
+   * @param nodeTitle Title of node to get range in document for
+   */
+  getRangeForNode = (nodeTitle: string): Range => {
+    if (!this.document) {
+      throw new Error(
+        `Tried to update node ${nodeTitle} but we don't have a document!`
+      );
+    }
+
+    const lines = this.document.getText().split("\n");
+    let nodeStartingLineNumber: number = -1;
+    let nodeEndingLineNumber: number = -1;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      if (line === `title: ${nodeTitle.trim()}`) {
+        nodeStartingLineNumber = i;
+      }
+
+      // if we have the starting line number, the next `===` we run into means
+      // it's the end of the node
+      if (nodeStartingLineNumber !== -1 && line === "===") {
+        nodeEndingLineNumber = i;
+        break;
+      }
+    }
+
+    // 4 because === is 3 characters long and ends at the 4th character
+    return new Range(nodeStartingLineNumber, 0, nodeEndingLineNumber, 4);
+  };
+
+  /**
    * Update a single node in the document
    * @param originalTitle Original title of node, in case it was changed during the edit
    * @param node Node to update
@@ -158,59 +192,103 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     ];
 
     // re-build the links in case they changed
-    buildLinksFromNodes(this.nodes);
+    const addedNodes = buildLinksFromNodes(this.nodes, true);
 
     // update all the nodes in the editor
     this.webviewPanel.webview.postMessage(setNodes(this.nodes));
 
     // and finally, apply the actual edit to the text document
     this.applyNodeEditToDocument(originalTitle, node);
+
+    addedNodes.forEach((addedNode) => this.createNodeInDocument(addedNode));
+  };
+
+  /**
+   * Delete a node with the given title
+   * @param nodeTitle Title of node to delete
+   */
+  deleteNode = (nodeTitle: string) => {
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to delete node ${nodeTitle} but we don't have a webview!`
+      );
+    }
+
+    if (!this.document) {
+      throw new Error(
+        `Tried to delete node ${nodeTitle} but we don't have a document!`
+      );
+    }
+
+    const originalNodeIndex = this.nodes.findIndex(
+      (originalNode) => originalNode.title === nodeTitle
+    );
+
+    // update the one node we're updating and leave the rest alone
+    this.nodes = [
+      ...this.nodes.slice(0, originalNodeIndex),
+      ...this.nodes.slice(originalNodeIndex + 1),
+    ];
+
+    // re-build the links in case they changed
+    buildLinksFromNodes(this.nodes, false);
+
+    // update all the nodes in the editor
+    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
+
+    // and finally, apply the actual edit to the text document
+    this.deleteNodeFromDocument(nodeTitle);
+  };
+
+  /**
+   * Delete a node from the backing text document
+   * @param nodeTitle Title of node to delete
+   */
+  deleteNodeFromDocument = (nodeTitle: string) => {
+    if (!this.document) {
+      throw new Error(
+        `Tried to update node ${nodeTitle} but we don't have a document!`
+      );
+    }
+
+    const range = this.getRangeForNode(nodeTitle);
+
+    const edit = new WorkspaceEdit();
+    edit.delete(this.document.uri, range);
+    workspace.applyEdit(edit);
   };
 
   /**
    * Apply an edit for a given node to the current text document for this provider.
    *
    * @param originalTitle Original title of the node being edited, in case the title changed
-   * @param node Node to apply edit for
+   * @param node Node to create new node text from
    */
   applyNodeEditToDocument = (originalTitle: string, node: YarnNode) => {
-    if (!this.webviewPanel) {
-      throw new Error(
-        `Tried to update node ${originalTitle} but we don't have a webview!`
-      );
-    }
-
     if (!this.document) {
       throw new Error(
         `Tried to update node ${originalTitle} but we don't have a document!`
       );
     }
 
-    const lines = this.document.getText().split("\n");
-    let nodeStartingLineNumber: number = -1;
-    let nodeEndingLineNumber: number = -1;
+    const range = this.getRangeForNode(originalTitle);
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
+    const edit = new WorkspaceEdit();
+    edit.replace(this.document.uri, range, createNodeText(node));
+    workspace.applyEdit(edit);
+  };
 
-      if (line === `title: ${originalTitle.trim()}`) {
-        nodeStartingLineNumber = i;
-      }
-
-      // if we have the starting line number, the next `===` we run into means
-      // it's the end of the node
-      if (nodeStartingLineNumber !== -1 && line === "===") {
-        nodeEndingLineNumber = i;
-        break;
-      }
+  createNodeInDocument = (node: YarnNode) => {
+    if (!this.document) {
+      throw new Error(
+        `Tried to create node ${node.title} but we don't have a document!`
+      );
     }
 
     const edit = new WorkspaceEdit();
-    edit.replace(
+    edit.insert(
       this.document.uri,
-
-      // 4 because === is 3 characters long and ends at the 4th character
-      new Range(nodeStartingLineNumber, 0, nodeEndingLineNumber, 4),
+      new Position(this.document.getText().split("\n").length, 0),
       createNodeText(node)
     );
     workspace.applyEdit(edit);

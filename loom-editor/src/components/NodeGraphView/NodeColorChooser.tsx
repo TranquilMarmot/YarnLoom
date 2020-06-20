@@ -20,10 +20,12 @@ const buttonStyle = css`
 
 interface NodeGraphViewColorChooserProps {
   onClose: () => void;
+  nodeTitle: string;
 }
 
 const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProps> = ({
   onClose,
+  nodeTitle,
 }) => {
   const onChooseColor = () => {
     // TODO dispatch color change

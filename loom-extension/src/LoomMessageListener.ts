@@ -61,6 +61,9 @@ export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
       case YarnEditorMessageTypes.OpenNode:
         openNodeInTemporaryFileEditor(message.payload.nodeId, editor);
         break;
+      case YarnEditorMessageTypes.DeleteNode:
+        editor.deleteNode(message.payload.nodeTitle);
+        break;
       default:
         break;
     }

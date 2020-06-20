@@ -4,7 +4,7 @@ import { FunctionComponent, useState, Fragment } from "react";
 
 import { buttonBase } from "../../Styles";
 
-import NodeGraphViewColorChooser from "./NodeColorChooser";
+import NodeColorChooser from "./NodeColorChooser";
 import ConfirmDeleteNode from "./ConfirmDeleteNode";
 
 const containerStyle = css`
@@ -29,19 +29,27 @@ const buttonStyle = css`
   margin-right: 10px;
 `;
 
-const NodeGraphViewSettings: FunctionComponent = () => {
+interface NodeSettingsProps {
+  nodeTitle: string;
+}
+
+const NodeSettings: FunctionComponent<NodeSettingsProps> = ({ nodeTitle }) => {
   const [showingColorChooser, setShowingColorChooser] = useState(false);
   const [showingDeleteConfirm, setShowingDeleteConfirm] = useState(false);
 
   return (
     <div css={containerStyle}>
       {showingColorChooser && (
-        <NodeGraphViewColorChooser
+        <NodeColorChooser
           onClose={() => setShowingColorChooser(false)}
+          nodeTitle={nodeTitle}
         />
       )}
       {showingDeleteConfirm && (
-        <ConfirmDeleteNode onClose={() => setShowingDeleteConfirm(false)} />
+        <ConfirmDeleteNode
+          onClose={() => setShowingDeleteConfirm(false)}
+          nodeTitle={nodeTitle}
+        />
       )}
       {!showingColorChooser && !showingDeleteConfirm && (
         <Fragment>
@@ -63,4 +71,4 @@ const NodeGraphViewSettings: FunctionComponent = () => {
   );
 };
 
-export default NodeGraphViewSettings;
+export default NodeSettings;

@@ -3,8 +3,12 @@ import { YarnNode, getNodeByTitle } from "./YarnNode";
 /**
  * Parse a yarn file into a list of yarn nodes
  * @param file Text of file to parse
+ * @param autoCreateLinkedNodes Whether or not to automatically create new nodes for links that are pointing to non-existant nodes
  */
-export const parseYarnFile = (file: string): YarnNode[] => {
+export const parseYarnFile = (
+  file: string,
+  autoCreateLinkedNodes: boolean
+): YarnNode[] => {
   const emptyNode: YarnNode = {
     title: "",
     tags: "",
@@ -59,7 +63,7 @@ export const parseYarnFile = (file: string): YarnNode[] => {
   }
 
   // build up the list of links
-  buildLinksFromNodes(nodes);
+  buildLinksFromNodes(nodes, autoCreateLinkedNodes);
 
   return nodes;
 };
@@ -101,21 +105,38 @@ const getLinkedNodesFromNodeBody = (body: string): string[] | undefined => {
 };
 
 /**
- * Re-build the list of links for all the given nodes
+ * Re-build the list of links for all the given nodes.
+ * If automatically creating new nodes, will return a list of the added nodes.
+ *
  * @param nodes Nodes to re-build links for
+ * @param autoCreateLinkedNodes Whether or not to automatically create new nodes for links that are pointing to non-existant nodes
+ * @returns List of added nodes
  */
-export const buildLinksFromNodes = (nodes: YarnNode[]) =>
+export const buildLinksFromNodes = (
+  nodes: YarnNode[],
+  autoCreateLinkedNodes: boolean
+): YarnNode[] => {
+  const addedNodes: YarnNode[] = [];
+
   nodes.forEach((node) => {
     node.links = getLinkedNodesFromNodeBody(node.body);
 
     // auto-create any new links that don't exist yet
-    node.links?.forEach((link) => {
-      if (!getNodeByTitle(nodes, link)) {
-        nodes.push({
-          title: link,
-          tags: "",
-          body: "",
-        });
-      }
-    });
+    if (autoCreateLinkedNodes) {
+      node.links?.forEach((link) => {
+        if (!getNodeByTitle(nodes, link)) {
+          const node: YarnNode = {
+            title: link,
+            tags: "",
+            body: "",
+          };
+
+          nodes.push(node);
+          addedNodes.push(node);
+        }
+      });
+    }
   });
+
+  return addedNodes;
+};
