@@ -49,7 +49,6 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   directed: true,
   width: 5000,
   height: 5000,
-  collapsible: true,
   node: {
     size: 1500,
     fontSize: 1,

@@ -3,6 +3,7 @@ import {
   workspace,
   window,
   ConfigurationChangeEvent,
+  ViewColumn,
 } from "vscode";
 
 import EditorActions from "loom-common/EditorActionType";
@@ -38,9 +39,12 @@ const openNodeInTemporaryFileEditor = (
   const temporaryFile = createTemporaryFileForNode(node, editor);
 
   // and open it in the editor
-  workspace
-    .openTextDocument(temporaryFile.path)
-    .then((doc) => window.showTextDocument(doc, { preserveFocus: true }));
+  workspace.openTextDocument(temporaryFile.path).then((doc) =>
+    window.showTextDocument(doc, {
+      preserveFocus: true,
+      viewColumn: ViewColumn.Beside,
+    })
+  );
 };
 
 /**
