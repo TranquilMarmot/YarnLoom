@@ -54,6 +54,7 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
     fontSize: 1,
     renderLabel: false,
     highlightStrokeColor: "blue",
+    mouseCursor: "grab",
     viewGenerator: (node) => (
       <NodeGraphView node={(node as unknown) as YarnGraphNode} />
     ),

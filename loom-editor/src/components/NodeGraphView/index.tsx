@@ -1,10 +1,11 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
-import { YarnGraphNode } from "./NodeGraph";
+import { FunctionComponent, useState } from "react";
+import { YarnGraphNode } from "../NodeGraph";
+import NodeGraphViewSettings from "./NodeSettings";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
-const titleColors = [
+export const titleColors = [
   "#EBEBEB",
   "#6EA5E0",
   "#9EDE74",
@@ -26,6 +27,9 @@ const containerStyle = css`
 const titleStyle = css`
   padding: 10px;
   border: 1px solid grey;
+
+  display: flex;
+  justify-content: space-between;
 `;
 
 const bodyStyle = css`
@@ -40,6 +44,18 @@ const bodyStyle = css`
   }
 `;
 
+const settingsButtonStyle = css`
+  background: none;
+  border: none;
+
+  padding-top: 0;
+  padding-bottom: 0;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 interface NodeGraphViewProps {
   node: YarnGraphNode;
 }
@@ -49,6 +65,8 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
     yarnNode: { colorID, title, body },
   },
 }) => {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
   return (
     <div css={containerStyle}>
       <div
@@ -57,13 +75,23 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         background-color: ${titleColors[colorID || 0]} 
       `}
       >
-        {title}
+        <div>{title}</div>
+        <button
+          css={settingsButtonStyle}
+          onClick={() => setSettingsOpen(!settingsOpen)}
+        >
+          <span role="img" aria-label="Node Settings">
+            ⚙️
+          </span>
+        </button>
       </div>
       <div css={bodyStyle}>
         {body.split("\n").map((line) => (
           <div>{line.replace(/ /g, "\u00a0")}</div>
         ))}
       </div>
+
+      {settingsOpen && <NodeGraphViewSettings />}
     </div>
   );
 };
