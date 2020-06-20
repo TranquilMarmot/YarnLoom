@@ -1,4 +1,4 @@
-import { YarnNode } from "./YarnNode";
+import { YarnNode, getNodeByTitle } from "./YarnNode";
 
 /**
  * Parse a yarn file into a list of yarn nodes
@@ -105,4 +105,17 @@ const getLinkedNodesFromNodeBody = (body: string): string[] | undefined => {
  * @param nodes Nodes to re-build links for
  */
 export const buildLinksFromNodes = (nodes: YarnNode[]) =>
-  nodes.forEach((node) => (node.links = getLinkedNodesFromNodeBody(node.body)));
+  nodes.forEach((node) => {
+    node.links = getLinkedNodesFromNodeBody(node.body);
+
+    // auto-create any new links that don't exist yet
+    node.links?.forEach((link) => {
+      if (!getNodeByTitle(nodes, link)) {
+        nodes.push({
+          title: link,
+          tags: "",
+          body: "",
+        });
+      }
+    });
+  });
