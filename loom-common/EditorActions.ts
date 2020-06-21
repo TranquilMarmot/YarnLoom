@@ -15,6 +15,9 @@ export enum YarnEditorMessageTypes {
 
   /** Delete a specific node */
   DeleteNode = "DeleteNode",
+
+  /** Set the color for a node */
+  SetNodeColor = "SetNodeColor",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -28,3 +31,6 @@ export const openNode = (nodeId: string) =>
 
 export const deleteNode = (nodeTitle: string) =>
   action(YarnEditorMessageTypes.DeleteNode, { nodeTitle });
+
+export const setNodeColor = (nodeTitle: string, colorIndex: number) =>
+  action(YarnEditorMessageTypes.SetNodeColor, { nodeTitle, colorIndex });

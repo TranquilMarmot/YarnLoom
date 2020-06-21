@@ -47,6 +47,25 @@ const openNodeInTemporaryFileEditor = (
   );
 };
 
+const setNodeColor = (
+  nodeTitle: string,
+  colorIndex: number,
+  editor: LoomEditorProvider
+) => {
+  const node = getNodeByTitle(editor.nodes, nodeTitle);
+
+  if (!node) {
+    throw new Error(
+      `Tried to set color for node ${nodeTitle} to colorId ${colorIndex} but no node was found.`
+    );
+  }
+
+  editor.updateNode(nodeTitle, {
+    ...node,
+    colorID: colorIndex,
+  });
+};
+
 /**
  * This will attach an event listener to the given webview that can receive
  * events sent to it via `window.vsCodeApi.postMessage` (which is created in LoomWebviewPanel.ts)
@@ -64,6 +83,12 @@ export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
       case YarnEditorMessageTypes.DeleteNode:
         editor.deleteNode(message.payload.nodeTitle);
         break;
+      case YarnEditorMessageTypes.SetNodeColor:
+        setNodeColor(
+          message.payload.nodeTitle,
+          message.payload.colorIndex,
+          editor
+        );
       default:
         break;
     }

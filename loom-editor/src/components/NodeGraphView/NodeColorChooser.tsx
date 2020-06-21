@@ -3,6 +3,7 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
 import { titleColors } from "./index";
+import { setNodeColor } from "loom-common/EditorActions";
 
 const containerStyle = css`
   display: flex;
@@ -27,16 +28,16 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
   onClose,
   nodeTitle,
 }) => {
-  const onChooseColor = () => {
-    // TODO dispatch color change
+  const onChooseColor = (colorIndex: number) => {
+    window.vsCodeApi.postMessage(setNodeColor(nodeTitle, colorIndex));
     onClose();
   };
 
   return (
     <div css={containerStyle}>
-      {titleColors.map((color) => (
+      {titleColors.map((color, index) => (
         <button
-          onClick={onChooseColor}
+          onClick={() => onChooseColor(index)}
           key={color}
           css={css`
             ${buttonStyle}

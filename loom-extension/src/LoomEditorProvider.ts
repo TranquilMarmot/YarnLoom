@@ -22,6 +22,7 @@ import {
   getTemporaryFolderPath,
   unwatchTemporaryFilesForDocument,
 } from "./TemporaryFiles";
+
 /**
  * This is a custom text editor provider that will open up `.yarn` files in the Yarn Editor.
  */
