@@ -79,7 +79,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
     this.webviewPanel = webviewPanel;
     this.document = document;
-    this.nodes = parseYarnFile(document.getText(), false);
+    this.nodes = parseYarnFile(document.getText());
 
     // track when the document that we're editing is closed
     // and delete any temporary files
@@ -93,7 +93,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     // this is so that we can re-update the editor
     workspace.onDidChangeTextDocument((e) => {
       if (e.document.uri === document.uri) {
-        this.nodes = parseYarnFile(e.document.getText(), true);
+        this.nodes = parseYarnFile(e.document.getText());
         webviewPanel.webview.postMessage(setNodes(this.nodes));
       }
     });
@@ -110,6 +110,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
   /**
    * Called when the given document is closed in the workspace
+   * @param document The document getting closed
    */
   onDocumentClosed = (document: TextDocument) => {
     // first, close any file watchers we have open for this document
@@ -198,9 +199,16 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     this.webviewPanel.webview.postMessage(setNodes(this.nodes));
 
     // and finally, apply the actual edit to the text document
-    this.applyNodeEditToDocument(originalTitle, node);
-
-    addedNodes.forEach((addedNode) => this.createNodeInDocument(addedNode));
+    const edit = new WorkspaceEdit();
+    edit.replace(
+      this.document.uri,
+      this.getRangeForNode(originalTitle),
+      createNodeText(node)
+    );
+    addedNodes.forEach((addedNode) =>
+      this.createNodeInDocument(addedNode, edit)
+    );
+    workspace.applyEdit(edit);
   };
 
   /**
@@ -237,60 +245,27 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     this.webviewPanel.webview.postMessage(setNodes(this.nodes));
 
     // and finally, apply the actual edit to the text document
-    this.deleteNodeFromDocument(nodeTitle);
-  };
-
-  /**
-   * Delete a node from the backing text document
-   * @param nodeTitle Title of node to delete
-   */
-  deleteNodeFromDocument = (nodeTitle: string) => {
-    if (!this.document) {
-      throw new Error(
-        `Tried to update node ${nodeTitle} but we don't have a document!`
-      );
-    }
-
-    const range = this.getRangeForNode(nodeTitle);
-
     const edit = new WorkspaceEdit();
-    edit.delete(this.document.uri, range);
+    edit.delete(this.document.uri, this.getRangeForNode(nodeTitle));
     workspace.applyEdit(edit);
   };
 
   /**
-   * Apply an edit for a given node to the current text document for this provider.
-   *
-   * @param originalTitle Original title of the node being edited, in case the title changed
-   * @param node Node to create new node text from
+   * Add a new node to the backing text document
+   * @param node Node to insert into document
+   * @param edit Edit to apply insert to
    */
-  applyNodeEditToDocument = (originalTitle: string, node: YarnNode) => {
-    if (!this.document) {
-      throw new Error(
-        `Tried to update node ${originalTitle} but we don't have a document!`
-      );
-    }
-
-    const range = this.getRangeForNode(originalTitle);
-
-    const edit = new WorkspaceEdit();
-    edit.replace(this.document.uri, range, createNodeText(node));
-    workspace.applyEdit(edit);
-  };
-
-  createNodeInDocument = (node: YarnNode) => {
+  createNodeInDocument = (node: YarnNode, edit: WorkspaceEdit) => {
     if (!this.document) {
       throw new Error(
         `Tried to create node ${node.title} but we don't have a document!`
       );
     }
 
-    const edit = new WorkspaceEdit();
     edit.insert(
       this.document.uri,
-      new Position(this.document.getText().split("\n").length, 0),
+      new Position(this.document.getText().split("\n").length + 1, 0),
       createNodeText(node)
     );
-    workspace.applyEdit(edit);
   };
 }

@@ -3,12 +3,8 @@ import { YarnNode, getNodeByTitle } from "./YarnNode";
 /**
  * Parse a yarn file into a list of yarn nodes
  * @param file Text of file to parse
- * @param autoCreateLinkedNodes Whether or not to automatically create new nodes for links that are pointing to non-existant nodes
  */
-export const parseYarnFile = (
-  file: string,
-  autoCreateLinkedNodes: boolean
-): YarnNode[] => {
+export const parseYarnFile = (file: string): YarnNode[] => {
   const emptyNode: YarnNode = {
     title: "",
     tags: "",
@@ -63,7 +59,7 @@ export const parseYarnFile = (
   }
 
   // build up the list of links
-  buildLinksFromNodes(nodes, autoCreateLinkedNodes);
+  buildLinksFromNodes(nodes, false);
 
   return nodes;
 };

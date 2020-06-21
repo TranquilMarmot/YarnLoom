@@ -164,16 +164,19 @@ const watchTemporaryFileAndUpdateEditorOnChanges = (
           error
         );
       } else {
-        const updatedNode = parseNodeText(data);
+        // only send an update if the text has actually changed
+        if (data !== createNodeText(originalNode)) {
+          const updatedNode = parseNodeText(data);
 
-        // sometimes this will get triggered before writing the file
-        if (updatedNode.title.trim().length > 0) {
-          editor.updateNode(originalNode.title, updatedNode);
+          // sometimes this will get triggered before writing the file
+          if (updatedNode.title.trim().length > 0) {
+            editor.updateNode(originalNode.title, updatedNode);
 
-          // if the node's title has changed, update the original node's title so that
-          // if the user makes another change, the editor changes the proper node
-          if (originalNode.title !== updatedNode.title) {
-            originalNode.title = updatedNode.title;
+            // if the node's title has changed, update the original node's title so that
+            // if the user makes another change, the editor changes the proper node
+            if (originalNode.title !== updatedNode.title) {
+              originalNode.title = updatedNode.title;
+            }
           }
         }
       }
