@@ -47,6 +47,12 @@ const openNodeInTemporaryFileEditor = (
   );
 };
 
+/**
+ * Set the color for a node
+ * @param nodeTitle Title of node to set color for
+ * @param colorIndex Index in color array to set color to
+ * @param editor Editor provider that contains webview
+ */
 const setNodeColor = (
   nodeTitle: string,
   colorIndex: number,
@@ -63,6 +69,36 @@ const setNodeColor = (
   editor.updateNode(nodeTitle, {
     ...node,
     colorID: colorIndex,
+  });
+};
+
+/**
+ * Set the position for a node
+ * @param nodeTitle Title of node to set position for
+ * @param x X location to set node position to
+ * @param y Y location to set node position to
+ * @param editor Editor provider that contains webview
+ */
+const setNodePosition = (
+  nodeTitle: string,
+  x: number,
+  y: number,
+  editor: LoomEditorProvider
+) => {
+  const node = getNodeByTitle(editor.nodes, nodeTitle);
+
+  if (!node) {
+    throw new Error(
+      `Tried to set position for node ${nodeTitle} to position (${x}, ${y}) but no node was found.`
+    );
+  }
+
+  editor.updateNode(nodeTitle, {
+    ...node,
+    position: {
+      x,
+      y,
+    },
   });
 };
 
@@ -89,6 +125,15 @@ export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
           message.payload.colorIndex,
           editor
         );
+        break;
+      case YarnEditorMessageTypes.SetNodePosition:
+        setNodePosition(
+          message.payload.nodeTitle,
+          message.payload.x,
+          message.payload.y,
+          editor
+        );
+        break;
       default:
         break;
     }

@@ -18,6 +18,9 @@ export enum YarnEditorMessageTypes {
 
   /** Set the color for a node */
   SetNodeColor = "SetNodeColor",
+
+  /** Set the position for a node */
+  SetNodePosition = "SetNodePosition",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -34,3 +37,6 @@ export const deleteNode = (nodeTitle: string) =>
 
 export const setNodeColor = (nodeTitle: string, colorIndex: number) =>
   action(YarnEditorMessageTypes.SetNodeColor, { nodeTitle, colorIndex });
+
+export const setNodePosition = (nodeTitle: string, x: number, y: number) =>
+  action(YarnEditorMessageTypes.SetNodePosition, { nodeTitle, x, y });

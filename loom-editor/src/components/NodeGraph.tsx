@@ -9,7 +9,7 @@ import {
 
 import { YarnNode } from "loom-common/YarnNode";
 import { getNodeByTitle } from "loom-common/YarnNode";
-import { openNode } from "loom-common/EditorActions";
+import { openNode, setNodePosition } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView from "./NodeGraphView";
@@ -72,6 +72,16 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
 const onNodeDoubleClicked = (nodeId: string) =>
   window.vsCodeApi.postMessage(openNode(nodeId));
 
+/**
+ * Given the title and position of a node that was moved, this will send a message
+ * back to the extension to change the node's position in the backing text document.
+ * @param nodeId ID (title) of the node that was moved
+ * @param x New X position of node
+ * @param y New Y position of node
+ */
+const onNodePositionChange = (nodeId: string, x: number, y: number) =>
+  window.vsCodeApi.postMessage(setNodePosition(nodeId, x, y));
+
 const NodeGraph: FunctionComponent = () => {
   const [state] = useYarnState();
 
@@ -98,6 +108,7 @@ const NodeGraph: FunctionComponent = () => {
       data={mapNodesToGraphData(state.nodes)}
       config={graphConfig}
       onDoubleClickNode={onNodeDoubleClicked}
+      onNodePositionChange={onNodePositionChange}
     />
   );
 };
