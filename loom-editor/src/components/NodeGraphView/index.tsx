@@ -1,9 +1,11 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState } from "react";
+
 import { YarnGraphNode } from "../NodeGraph";
 import NodeSettings from "./NodeSettings";
 import NodeTags from "./NodeTags";
+import NodeBody from "./NodeBody";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const titleColors = [
@@ -32,26 +34,6 @@ const titleStyle = css`
   display: flex;
   justify-content: space-between;
 `;
-
-const bodyStyle = css`
-  font-size: 10px;
-  overflow: scroll;
-  width: 147px;
-  padding-left: 3px;
-
-  ::-webkit-scrollbar-corner {
-    background-color: white;
-  }
-`;
-
-const noTagsBodyStyle = css`
-  height: 111px;
-`;
-
-const withTagsBodyStyle = css`
-  height: 85px;
-`;
-
 const settingsButtonStyle = css`
   background: none;
   border: none;
@@ -93,11 +75,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
           </span>
         </button>
       </div>
-      <div css={css`${bodyStyle}${tags ? withTagsBodyStyle : noTagsBodyStyle}`}>
-        {body.split("\n").map((line) => (
-          <div>{line.replace(/ /g, "\u00a0")}</div>
-        ))}
-      </div>
+      <NodeBody body={body} tags={tags} />
       {tags && <NodeTags tags={tags} colorId={colorID} />}
 
       {settingsOpen && <NodeSettings nodeTitle={title} />}
