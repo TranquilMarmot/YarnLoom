@@ -4,7 +4,7 @@ import { FunctionComponent } from "react";
 
 import { deleteNode } from "loom-common/EditorActions";
 
-import { buttonBase } from "../../Styles";
+import { buttonBase } from "../../../Styles";
 
 const containerStyle = css`
   text-align: center;

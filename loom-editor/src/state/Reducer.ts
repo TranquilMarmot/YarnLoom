@@ -8,6 +8,7 @@ export default (state: State, action: EditorActions): State => {
     case YarnEditorMessageTypes.SetNode:
       return state;
     case YarnEditorMessageTypes.SetNodes:
+      console.log(action.payload.nodes);
       return {
         ...state,
         nodes: action.payload.nodes,

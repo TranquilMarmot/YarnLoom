@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState, Fragment } from "react";
 
-import { buttonBase } from "../../Styles";
+import { buttonBase } from "../../../Styles";
 
 import NodeColorChooser from "./NodeColorChooser";
 import ConfirmDeleteNode from "./ConfirmDeleteNode";

@@ -194,6 +194,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     ];
 
     // re-build the links in case they changed
+    // this will return any new nodes that were auto-created from added links
     const addedNodes = buildLinksFromNodes(this.nodes, true);
 
     // update all the nodes in the editor

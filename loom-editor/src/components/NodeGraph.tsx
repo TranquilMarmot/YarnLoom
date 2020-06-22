@@ -94,6 +94,8 @@ const NodeGraph: FunctionComponent = () => {
       markerDomNodes.forEach((markerNode: SVGMarkerElement) =>
         markerNode.setAttribute("refX", "125")
       );
+
+      console.log(node);
     }
   }, []);
 

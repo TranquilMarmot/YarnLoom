@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { titleColors } from "./index";
+import { titleColors } from "../index";
 import { setNodeColor } from "loom-common/EditorActions";
 
 const containerStyle = css`
