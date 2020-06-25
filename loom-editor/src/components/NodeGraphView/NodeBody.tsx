@@ -4,7 +4,7 @@ import { FunctionComponent } from "react";
 
 const bodyStyle = css`
   font-size: 10px;
-  overflow: scroll;
+  overflow: auto;
   width: 147px;
   padding-left: 3px;
 
@@ -20,7 +20,7 @@ const noTagsBodyStyle = css`
 
 /** If there are tags for the node, this style is mixed in */
 const withTagsBodyStyle = css`
-  height: 85px;
+  height: 86px;
 `;
 
 interface NodeBodyProps {
@@ -64,7 +64,9 @@ const parseBody = (body: string) => {
             css={css`
               color: #3ecfe9;
             `}
-          >{`${extractedGoto[2]}`}</span>
+          >
+            |{`${extractedGoto[2]}`}
+          </span>
           ]]
         </div>
       );
