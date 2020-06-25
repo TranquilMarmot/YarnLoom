@@ -1,5 +1,12 @@
+/**
+ * Describes the position of a node in the graph.
+ * These positions are only used in the editor and have no real effect on the node.
+ */
 export interface YarnNodePosition {
+  /** X position of the node */
   x: number;
+
+  /** Y position of the node */
   y: number;
 }
 
@@ -17,6 +24,7 @@ export interface YarnNode {
   /** Actual text of the node */
   body: string;
 
+  /** Position of the node in the graph; only used in the editor for laying out nodes */
   position?: YarnNodePosition;
 
   /** Used in the editor to  */
@@ -24,6 +32,27 @@ export interface YarnNode {
 
   /** List of titles of nodes that this node links to */
   links?: string[];
+}
+
+/** List of tags that mark variables and start/end points in a node */
+enum Tags { // enum instead of an object so we get intellisense with docs
+  /** The title of the node; also used as its unique ID */
+  Title = "title: ",
+
+  /** Space-separated list of tags for the node */
+  Tags = "tags: ",
+
+  /** (Optional) Position of the node. Will be `x,y`. Comma is required. */
+  Position = "position: ",
+
+  /** (Optional) ID of the color of this node */
+  ColorId = "colorID: ",
+
+  /** Marks the start of the node's body */
+  NodeBodyStart = "---",
+
+  /** Marks the end of the node's body */
+  NodeBodyEnd = "===",
 }
 
 /**
@@ -38,14 +67,21 @@ export const createNodeText = ({
   body,
   position,
   colorID,
-}: YarnNode): string =>
-  `title: ${title}
-tags: ${tags}${position ? `\nposition: ${position.x},${position.y}` : ""}${
-    colorID ? `\ncolorID: ${colorID}` : ""
+}: YarnNode): string => {
+  let nodeText = `${Tags.Title}${title}\n${Tags.Tags}${tags}\n`;
+
+  if (position) {
+    nodeText += `${Tags.Position}${position.x},${position.y}\n`;
   }
----
-${body}
-===`;
+
+  if (colorID) {
+    nodeText += `${Tags.ColorId}${colorID}\n`;
+  }
+
+  nodeText += `${Tags.NodeBodyStart}\n${body.trim()}\n${Tags.NodeBodyEnd}`;
+
+  return nodeText;
+};
 
 /**
  * Parse text back out into a node.
@@ -64,19 +100,38 @@ export const parseNodeText = (text: string): YarnNode => {
 
   // this is essentially a copy-pasta of what's in YarnEditor's data.js loadData function
   for (let i = 0; i < lines.length; i++) {
-    if (readingBody && lines[i] !== "===") {
-      node.body += `${lines[i]}\n`;
+    const line = lines[i];
+
+    if (readingBody && line !== Tags.NodeBodyEnd) {
+      // we're reading the body and haven't hit the end yet, append the line to our current body
+      node.body += `${line}${i < lines.length ? "\n" : ""}`;
     } else {
-      if (lines[i].indexOf("title:") > -1) {
-        node.title = lines[i].substr(7, lines[i].length - 7);
-      } else if (lines[i].indexOf("tags:") > -1) {
-        node.tags = lines[i].substr(6, lines[i].length - 6);
-      } else if (lines[i].indexOf("position:") > -1) {
-        const xy = lines[i].substr(9, lines[i].length - 9).split(",");
+      if (line.startsWith(Tags.Title)) {
+        // title:
+        node.title = line
+          .substr(Tags.Title.length, line.length - Tags.Title.length)
+          .trim();
+      } else if (line.startsWith(Tags.Tags)) {
+        // tags:
+        node.tags = line
+          .substr(Tags.Tags.length, line.length - Tags.Tags.length)
+          .trim();
+      } else if (line.startsWith(Tags.Position)) {
+        // position:
+        const xy = line
+          .substr(Tags.Position.length, line.length - Tags.Position.length)
+          .split(",");
         node.position = { x: Number(xy[0].trim()), y: Number(xy[1].trim()) };
-      } else if (lines[i].indexOf("colorID:") > -1) {
-        node.colorID = Number(lines[i].substr(9, lines[i].length - 9).trim());
-      } else if (lines[i].trim() == "---") {
+      } else if (line.startsWith(Tags.ColorId)) {
+        // colorID:
+        node.colorID = Number.parseInt(
+          line
+            .substr(Tags.ColorId.length, line.length - Tags.ColorId.length)
+            .trim()
+        );
+      } else if (line.trim() === Tags.NodeBodyStart) {
+        // ---
+        // (body start)
         readingBody = true;
       }
     }

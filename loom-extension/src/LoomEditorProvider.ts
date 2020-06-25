@@ -152,16 +152,15 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
         nodeStartingLineNumber = i;
       }
 
-      // if we have the starting line number, the next `===` we run into means
-      // it's the end of the node
+      // if we have the starting line number, the next `===` we run into means it's the end of the node
       if (nodeStartingLineNumber !== -1 && line === "===") {
         nodeEndingLineNumber = i;
         break;
       }
     }
 
-    // 4 because === is 3 characters long and ends at the 4th character
-    return new Range(nodeStartingLineNumber, 0, nodeEndingLineNumber, 4);
+    // 3 because nodes end with `===`
+    return new Range(nodeStartingLineNumber, 0, nodeEndingLineNumber, 3);
   };
 
   /**
