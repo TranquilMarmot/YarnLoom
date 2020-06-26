@@ -1,4 +1,6 @@
-import React, { FunctionComponent, useCallback, useState } from "react";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
+import { FunctionComponent, useCallback, useState } from "react";
 import {
   Graph,
   GraphData,
@@ -13,6 +15,11 @@ import { openNode, setNodePosition } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
+
+const containerStyle = css`
+  width: 100%;
+  height: 100%;
+`;
 
 export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
 
@@ -49,8 +56,6 @@ const mapNodesToGraphData = (
 const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   nodeHighlightBehavior: true,
   directed: true,
-  width: 1000,
-  height: 1000,
   node: {
     size: NodeSizePx * 10, // for some reason, react-d3-graph has this *10
     fontSize: 1,
@@ -87,8 +92,18 @@ const onNodePositionChange = (nodeId: string, x: number, y: number) =>
   window.vsCodeApi.postMessage(setNodePosition(nodeId, x, y));
 
 const NodeGraph: FunctionComponent = () => {
+  // state from the reducer
   const [state] = useYarnState();
+
+  // the node currently being focused on in the graph
   const [focusedNode, setFocusedNode] = useState<string | undefined>();
+
+  // the size of the graph; this will actually be the width of the wrapper container
+  // the defaults are what it initially renders with and just have to be "big enough"
+  const [graphSize, setGraphSize] = useState({
+    width: 2000,
+    height: 2000,
+  });
 
   const graphRef = useCallback((node) => {
     if (node) {
@@ -102,21 +117,48 @@ const NodeGraph: FunctionComponent = () => {
     }
   }, []);
 
+  const containerRef = useCallback((containerNode) => {
+    // this callback will set the graph size to the wrapper div's size
+    // and also add a ResizeObserver that will listen for the wrapper resizing
+    if (containerNode) {
+      setGraphSize({
+        width: containerNode.offsetWidth,
+        height: containerNode.offsetHeight,
+      });
+
+      // @ts-ignore https://github.com/Microsoft/TypeScript/issues/28502
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          if (entry.contentRect) {
+            setGraphSize({
+              width: entry.contentRect.width,
+              height: entry.contentRect.height,
+            });
+          }
+        }
+      });
+
+      resizeObserver.observe(containerNode);
+    }
+  }, []);
+
   if (!state?.nodes || state.nodes.length === 0) {
     return null;
   }
 
   return (
-    <Graph
-      ref={graphRef}
-      id="yarn-node-graph"
-      data={mapNodesToGraphData(state.nodes, focusedNode)}
-      config={graphConfig}
-      onDoubleClickNode={onNodeDoubleClicked}
-      onNodePositionChange={onNodePositionChange}
-      onRightClickNode={(e, nodeId) => setFocusedNode(nodeId)}
-      onClickGraph={() => setFocusedNode(undefined)}
-    />
+    <div ref={containerRef} css={containerStyle}>
+      <Graph
+        ref={graphRef}
+        id="yarn-node-graph"
+        data={mapNodesToGraphData(state.nodes, focusedNode)}
+        config={{ ...graphConfig, ...graphSize }}
+        onDoubleClickNode={onNodeDoubleClicked}
+        onNodePositionChange={onNodePositionChange}
+        onRightClickNode={(e, nodeId) => setFocusedNode(nodeId)}
+        onClickGraph={() => setFocusedNode(undefined)}
+      />
+    </div>
   );
 };
 
