@@ -32,25 +32,23 @@ const buttonStyle = css`
 
 interface NodeSettingsProps {
   nodeTitle: string;
+  onClose: () => void;
 }
 
-const NodeSettings: FunctionComponent<NodeSettingsProps> = ({ nodeTitle }) => {
+const NodeSettings: FunctionComponent<NodeSettingsProps> = ({
+  nodeTitle,
+  onClose,
+}) => {
   const [showingColorChooser, setShowingColorChooser] = useState(false);
   const [showingDeleteConfirm, setShowingDeleteConfirm] = useState(false);
 
   return (
     <div css={containerStyle}>
       {showingColorChooser && (
-        <NodeColorChooser
-          onClose={() => setShowingColorChooser(false)}
-          nodeTitle={nodeTitle}
-        />
+        <NodeColorChooser onClose={onClose} nodeTitle={nodeTitle} />
       )}
       {showingDeleteConfirm && (
-        <ConfirmDeleteNode
-          onClose={() => setShowingDeleteConfirm(false)}
-          nodeTitle={nodeTitle}
-        />
+        <ConfirmDeleteNode onClose={onClose} nodeTitle={nodeTitle} />
       )}
       {!showingColorChooser && !showingDeleteConfirm && (
         <Fragment>
@@ -65,6 +63,9 @@ const NodeSettings: FunctionComponent<NodeSettingsProps> = ({ nodeTitle }) => {
             onClick={() => setShowingDeleteConfirm(true)}
           >
             Delete
+          </button>
+          <button css={buttonStyle} onClick={onClose}>
+            Cancel
           </button>
         </Fragment>
       )}

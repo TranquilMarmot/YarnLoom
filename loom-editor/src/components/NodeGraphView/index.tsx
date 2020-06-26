@@ -120,7 +120,12 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
       <NodeBody body={body} tags={tags} />
       {tags && <NodeTags tags={tags} colorId={colorID} />}
 
-      {settingsOpen && <NodeSettings nodeTitle={title} />}
+      {settingsOpen && (
+        <NodeSettings
+          nodeTitle={title}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
     </div>
   );
 };
