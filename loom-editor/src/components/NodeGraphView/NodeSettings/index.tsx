@@ -12,8 +12,9 @@ const containerStyle = css`
   left: 0px;
   top: 39px;
 
-  height: 111px;
-  width: 150px;
+  /* Ideally, these would be calculated but for now we'll leave them as magic numbers... */
+  height: 161px;
+  width: 200px;
 
   display: flex;
   flex-direction: column;

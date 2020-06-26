@@ -11,6 +11,8 @@ export const buttonBase = css`
   border: 1px solid #3300ff00;
   border-radius: 5px;
 
+  height: 30px;
+
   :hover {
     cursor: pointer;
   }

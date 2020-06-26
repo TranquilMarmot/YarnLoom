@@ -5,7 +5,6 @@ import { FunctionComponent } from "react";
 const bodyStyle = css`
   font-size: 10px;
   overflow: auto;
-  width: 147px;
   padding-left: 3px;
 
   ::-webkit-scrollbar-corner {
@@ -15,12 +14,12 @@ const bodyStyle = css`
 
 /** If there are no tags for the node, this style is mixed in */
 const noTagsBodyStyle = css`
-  height: 111px;
+  grid-row: 2 / 4;
 `;
 
 /** If there are tags for the node, this style is mixed in */
 const withTagsBodyStyle = css`
-  height: 86px;
+  grid-row: 2 / 3;
 `;
 
 interface NodeBodyProps {

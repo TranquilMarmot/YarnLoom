@@ -3,11 +3,25 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
 import { titleColors } from "../index";
+import { buttonBase } from "../../../Styles";
 import { setNodeColor } from "loom-common/EditorActions";
 
 const containerStyle = css`
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const buttonContainerStyle = css`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 `;
 
 const buttonStyle = css`
@@ -17,6 +31,12 @@ const buttonStyle = css`
   :hover {
     cursor: pointer;
   }
+`;
+
+const cancelButtonStyle = css`
+  ${buttonBase}
+
+  width: 50%;
 `;
 
 interface NodeGraphViewColorChooserProps {
@@ -35,18 +55,23 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
 
   return (
     <div css={containerStyle}>
-      {titleColors.map((color, index) => (
-        <button
-          onClick={() => onChooseColor(index)}
-          key={color}
-          css={css`
+      <div css={buttonContainerStyle}>
+        {titleColors.map((color, index) => (
+          <button
+            onClick={() => onChooseColor(index)}
+            key={color}
+            css={css`
             ${buttonStyle}
             background-color: ${color};
           `}
-        >
-          {" "}
-        </button>
-      ))}
+          >
+            {" "}
+          </button>
+        ))}
+      </div>
+      <button css={cancelButtonStyle} onClick={onClose}>
+        Cancel
+      </button>
     </div>
   );
 };

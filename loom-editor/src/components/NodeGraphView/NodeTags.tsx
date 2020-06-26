@@ -5,6 +5,7 @@ import { FunctionComponent } from "react";
 import { titleColors } from "../NodeGraphView";
 
 const containerStyle = css`
+  grid-row: 3 / 4;
   display: flex;
 `;
 

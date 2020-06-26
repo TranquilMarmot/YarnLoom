@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useCallback } from "react";
+import React, { FunctionComponent, useCallback, useState } from "react";
 import {
   Graph,
   GraphData,
@@ -12,7 +12,7 @@ import { getNodeByTitle } from "loom-common/YarnNode";
 import { openNode, setNodePosition } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";
-import NodeGraphView from "./NodeGraphView";
+import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
 
 export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
 
@@ -21,7 +21,8 @@ export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
  * @param nodes List of all nodes
  */
 const mapNodesToGraphData = (
-  nodes: YarnNode[]
+  nodes: YarnNode[],
+  focusedNodeId?: string
 ): GraphData<YarnGraphNode, GraphLink> => {
   return {
     nodes: nodes.map((node) => ({
@@ -40,6 +41,7 @@ const mapNodesToGraphData = (
         // filter out any links that aren't actually attached to a node (yet)
         .filter((link) => getNodeByTitle(nodes, link.target))
     ),
+    focusedNodeId,
   };
 };
 
@@ -47,17 +49,19 @@ const mapNodesToGraphData = (
 const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   nodeHighlightBehavior: true,
   directed: true,
-  width: 5000,
-  height: 5000,
+  width: 1000,
+  height: 1000,
   node: {
-    size: 1500,
+    size: NodeSizePx * 10, // for some reason, react-d3-graph has this *10
     fontSize: 1,
     renderLabel: false,
     highlightStrokeColor: "blue",
     mouseCursor: "grab",
+    symbolType: "square",
     viewGenerator: (node) => (
       <NodeGraphView node={(node as unknown) as YarnGraphNode} />
     ),
+    strokeWidth: 3.0,
   },
   link: {
     highlightColor: "lightblue",
@@ -84,6 +88,7 @@ const onNodePositionChange = (nodeId: string, x: number, y: number) =>
 
 const NodeGraph: FunctionComponent = () => {
   const [state] = useYarnState();
+  const [focusedNode, setFocusedNode] = useState<string | undefined>();
 
   const graphRef = useCallback((node) => {
     if (node) {
@@ -92,10 +97,8 @@ const NodeGraph: FunctionComponent = () => {
       // to place them a little higher up on the line... this isn't perfect but it works!
       const markerDomNodes = document.querySelectorAll("marker");
       markerDomNodes.forEach((markerNode: SVGMarkerElement) =>
-        markerNode.setAttribute("refX", "125")
+        markerNode.setAttribute("refX", "200")
       );
-
-      console.log(node);
     }
   }, []);
 
@@ -107,10 +110,12 @@ const NodeGraph: FunctionComponent = () => {
     <Graph
       ref={graphRef}
       id="yarn-node-graph"
-      data={mapNodesToGraphData(state.nodes)}
+      data={mapNodesToGraphData(state.nodes, focusedNode)}
       config={graphConfig}
       onDoubleClickNode={onNodeDoubleClicked}
       onNodePositionChange={onNodePositionChange}
+      onRightClickNode={(e, nodeId) => setFocusedNode(nodeId)}
+      onClickGraph={() => setFocusedNode(undefined)}
     />
   );
 };

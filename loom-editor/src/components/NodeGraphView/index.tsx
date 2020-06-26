@@ -20,20 +20,30 @@ export const titleColors = [
   "#000000",
 ];
 
+/** The width and height of the node's wrapper container */
+export const NodeSizePx = 200;
+
 const containerStyle = css`
   background: white;
   color: black;
-  width: 100%;
-  height: 100%;
+  width: ${NodeSizePx}px;
+  height: ${NodeSizePx}px;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: auto;
 `;
 
 const titleStyle = css`
   padding: 10px;
   border: 1px solid grey;
 
+  grid-row: 1 / 2;
+
   display: flex;
   justify-content: space-between;
 `;
+
 const settingsButtonStyle = css`
   background: none;
   border: none;
