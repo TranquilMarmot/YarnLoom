@@ -2,6 +2,14 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useState } from "react";
 
+import { useYarnState } from "../../state/YarnContext";
+import {
+  getSearchingTitle,
+  getSearchingBody,
+  getSearchingTags,
+  getSearchString,
+} from "../../state/Selectors";
+
 import { YarnGraphNode } from "../NodeGraph";
 import NodeSettings from "./NodeSettings";
 import NodeTags from "./NodeTags";
@@ -32,6 +40,13 @@ const containerStyle = css`
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: auto;
+`;
+
+const dimmedStyle = css`
+  > * {
+    background-color: rgba(1, 1, 1, 0.5) !important;
+    color: rgba(1, 1, 1, 0.6) !important;
+  }
 `;
 
 const titleStyle = css`
@@ -65,10 +80,27 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
     yarnNode: { colorID, title, body, tags },
   },
 }) => {
+  const [state] = useYarnState();
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  if (!state) {
+    return null;
+  }
+
+  const searchingTitle = getSearchingTitle(state);
+  const searchingBody = getSearchingBody(state);
+  const searchingTags = getSearchingTags(state);
+  const searchString = getSearchString(state);
+
+  // if we're searching for something, and this node matches that something,
+  // then this will be true... if this is false, the node is rendered as "dimmed"
+  const searched =
+    (searchingTitle && title.includes(searchString)) ||
+    (searchingBody && body.includes(searchString)) ||
+    (searchingTags && tags.includes(searchString));
+
   return (
-    <div css={containerStyle}>
+    <div css={css`${containerStyle}${!searched && dimmedStyle}`}>
       <div
         css={css`
         ${titleStyle}

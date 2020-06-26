@@ -12,6 +12,38 @@ export default (state: State, action: EditorActions): State => {
         ...state,
         nodes: action.payload.nodes,
       };
+    case YarnEditorMessageTypes.SetSearchingNodeBodies:
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          searchingBody: action.payload.searchingBody,
+        },
+      };
+    case YarnEditorMessageTypes.SetSearchingNodeTags:
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          searchingTags: action.payload.searchingTags,
+        },
+      };
+    case YarnEditorMessageTypes.SetSearchingNodeTitles:
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          searchingTitle: action.payload.searchingTitle,
+        },
+      };
+    case YarnEditorMessageTypes.SetSearchString:
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          searchString: action.payload.searchString,
+        },
+      };
     default:
       return state;
   }

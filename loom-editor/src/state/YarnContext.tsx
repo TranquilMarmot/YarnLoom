@@ -9,12 +9,20 @@ import React, {
 import { State } from "../Types";
 import Reducer from "./Reducer";
 
+import EditorActionType from "loom-common/EditorActionType";
+
 const defaultState: State = {
   nodes: [],
+  search: {
+    searchingTitle: true,
+    searchingBody: true,
+    searchingTags: true,
+    searchString: "",
+  },
 };
 
 const YarnStateContext = createContext<
-  [State | undefined, (action: any) => void]
+  [State | undefined, (action: EditorActionType) => void]
 >([defaultState, () => {}]);
 
 /**

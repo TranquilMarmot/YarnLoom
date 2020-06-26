@@ -15,6 +15,8 @@ import { openNode, setNodePosition } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
+import NodeSearch from "./NodeSearch";
+import { getNodes } from "../state/Selectors";
 
 const containerStyle = css`
   width: 100%;
@@ -142,7 +144,9 @@ const NodeGraph: FunctionComponent = () => {
     }
   }, []);
 
-  if (!state?.nodes || state.nodes.length === 0) {
+  const nodes = getNodes(state);
+
+  if (nodes.length === 0) {
     return null;
   }
 
@@ -151,13 +155,14 @@ const NodeGraph: FunctionComponent = () => {
       <Graph
         ref={graphRef}
         id="yarn-node-graph"
-        data={mapNodesToGraphData(state.nodes, focusedNode)}
+        data={mapNodesToGraphData(nodes, focusedNode)}
         config={{ ...graphConfig, ...graphSize }}
         onDoubleClickNode={onNodeDoubleClicked}
         onNodePositionChange={onNodePositionChange}
         onRightClickNode={(e, nodeId) => setFocusedNode(nodeId)}
         onClickGraph={() => setFocusedNode(undefined)}
       />
+      <NodeSearch />
     </div>
   );
 };

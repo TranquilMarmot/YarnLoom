@@ -12,7 +12,6 @@ const appStyle = css`
 
 const App: FunctionComponent = () => (
   <div css={appStyle}>
-    Loom Editor
     <NodeGraph />
   </div>
 );
