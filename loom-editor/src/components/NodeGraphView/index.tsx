@@ -97,6 +97,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   // if we're searching for something, and this node matches that something,
   // then this will be true... if this is false, the node is rendered as "dimmed"
   const searched =
+    (!searchingTitle && !searchingBody && !searchingTags) || // no search active
     (searchingTitle && title.includes(searchString)) ||
     (searchingBody && body.includes(searchString)) ||
     (searchingTags && tags.includes(searchString));
