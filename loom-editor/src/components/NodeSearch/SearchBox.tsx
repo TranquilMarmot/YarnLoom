@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useRef } from "react";
 
 import {
   setSearchString,
@@ -80,6 +80,9 @@ const buttonActiveStyle = css`
 const SearchBox: FunctionComponent = () => {
   const [state, dispatch] = useYarnState();
 
+  // used to focus back on the input when clicking buttons in this box
+  const inputRef = useRef<HTMLInputElement>(null);
+
   if (!state) {
     return null;
   }
@@ -92,6 +95,7 @@ const SearchBox: FunctionComponent = () => {
   return (
     <form css={formStyle}>
       <input
+        ref={inputRef}
         css={searchInputStyle}
         type="search"
         placeholder="Search"
@@ -104,7 +108,10 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingTitle}
-          onClick={() => dispatch(setSearchingNodeTitles(!searchingTitle))}
+          onClick={() => {
+            dispatch(setSearchingNodeTitles(!searchingTitle));
+            inputRef?.current?.focus();
+          }}
         >
           Title
         </button>
@@ -114,7 +121,10 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingBody}
-          onClick={() => dispatch(setSearchingNodeBodies(!searchingBody))}
+          onClick={() => {
+            dispatch(setSearchingNodeBodies(!searchingBody));
+            inputRef?.current?.focus();
+          }}
         >
           Body
         </button>
@@ -124,7 +134,10 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingTags}
-          onClick={() => dispatch(setSearchingNodeTags(!searchingTags))}
+          onClick={() => {
+            dispatch(setSearchingNodeTags(!searchingTags));
+            inputRef?.current?.focus();
+          }}
         >
           Tags
         </button>
