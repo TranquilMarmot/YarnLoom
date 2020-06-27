@@ -17,6 +17,7 @@ import { useYarnState } from "../state/YarnContext";
 import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
 import NodeSearch from "./NodeSearch";
 import { getNodes, getFocusedNode } from "../state/Selectors";
+import { setFocusedNode } from "../state/UiActions";
 
 const containerStyle = css`
   width: 100%;
@@ -95,7 +96,7 @@ const onNodePositionChange = (nodeId: string, x: number, y: number) =>
 
 const NodeGraph: FunctionComponent = () => {
   // state from the reducer
-  const [state] = useYarnState();
+  const [state, dispatch] = useYarnState();
 
   // the size of the graph; this will actually be the width of the wrapper container
   // the defaults are what it initially renders with and just have to be "big enough"
@@ -157,6 +158,7 @@ const NodeGraph: FunctionComponent = () => {
         config={{ ...graphConfig, ...graphSize }}
         onDoubleClickNode={onNodeDoubleClicked}
         onNodePositionChange={onNodePositionChange}
+        onClickGraph={() => dispatch(setFocusedNode(undefined))}
       />
       <NodeSearch />
     </div>

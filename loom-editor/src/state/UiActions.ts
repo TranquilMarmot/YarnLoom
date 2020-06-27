@@ -33,7 +33,7 @@ export const setSearchingNodeTags = (searchingTags: boolean) =>
 export const setSearchString = (searchString: string) =>
   action(UiMessageTypes.SetSearchString, { searchString });
 
-export const setFocusedNode = (nodeTitle: string) =>
+export const setFocusedNode = (nodeTitle?: string) =>
   action(UiMessageTypes.SetFocusedNode, { nodeTitle });
 
 export const searchForTag = (tag: string) =>
