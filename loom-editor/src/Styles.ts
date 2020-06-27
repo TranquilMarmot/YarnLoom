@@ -13,3 +13,28 @@ export const buttonBase = css`
     cursor: pointer;
   }
 `;
+
+/** Used to style a button in a list of items */
+export const listItemBase = css`
+  display: flex;
+
+  color: var(--vscode-menu-foreground);
+
+  width: 100%;
+  height: 40px;
+
+  background: none;
+  border: none;
+  outline: none !important;
+
+  text-align: left;
+
+  :hover {
+    cursor: pointer;
+    background-color: var(--vscode-list-inactiveSelectionBackground);
+  }
+
+  :focus {
+    background-color: var(--vscode-list-focusBackground);
+  }
+`;

@@ -46,6 +46,7 @@ const containerStyle = css`
   grid-template-columns: auto;
 `;
 
+/** This style is used if the user is searching and this node does NOT match the current search criteria */
 const dimmedStyle = css`
   > * {
     background-color: rgba(1, 1, 1, 0.5) !important;

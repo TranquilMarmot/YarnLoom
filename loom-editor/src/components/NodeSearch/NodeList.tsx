@@ -8,33 +8,11 @@ import { useYarnState } from "../../state/YarnContext";
 import { titleColors } from "../NodeGraphView";
 import { setFocusedNode } from "loom-common/EditorActions";
 
+import { listItemBase } from "../../Styles";
+
 const containerStyle = css`
   max-height: 320px;
   overflow-y: auto;
-`;
-
-const nodeButtonStyle = css`
-  display: flex;
-
-  color: var(--vscode-menu-foreground);
-
-  width: 100%;
-  height: 40px;
-
-  background: none;
-  border: none;
-  outline: none !important;
-
-  text-align: left;
-
-  :hover {
-    cursor: pointer;
-    background-color: var(--vscode-list-inactiveSelectionBackground);
-  }
-
-  :focus {
-    background-color: var(--vscode-list-focusBackground);
-  }
 `;
 
 const colorBlockStyle = css`
@@ -54,7 +32,7 @@ const NodeList: FunctionComponent = () => {
       {nodes.map((node) => (
         <button
           key={`node-list-${node.title}`}
-          css={nodeButtonStyle}
+          css={listItemBase}
           onClick={() => dispatch(setFocusedNode(node.title))}
         >
           <div

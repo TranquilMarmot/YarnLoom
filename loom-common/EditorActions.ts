@@ -36,6 +36,9 @@ export enum YarnEditorMessageTypes {
 
   /** Set the node to focus on */
   SetFocusedNode = "SetFocusedNode",
+
+  /** Search for a specific tag */
+  SearchForTag = "SearchForTag",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -70,3 +73,6 @@ export const setSearchString = (searchString: string) =>
 
 export const setFocusedNode = (nodeTitle: string) =>
   action(YarnEditorMessageTypes.SetFocusedNode, { nodeTitle });
+
+export const searchForTag = (tag: string) =>
+  action(YarnEditorMessageTypes.SearchForTag, { tag });

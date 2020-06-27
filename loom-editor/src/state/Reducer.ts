@@ -49,6 +49,17 @@ export default (state: State, action: EditorActions): State => {
         ...state,
         focusedNode: action.payload.nodeTitle,
       };
+    case YarnEditorMessageTypes.SearchForTag:
+      return {
+        ...state,
+        search: {
+          ...state.search,
+          searchingTitle: false,
+          searchingBody: false,
+          searchingTags: true,
+          searchString: action.payload.tag,
+        },
+      };
     default:
       return state;
   }
