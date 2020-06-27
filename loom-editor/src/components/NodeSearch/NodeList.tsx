@@ -4,9 +4,9 @@ import { FunctionComponent } from "react";
 
 import { getNodes } from "../../state/Selectors";
 import { useYarnState } from "../../state/YarnContext";
+import { setFocusedNode } from "../../state/UiActions";
 
 import { titleColors } from "../NodeGraphView";
-import { setFocusedNode } from "loom-common/EditorActions";
 
 import { listItemBase } from "../../Styles";
 

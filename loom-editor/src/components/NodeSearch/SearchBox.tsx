@@ -7,7 +7,7 @@ import {
   setSearchingNodeTitles,
   setSearchingNodeBodies,
   setSearchingNodeTags,
-} from "loom-common/EditorActions";
+} from "../../state/UiActions";
 
 import { useYarnState } from "../../state/YarnContext";
 import {

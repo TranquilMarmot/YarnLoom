@@ -1,18 +1,18 @@
 import { State } from "../Types";
 
 import EditorActions from "loom-common/EditorActionType";
+import UiActions from "./UiActionType";
 import { YarnEditorMessageTypes } from "loom-common/EditorActions";
+import { UiMessageTypes } from "./UiActions";
 
-export default (state: State, action: EditorActions): State => {
+export default (state: State, action: EditorActions | UiActions): State => {
   switch (action.type) {
-    case YarnEditorMessageTypes.SetNode:
-      return state;
     case YarnEditorMessageTypes.SetNodes:
       return {
         ...state,
         nodes: action.payload.nodes,
       };
-    case YarnEditorMessageTypes.SetSearchingNodeBodies:
+    case UiMessageTypes.SetSearchingNodeBodies:
       return {
         ...state,
         search: {
@@ -20,7 +20,7 @@ export default (state: State, action: EditorActions): State => {
           searchingBody: action.payload.searchingBody,
         },
       };
-    case YarnEditorMessageTypes.SetSearchingNodeTags:
+    case UiMessageTypes.SetSearchingNodeTags:
       return {
         ...state,
         search: {
@@ -28,7 +28,7 @@ export default (state: State, action: EditorActions): State => {
           searchingTags: action.payload.searchingTags,
         },
       };
-    case YarnEditorMessageTypes.SetSearchingNodeTitles:
+    case UiMessageTypes.SetSearchingNodeTitles:
       return {
         ...state,
         search: {
@@ -36,7 +36,7 @@ export default (state: State, action: EditorActions): State => {
           searchingTitle: action.payload.searchingTitle,
         },
       };
-    case YarnEditorMessageTypes.SetSearchString:
+    case UiMessageTypes.SetSearchString:
       return {
         ...state,
         search: {
@@ -44,12 +44,12 @@ export default (state: State, action: EditorActions): State => {
           searchString: action.payload.searchString,
         },
       };
-    case YarnEditorMessageTypes.SetFocusedNode:
+    case UiMessageTypes.SetFocusedNode:
       return {
         ...state,
         focusedNode: action.payload.nodeTitle,
       };
-    case YarnEditorMessageTypes.SearchForTag:
+    case UiMessageTypes.SearchForTag:
       return {
         ...state,
         search: {

@@ -10,6 +10,7 @@ import { State } from "../Types";
 import Reducer from "./Reducer";
 
 import EditorActionType from "loom-common/EditorActionType";
+import UiActionType from "./UiActionType";
 
 const defaultState: State = {
   nodes: [],
@@ -22,7 +23,7 @@ const defaultState: State = {
 };
 
 const YarnStateContext = createContext<
-  [State | undefined, (action: EditorActionType) => void]
+  [State | undefined, (action: EditorActionType | UiActionType) => void]
 >([defaultState, () => {}]);
 
 /**

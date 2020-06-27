@@ -4,11 +4,11 @@ import { FunctionComponent } from "react";
 
 import { getNodes } from "../../state/Selectors";
 import { useYarnState } from "../../state/YarnContext";
+import { searchForTag } from "../../state/UiActions";
 
 import { YarnNode } from "loom-common/YarnNode";
 
 import { listItemBase } from "../../Styles";
-import { searchForTag } from "loom-common/EditorActions";
 
 const containerStyle = css`
   max-height: 320px;
