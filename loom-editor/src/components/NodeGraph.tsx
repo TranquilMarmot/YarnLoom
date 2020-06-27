@@ -16,7 +16,7 @@ import { openNode, setNodePosition } from "loom-common/EditorActions";
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
 import NodeSearch from "./NodeSearch";
-import { getNodes } from "../state/Selectors";
+import { getNodes, getFocusedNode } from "../state/Selectors";
 
 const containerStyle = css`
   width: 100%;
@@ -97,9 +97,6 @@ const NodeGraph: FunctionComponent = () => {
   // state from the reducer
   const [state] = useYarnState();
 
-  // the node currently being focused on in the graph
-  const [focusedNode, setFocusedNode] = useState<string | undefined>();
-
   // the size of the graph; this will actually be the width of the wrapper container
   // the defaults are what it initially renders with and just have to be "big enough"
   const [graphSize, setGraphSize] = useState({
@@ -145,6 +142,7 @@ const NodeGraph: FunctionComponent = () => {
   }, []);
 
   const nodes = getNodes(state);
+  const focusedNode = getFocusedNode(state);
 
   if (nodes.length === 0) {
     return null;
@@ -159,8 +157,6 @@ const NodeGraph: FunctionComponent = () => {
         config={{ ...graphConfig, ...graphSize }}
         onDoubleClickNode={onNodeDoubleClicked}
         onNodePositionChange={onNodePositionChange}
-        onRightClickNode={(e, nodeId) => setFocusedNode(nodeId)}
-        onClickGraph={() => setFocusedNode(undefined)}
       />
       <NodeSearch />
     </div>

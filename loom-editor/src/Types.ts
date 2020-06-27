@@ -18,4 +18,7 @@ export interface State {
     /** The string we're actually searching for */
     searchString: string;
   };
+
+  /** Node that is currently being focused on */
+  focusedNode?: string;
 }

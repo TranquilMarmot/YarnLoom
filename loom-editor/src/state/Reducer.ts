@@ -44,6 +44,11 @@ export default (state: State, action: EditorActions): State => {
           searchString: action.payload.searchString,
         },
       };
+    case YarnEditorMessageTypes.SetFocusedNode:
+      return {
+        ...state,
+        focusedNode: action.payload.nodeTitle,
+      };
     default:
       return state;
   }
