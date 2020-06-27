@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import {
   setSearchString,
@@ -17,26 +17,77 @@ import {
   getSearchString,
 } from "../../state/Selectors";
 
-const formStyle = css`
+import { ReactComponent as ChevronDown } from "../../icons/chevron-down.svg";
+import { ReactComponent as ChevronRight } from "../../icons/chevron-right.svg";
+
+import NodeList from "./NodeList";
+
+const containerStyle = css`
   position: absolute;
   top: 5px;
   left: 5px;
 
-  padding: 20px;
-  border-radius: 5px;
+  border: 1px solid var(--vscode-panelSection-border);
 
-  color: black;
+  color: var(--vscode-input-foreground);
   font-weight: 600;
 
-  background: linear-gradient(
-    45deg,
-    rgba(125, 255, 245, 0.75) 0%,
-    rgba(255, 128, 228, 0.75) 100%
-  );
+  background-color: var(--vscode-menu-background);
+  color: var(--vscode-foreground);
 `;
+
+const searchInputStyle = css`
+  background-color: var(--vscode-input-background);
+  color: var(--vscode-input-foreground);
+  outline-color: var(--vscode-inputOption-activeBackground) !important;
+  /* outline-color: rgba(
+    0,
+    122,
+    204,
+    0
+  ); This should be  var(--vscode-inputOption-activeBorder) but that didn't work */
+
+  border: none;
+  padding: 5px;
+  margin: 10px;
+
+  ::placeholder {
+    color: var(--vscode-input-placeholderForeground);
+  }
+`;
+
+const nodeListButtonStyle = css`
+  color: var(--vscode-foreground);
+
+  background: none;
+  border: none;
+  outline: none;
+
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 5px;
+
+  display: flex;
+  align-items: center;
+
+  :hover {
+    cursor: pointer;
+  }
+
+  :focus {
+    background-color: var(--vscode-list-activeSelectionBackground);
+    color: var(--vscode-list-activeSelectionForeground);
+  }
+`;
+
+// --vscode-inputOption-activeBackground for checked options
 
 const NodeSearch: FunctionComponent = () => {
   const [state, dispatch] = useYarnState();
+  const [showingNodeList, setShowingNodeList] = useState(false);
 
   if (!state) {
     return null;
@@ -48,45 +99,56 @@ const NodeSearch: FunctionComponent = () => {
   const searchString = getSearchString(state);
 
   return (
-    <form css={formStyle}>
-      <div>Search</div>
-      <input
-        type="search"
-        value={searchString}
-        onChange={(e) => dispatch(setSearchString(e.target.value))}
-      />
-      <div>
-        {/* Title checkbox */}
+    <div css={containerStyle}>
+      <form>
         <input
-          type="checkbox"
-          id="titleSearchCheckbox"
-          name="titleSearch"
-          checked={searchingTitle}
-          onChange={(e) => dispatch(setSearchingNodeTitles(e.target.checked))}
+          css={searchInputStyle}
+          type="search"
+          placeholder="Search"
+          value={searchString}
+          onChange={(e) => dispatch(setSearchString(e.target.value))}
         />
-        <label htmlFor="titleSearchCheckbox">Title</label>
+        <div>
+          {/* Title checkbox */}
+          <input
+            type="checkbox"
+            id="titleSearchCheckbox"
+            name="titleSearch"
+            checked={searchingTitle}
+            onChange={(e) => dispatch(setSearchingNodeTitles(e.target.checked))}
+          />
+          <label htmlFor="titleSearchCheckbox">Title</label>
 
-        {/* Body checkbox */}
-        <input
-          type="checkbox"
-          id="bodySearchCheckbox"
-          name="bodySearch"
-          checked={searchingBody}
-          onChange={(e) => dispatch(setSearchingNodeBodies(e.target.checked))}
-        />
-        <label htmlFor="bodySearchCheckbox">Body</label>
+          {/* Body checkbox */}
+          <input
+            type="checkbox"
+            id="bodySearchCheckbox"
+            name="bodySearch"
+            checked={searchingBody}
+            onChange={(e) => dispatch(setSearchingNodeBodies(e.target.checked))}
+          />
+          <label htmlFor="bodySearchCheckbox">Body</label>
 
-        {/* Tags checkbox */}
-        <input
-          type="checkbox"
-          id="tagsSearchCheckbox"
-          name="tagsSearch"
-          checked={searchingTags}
-          onChange={(e) => dispatch(setSearchingNodeTags(e.target.checked))}
-        />
-        <label htmlFor="tagsSearchCheckbox">Tags</label>
-      </div>
-    </form>
+          {/* Tags checkbox */}
+          <input
+            type="checkbox"
+            id="tagsSearchCheckbox"
+            name="tagsSearch"
+            checked={searchingTags}
+            onChange={(e) => dispatch(setSearchingNodeTags(e.target.checked))}
+          />
+          <label htmlFor="tagsSearchCheckbox">Tags</label>
+        </div>
+      </form>
+      <button
+        type="button"
+        css={nodeListButtonStyle}
+        onClick={() => setShowingNodeList(!showingNodeList)}
+      >
+        {showingNodeList ? <ChevronDown /> : <ChevronRight />} Node List
+      </button>
+      {showingNodeList && <NodeList />}
+    </div>
   );
 };
 

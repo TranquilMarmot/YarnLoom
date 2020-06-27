@@ -10,6 +10,8 @@ import {
   getSearchString,
 } from "../../state/Selectors";
 
+import { ReactComponent as MenuIcon } from "../../icons/menu.svg";
+
 import { YarnGraphNode } from "../NodeGraph";
 import NodeSettings from "./NodeSettings";
 import NodeTags from "./NodeTags";
@@ -112,9 +114,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
           css={settingsButtonStyle}
           onClick={() => setSettingsOpen(!settingsOpen)}
         >
-          <span role="img" aria-label="Node Settings">
-            ⚙️
-          </span>
+          <MenuIcon />
         </button>
       </div>
       <NodeBody body={body} tags={tags} />
