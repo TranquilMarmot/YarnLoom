@@ -8,6 +8,11 @@ import { useYarnState } from "../../state/YarnContext";
 import { titleColors } from "../NodeGraphView";
 import { setFocusedNode } from "loom-common/EditorActions";
 
+const containerStyle = css`
+  max-height: 320px;
+  overflow-y: auto;
+`;
+
 const nodeButtonStyle = css`
   display: flex;
 
@@ -45,7 +50,7 @@ const NodeList: FunctionComponent = () => {
   const nodes = getNodes(state);
 
   return (
-    <div>
+    <div css={containerStyle}>
       {nodes.map((node) => (
         <button
           key={`node-list-${node.title}`}

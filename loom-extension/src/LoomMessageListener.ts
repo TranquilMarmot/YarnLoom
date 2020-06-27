@@ -37,7 +37,6 @@ const openNodeInTemporaryFileEditor = (
   // this will create a temporary file and add a file watcher on it
   // when the file changes, a message is sent back to the editor
   const temporaryFile = createTemporaryFileForNode(node, editor);
-
   // and open it in the editor
   workspace.openTextDocument(temporaryFile.path).then((doc) =>
     window.showTextDocument(doc, {
@@ -103,6 +102,28 @@ const setNodePosition = (
 };
 
 /**
+ * Shows a confirmation modal and deletes the given node if the user accepts it.
+ * @param nodeTitle Title of node to delete
+ * @param editor Editor to delete node from
+ */
+const confirmAndDeleteNode = (
+  nodeTitle: string,
+  editor: LoomEditorProvider
+) => {
+  window
+    .showInformationMessage(
+      `Are you sure you want to delete the node ${nodeTitle}?`,
+      { modal: true },
+      "Yes"
+    )
+    .then((val) => {
+      if (val === "Yes") {
+        editor.deleteNode(nodeTitle);
+      }
+    });
+};
+
+/**
  * This will attach an event listener to the given webview that can receive
  * events sent to it via `window.vsCodeApi.postMessage` (which is created in LoomWebviewPanel.ts)
  *
@@ -117,7 +138,7 @@ export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
         openNodeInTemporaryFileEditor(message.payload.nodeId, editor);
         break;
       case YarnEditorMessageTypes.DeleteNode:
-        editor.deleteNode(message.payload.nodeTitle);
+        confirmAndDeleteNode(message.payload.nodeTitle, editor);
         break;
       case YarnEditorMessageTypes.SetNodeColor:
         setNodeColor(

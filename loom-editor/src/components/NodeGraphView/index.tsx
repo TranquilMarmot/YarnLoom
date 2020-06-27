@@ -10,12 +10,14 @@ import {
   getSearchString,
 } from "../../state/Selectors";
 
-import { ReactComponent as MenuIcon } from "../../icons/menu.svg";
+import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
+import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
 
 import { YarnGraphNode } from "../NodeGraph";
-import NodeSettings from "./NodeSettings";
+import NodeColorChooser from "./NodeColorChooser";
 import NodeTags from "./NodeTags";
 import NodeBody from "./NodeBody";
+import { deleteNode } from "loom-common/EditorActions";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const titleColors = [
@@ -61,6 +63,10 @@ const titleStyle = css`
   justify-content: space-between;
 `;
 
+const titleLabelStyle = css`
+  flex: 1;
+`;
+
 const settingsButtonStyle = css`
   background: none;
   border: none;
@@ -83,7 +89,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   },
 }) => {
   const [state] = useYarnState();
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [colorChooserOpen, setColorChooserOpen] = useState(false);
 
   if (!state) {
     return null;
@@ -110,21 +116,27 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         background-color: ${titleColors[colorID || 0]} 
       `}
       >
-        <div>{title}</div>
+        <div css={titleLabelStyle}>{title}</div>
         <button
           css={settingsButtonStyle}
-          onClick={() => setSettingsOpen(!settingsOpen)}
+          onClick={() => setColorChooserOpen(!colorChooserOpen)}
         >
-          <MenuIcon />
+          <ColorIcon />
+        </button>
+        <button
+          css={settingsButtonStyle}
+          onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
+        >
+          <TrashIcon />
         </button>
       </div>
       <NodeBody body={body} tags={tags} />
       {tags && <NodeTags tags={tags} colorId={colorID} />}
 
-      {settingsOpen && (
-        <NodeSettings
+      {colorChooserOpen && (
+        <NodeColorChooser
           nodeTitle={title}
-          onClose={() => setSettingsOpen(false)}
+          onClose={() => setColorChooserOpen(false)}
         />
       )}
     </div>

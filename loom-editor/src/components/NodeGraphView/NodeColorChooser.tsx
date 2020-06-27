@@ -2,13 +2,20 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { titleColors } from "../index";
-import { buttonBase } from "../../../Styles";
+import { titleColors } from "./index";
+import { buttonBase } from "../../Styles";
 import { setNodeColor } from "loom-common/EditorActions";
 
 const containerStyle = css`
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 39px;
+
+  /* Ideally, these would be calculated but for now we'll leave them as magic numbers... */
+  height: 161px;
+  width: 200px;
+
+  background: #c5c5c5d9;
 
   display: flex;
   flex-direction: column;
@@ -37,6 +44,7 @@ const cancelButtonStyle = css`
   ${buttonBase}
 
   width: 50%;
+  padding: 5px;
 `;
 
 interface NodeGraphViewColorChooserProps {
