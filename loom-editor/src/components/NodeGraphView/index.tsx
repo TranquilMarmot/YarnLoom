@@ -10,14 +10,11 @@ import {
   getSearchString,
 } from "../../state/Selectors";
 
-import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
-import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
-
 import { YarnGraphNode } from "../NodeGraph";
 import NodeColorChooser from "./NodeColorChooser";
+import NodeTitle from "./NodeTitle";
 import NodeTags from "./NodeTags";
 import NodeBody from "./NodeBody";
-import { deleteNode } from "loom-common/EditorActions";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const titleColors = [
@@ -54,32 +51,6 @@ const dimmedStyle = css`
   }
 `;
 
-const titleStyle = css`
-  padding: 10px;
-  border: 1px solid grey;
-
-  grid-row: 1 / 2;
-
-  display: flex;
-  justify-content: space-between;
-`;
-
-const titleLabelStyle = css`
-  flex: 1;
-`;
-
-const settingsButtonStyle = css`
-  background: none;
-  border: none;
-
-  padding-top: 0;
-  padding-bottom: 0;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 interface NodeGraphViewProps {
   node: YarnGraphNode;
 }
@@ -111,26 +82,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
 
   return (
     <div css={css`${containerStyle}${!searched && dimmedStyle}`}>
-      <div
-        css={css`
-        ${titleStyle}
-        background-color: ${titleColors[colorID || 0]} 
-      `}
-      >
-        <div css={titleLabelStyle}>{title}</div>
-        <button
-          css={settingsButtonStyle}
-          onClick={() => setColorChooserOpen(!colorChooserOpen)}
-        >
-          <ColorIcon />
-        </button>
-        <button
-          css={settingsButtonStyle}
-          onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
-        >
-          <TrashIcon />
-        </button>
-      </div>
+      <NodeTitle title={title} colorID={colorID} />
       <NodeBody body={body} tags={tags} />
       {tags && <NodeTags tags={tags} colorId={colorID} />}
 
