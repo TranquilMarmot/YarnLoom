@@ -37,7 +37,6 @@ const expandListButtonStyle = css`
   padding-bottom: 5px;
   padding-left: 0;
   padding-right: 0;
-  margin-top: 5px;
 
   display: flex;
   align-items: center;

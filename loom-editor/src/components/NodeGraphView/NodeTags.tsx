@@ -3,16 +3,21 @@ import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
 import { titleColors } from "../NodeGraphView";
+import { useYarnState } from "../../state/YarnContext";
+import { searchForTag } from "../../state/UiActions";
+import UiActionType from "../../state/UiActionType";
 
 const containerStyle = css`
   grid-row: 3 / 4;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const tagStyle = css`
-  background: #e0d6c5;
+  background-color: var(--vscode-inputOption-activeBackground);
+  color: var(--vscode-inputOption-activeForeground);
 
-  border-radius: 25%;
+  border: none;
 
   padding-top: 2px;
   padding-bottom: 2px;
@@ -20,6 +25,10 @@ const tagStyle = css`
   padding-right: 5px;
 
   margin: 2px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 interface NodeTagsProps {
@@ -29,21 +38,27 @@ interface NodeTagsProps {
   colorId?: number;
 }
 
-const renderTags = (tags: string[]) =>
+const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
   tags.map((tag) => (
-    <div css={tagStyle} key={tag}>
+    <button
+      css={tagStyle}
+      key={tag}
+      onClick={() => dispatch(searchForTag(tag))}
+    >
       {tag}
-    </div>
+    </button>
   ));
 
 const NodeTags: FunctionComponent<NodeTagsProps> = ({ tags, colorId }) => {
+  const [state, dispatch] = useYarnState();
+
   return (
     <div
       css={css`
         ${containerStyle}
         background-color: ${titleColors[colorId || 0]}`}
     >
-      {tags && renderTags(tags.split(" "))}
+      {tags && renderTags(tags.split(" "), dispatch)}
     </div>
   );
 };
