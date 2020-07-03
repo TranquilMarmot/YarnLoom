@@ -14,8 +14,8 @@ const containerStyle = css`
 `;
 
 const tagStyle = css`
-  background-color: var(--vscode-inputOption-activeBackground);
-  color: var(--vscode-inputOption-activeForeground);
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
 
   border: none;
 

@@ -21,7 +21,7 @@ const containerStyle = css`
   color: var(--vscode-input-foreground);
   font-weight: 600;
 
-  background-color: var(--vscode-menu-background);
+  background-color: var(--vscode-sideBar-background);
   color: var(--vscode-foreground);
 `;
 
@@ -52,6 +52,10 @@ const expandListButtonStyle = css`
   }
 `;
 
+const chevronIconStyle = css`
+  margin-right: 3px;
+`;
+
 const NodeSearch: FunctionComponent = () => {
   const [state] = useYarnState();
   const [showingNodeList, setShowingNodeList] = useState(false);
@@ -68,7 +72,12 @@ const NodeSearch: FunctionComponent = () => {
         css={expandListButtonStyle}
         onClick={() => setShowingNodeList(!showingNodeList)}
       >
-        {showingNodeList ? <ChevronDown /> : <ChevronRight />} Nodes
+        {showingNodeList ? (
+          <ChevronDown css={chevronIconStyle} />
+        ) : (
+          <ChevronRight css={chevronIconStyle} />
+        )}{" "}
+        Nodes
       </button>
       {showingNodeList && <NodeList />}
 
@@ -77,7 +86,12 @@ const NodeSearch: FunctionComponent = () => {
         css={expandListButtonStyle}
         onClick={() => setShowingTagList(!showingTagList)}
       >
-        {showingTagList ? <ChevronDown /> : <ChevronRight />} Tags
+        {showingTagList ? (
+          <ChevronDown css={chevronIconStyle} />
+        ) : (
+          <ChevronRight css={chevronIconStyle} />
+        )}{" "}
+        Tags
       </button>
       {showingTagList && <TagList />}
     </div>

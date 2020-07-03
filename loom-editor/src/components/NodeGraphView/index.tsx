@@ -35,8 +35,12 @@ export const NodeSizePx = 200;
 const containerStyle = css`
   background: white;
   color: black;
-  width: ${NodeSizePx}px;
-  height: ${NodeSizePx}px;
+
+  /* Subtract 2 here to compensate for the 1px of border on each side */
+  width: ${NodeSizePx - 2}px;
+  height: ${NodeSizePx - 2}px;
+
+  border: 1px solid var(--vscode-panelSection-border);
 
   display: grid;
   grid-template-rows: auto 1fr auto;
