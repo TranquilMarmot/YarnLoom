@@ -13,7 +13,6 @@
     "loom-extension": "file:loom-extension"
   },
   "scripts": {
-    "preinstall": "mkdir -p loom-common/out && cp loom-common/package.json loom-common/out/package.json",
     "build:common": "cd loom-common && npm run build",
     "build:editor": "cd loom-editor && npm run build",
     "build:extension": "cd loom-extension && npm run build",
@@ -25,14 +24,14 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@types/jest": "^24.9.1",
-    "@types/node": "^14.0.5",
-    "@types/react": "^16.9.35",
+    "@types/node": "^14.0.14",
+    "@types/react": "^16.9.41",
     "@types/react-d3-graph": "^2.3.3",
     "@types/react-dom": "^16.9.8",
     "@types/rimraf": "^3.0.0",
-    "@types/vscode": "^1.44.0",
-    "lerna": "^3.22.0",
-    "typescript": "^3.9.3"
+    "@types/vscode": "^1.46.0",
+    "lerna": "^3.22.1",
+    "typescript": "^3.9.6"
   },
   "engines": {
     "vscode": "^1.44.0"
