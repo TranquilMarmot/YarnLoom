@@ -98,7 +98,9 @@ export const parseNodeText = (text: string): YarnNode => {
 
   const lines = text.split("\n");
 
-  // this is essentially a copy-pasta of what's in YarnEditor's data.js loadData function
+  // this is essentially a copy-pasta of what's in YarnEditor's data.js `loadData` function
+  // this only supports loading .yarn files
+  // https://github.com/YarnSpinnerTool/YarnEditor/blob/7b088aa8b507e032cf0872aeefaee722b115a17d/src/js/classes/data.js#L88-L127
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 

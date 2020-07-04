@@ -68,7 +68,9 @@ export const parseYarnFile = (file: string): YarnNode[] => {
  * Given the text body of a yarn node, returns the list of titles of nodes that it links to
  * @param body Body of node to find links for
  */
-const getLinkedNodesFromNodeBody = (body: string): string[] | undefined => {
+export const getLinkedNodesFromNodeBody = (
+  body: string
+): string[] | undefined => {
   // links look like `[[Text|Node title]]`
   const links = body.match(/\[\[(.*?)\]\]/g);
 

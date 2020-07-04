@@ -1,5 +1,5 @@
 {
-  "name": "yarn-loom",
+  "name": "loom-extension",
   "displayName": "Yarn Loom",
   "description": "Adds support for the Yarn Spinner dialogue language.",
   "version": "1.2.0",
@@ -60,10 +60,15 @@
     "build": "rm -rf out && npm run compile && cd ../loom-editor && cp -r ./build ../loom-extension/out",
     "compile": "tsc -p ./",
     "lint": "eslint -c .eslintrc.js --ext .ts ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "test": "jest"
   },
   "dependencies": {
     "rimraf": "^3.0.2",
     "sanitize-filename": "^1.6.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }

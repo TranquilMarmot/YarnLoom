@@ -5,12 +5,17 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "rm -rf out && tsc -p ./ && cp package.json ./out"
+    "build": "rm -rf out && tsc -p ./ && cp package.json ./out",
+    "test": "jest"
   },
   "engines": {
     "vscode": "^1.44.0"
   },
   "dependencies": {
     "typesafe-actions": "^5.1.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }
