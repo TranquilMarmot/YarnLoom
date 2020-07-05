@@ -17,7 +17,10 @@ import { parseYarnFile, buildLinksFromNodes } from "loom-common/YarnParser";
 import { setNodes } from "loom-common/EditorActions";
 
 import LoomWebviewPanel from "./LoomWebviewPanel";
-import LoomMessageListener from "./LoomMessageListener";
+import {
+  listenForMessages,
+  listenForConfigurationChanges,
+} from "./LoomMessageListener";
 import {
   getTemporaryFolderPath,
   unwatchTemporaryFilesForDocument,
@@ -99,8 +102,9 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
       }
     });
 
-    // start the message listener
-    LoomMessageListener(webviewPanel, this);
+    // start message listener(s)
+    listenForMessages(webviewPanel, this);
+    listenForConfigurationChanges();
 
     // actually create the webview
     LoomWebviewPanel(webviewPanel, this.context.extensionPath);

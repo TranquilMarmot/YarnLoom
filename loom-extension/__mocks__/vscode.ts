@@ -8,13 +8,33 @@ const workspace: any = {
       fn();
     },
   })),
+  onDidChangeConfiguration: jest.fn(),
 };
 
 // @ts-ignore
-const window = { showTextDocument: jest.fn() };
+const window = {
+  showTextDocument: jest.fn(),
+  showInformationMessage: jest.fn().mockImplementation(() => ({
+    then: (fn: () => void) => {
+      fn();
+    },
+  })),
+};
 
 const __setWorkspaceName = (name: string) => {
   workspace.name = name;
+};
+
+const __setInformationMessageResponse = (response: string) => {
+  const mock = jest.fn().mockImplementationOnce(() => ({
+    then: (fn: (response: string) => void) => {
+      fn(response);
+    },
+  }));
+
+  (window as any).showInformationMessage = mock;
+
+  return mock;
 };
 
 const Uri = {
@@ -32,4 +52,5 @@ module.exports = {
   ViewColumn,
   Uri,
   __setWorkspaceName,
+  __setInformationMessageResponse,
 };

@@ -4,6 +4,7 @@ import {
   window,
   ConfigurationChangeEvent,
   ViewColumn,
+  DebugConsoleMode,
 } from "vscode";
 
 import EditorActions from "loom-common/EditorActionType";
@@ -49,25 +50,25 @@ export const openNodeInTemporaryFileEditor = (
 /**
  * Set the color for a node
  * @param nodeTitle Title of node to set color for
- * @param colorIndex Index in color array to set color to
+ * @param colorID Index in color array to set color to
  * @param editor Editor provider that contains webview
  */
-const setNodeColor = (
+export const setNodeColor = (
   nodeTitle: string,
-  colorIndex: number,
+  colorID: number,
   editor: LoomEditorProvider
 ) => {
   const node = getNodeByTitle(editor.nodes, nodeTitle);
 
   if (!node) {
     throw new Error(
-      `Tried to set color for node ${nodeTitle} to colorId ${colorIndex} but no node was found.`
+      `Tried to set color for node ${nodeTitle} to colorId ${colorID} but no node was found.`
     );
   }
 
   editor.updateNode(nodeTitle, {
     ...node,
-    colorID: colorIndex,
+    colorID: colorID,
   });
 };
 
@@ -78,7 +79,7 @@ const setNodeColor = (
  * @param y Y location to set node position to
  * @param editor Editor provider that contains webview
  */
-const setNodePosition = (
+export const setNodePosition = (
   nodeTitle: string,
   x: number,
   y: number,
@@ -106,7 +107,7 @@ const setNodePosition = (
  * @param nodeTitle Title of node to delete
  * @param editor Editor to delete node from
  */
-const confirmAndDeleteNode = (
+export const confirmAndDeleteNode = (
   nodeTitle: string,
   editor: LoomEditorProvider
 ) => {
@@ -124,14 +125,14 @@ const confirmAndDeleteNode = (
 };
 
 /**
- * This will attach an event listener to the given webview that can receive
- * events sent to it via `window.vsCodeApi.postMessage` (which is created in LoomWebviewPanel.ts)
- *
+ * Listens for message being send with `window.vsCodeApi.postMessage({ type: string, payload: string });`
  * @param webviewPanel Panel to attach event listener to
  * @param document Document that webview is currently showing (undefined if showing an editor that's not looking at a document)
  */
-export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
-  // messages sent with "window.vsCodeApi.postMessage({ type: string, payload: string });" from the editor will end up here
+export const listenForMessages = (
+  webviewPanel: WebviewPanel,
+  editor: LoomEditorProvider
+) =>
   webviewPanel.webview.onDidReceiveMessage((message: EditorActions) => {
     switch (message.type) {
       case YarnEditorMessageTypes.OpenNode:
@@ -160,11 +161,11 @@ export default (webviewPanel: WebviewPanel, editor: LoomEditorProvider) => {
     }
   });
 
+/** Attaches an event listener that gets all workspace configuration changes */
+export const listenForConfigurationChanges = () =>
   // listen to changes to the "yarnLoom" configuration set
-  // when this changes, we just reload the whole webview since that will set all the settings
   workspace.onDidChangeConfiguration((event: ConfigurationChangeEvent) => {
     if (event.affectsConfiguration("yarnLoom")) {
       // TODO dispatch events to the redux store
     }
   });
-};
