@@ -18,7 +18,7 @@ import LoomEditorProvider from "./LoomEditorProvider";
  * @param nodeTitle Title of node to open in text editor
  * @param editor Editor provider that contains webview
  */
-const openNodeInTemporaryFileEditor = (
+export const openNodeInTemporaryFileEditor = (
   nodeTitle: string,
   editor: LoomEditorProvider
 ) => {
