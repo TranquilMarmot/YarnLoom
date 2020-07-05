@@ -1,4 +1,4 @@
-import { Webview, workspace, TextDocument, window, Uri } from "vscode";
+import { workspace, TextDocument } from "vscode";
 import { join } from "path";
 import { tmpdir } from "os";
 import { createHash } from "crypto";
@@ -40,12 +40,15 @@ export const trackTemporaryFile = (temporaryFile: TemporaryFile) =>
 /**
  * Delete all temporary files that were created between when the extension was activated and now.
  */
-export const deleteAllTemporaryFiles = () =>
+export const deleteAllTemporaryFiles = () => {
   // un-watch and delete all of our temporary files
   createdTemporaryFiles.forEach((tmpFile) => {
     tmpFile.watcher.close();
     unlink(tmpFile.path, console.error);
   });
+
+  createdTemporaryFiles = [];
+};
 
 /**
  * Un-watch any watchers that are tied to a specific text document.
@@ -61,7 +64,7 @@ export const unwatchTemporaryFilesForDocument = (document: TextDocument) => {
 
   // remove the temporary file from out tracked files, so that when the extension de-activates we don't try to delete it
   createdTemporaryFiles = createdTemporaryFiles.filter(
-    (tmpFile) => tmpFile.document === document
+    (tmpFile) => tmpFile.document !== document
   );
 };
 
@@ -98,12 +101,6 @@ export const createTemporaryFileForNode = (
   if (!editor.document) {
     throw new Error(
       `Tried to create temporary file for ${node.title} but no document is open!`
-    );
-  }
-
-  if (!editor.webviewPanel) {
-    throw new Error(
-      `Tried to create temporary file for ${node.title} but no webview exists!`
     );
   }
 
