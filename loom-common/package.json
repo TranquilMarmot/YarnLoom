@@ -16,6 +16,9 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/out/"
+    ]
   }
 }
