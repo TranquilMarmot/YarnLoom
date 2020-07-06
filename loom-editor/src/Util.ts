@@ -24,12 +24,12 @@ export const isDark = (colorString: string): boolean => {
     b = Number.parseFloat(parsed![3]);
   } else {
     // from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+    const parsed = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
       colorString
     );
-    r = Number.parseInt(result![1], 16);
-    g = Number.parseInt(result![2], 16);
-    b = Number.parseInt(result![3], 16);
+    r = Number.parseInt(parsed![1], 16);
+    g = Number.parseInt(parsed![2], 16);
+    b = Number.parseInt(parsed![3], 16);
   }
 
   // HSP equation from http://alienryderflex.com/hsp.html
