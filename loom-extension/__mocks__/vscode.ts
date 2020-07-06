@@ -9,6 +9,7 @@ const workspace: any = {
     },
   })),
   onDidChangeConfiguration: jest.fn(),
+  applyEdit: jest.fn(),
 };
 
 // @ts-ignore
@@ -46,11 +47,24 @@ enum ViewColumn {
   Beside,
 }
 
+// @ts-ignore
+const Range = jest.fn();
+
+const Position = jest.fn();
+
+const WorkspaceEdit = jest.fn().mockImplementation(() => ({
+  replace: jest.fn(),
+  insert: jest.fn(),
+}));
+
 module.exports = {
   workspace,
   window,
   ViewColumn,
   Uri,
+  Range,
+  Position,
+  WorkspaceEdit,
   __setWorkspaceName,
   __setInformationMessageResponse,
 };
