@@ -54,6 +54,7 @@ const parseBody = (body: string) => {
       // syntax highlight the goto
       newBody[i] = (
         <div
+          key={i}
           css={css`
             color: tomato;
           `}
@@ -72,6 +73,7 @@ const parseBody = (body: string) => {
     } else if (extractedJump) {
       newBody[i] = (
         <div
+          key={i}
           css={css`
             color: tomato;
           `}
@@ -83,6 +85,7 @@ const parseBody = (body: string) => {
       // syntax highlight the command
       newBody[i] = (
         <div
+          key={i}
           css={css`
             color: violet;
           `}
@@ -98,6 +101,7 @@ const parseBody = (body: string) => {
       // TODO bbcode conversion here
       newBody[i] = (
         <div
+          key={i}
           dangerouslySetInnerHTML={{ __html: line.replace(/ /g, "\u00a0") }}
         />
       );
