@@ -73,12 +73,17 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
             ${buttonStyle}
             background-color: ${color};
           `}
+            data-testid="node-color-chooser-color-button"
           >
             {" "}
           </button>
         ))}
       </div>
-      <button css={cancelButtonStyle} onClick={onClose}>
+      <button
+        css={cancelButtonStyle}
+        onClick={onClose}
+        data-testid="node-color-chooser-cancel-button"
+      >
         Cancel
       </button>
     </div>
