@@ -12,7 +12,7 @@ import Reducer from "./Reducer";
 import EditorActionType from "loom-common/EditorActionType";
 import UiActionType from "./UiActionType";
 
-const defaultState: State = {
+export const defaultState: State = {
   nodes: [],
   search: {
     searchingTitle: true,
@@ -22,7 +22,7 @@ const defaultState: State = {
   },
 };
 
-const YarnStateContext = createContext<
+export const YarnStateContext = createContext<
   [State | undefined, (action: EditorActionType | UiActionType) => void]
 >([defaultState, () => {}]);
 

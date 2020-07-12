@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 
 import { useYarnState } from "../../state/YarnContext";
 import {
@@ -11,7 +11,6 @@ import {
 } from "../../state/Selectors";
 
 import { YarnGraphNode } from "../NodeGraph";
-import NodeColorChooser from "./NodeColorChooser";
 import NodeTitle from "./NodeTitle";
 import NodeTags from "./NodeTags";
 import NodeBody from "./NodeBody";
@@ -65,7 +64,6 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   },
 }) => {
   const [state] = useYarnState();
-  const [colorChooserOpen, setColorChooserOpen] = useState(false);
 
   if (!state) {
     return null;
@@ -85,15 +83,19 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
     (searchingTags && tags.includes(searchString));
 
   return (
-    <div css={css`${containerStyle}${!searched && dimmedStyle}`}>
+    <div
+      css={css`${containerStyle}${!searched && dimmedStyle}`}
+      data-testid={
+        searched ? "node-graph-view-searched" : "node-graph-view-not-searched"
+      }
+    >
       <NodeTitle title={title} colorID={colorID} />
       <NodeBody body={body} tags={tags} />
-      {tags && <NodeTags tags={tags} colorId={colorID} />}
-
-      {colorChooserOpen && (
-        <NodeColorChooser
-          nodeTitle={title}
-          onClose={() => setColorChooserOpen(false)}
+      {tags && (
+        <NodeTags
+          tags={tags}
+          colorId={colorID}
+          data-testid="node-graph-view-tags"
         />
       )}
     </div>

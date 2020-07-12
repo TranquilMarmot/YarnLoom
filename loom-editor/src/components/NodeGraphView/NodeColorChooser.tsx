@@ -2,9 +2,10 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
+import { setNodeColor } from "loom-common/EditorActions";
+
 import { titleColors } from "./index";
 import { buttonBase } from "../../Styles";
-import { setNodeColor } from "loom-common/EditorActions";
 
 const containerStyle = css`
   position: absolute;
