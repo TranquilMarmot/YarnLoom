@@ -10,7 +10,9 @@
   "dependencies": {
     "loom-common": "file:loom-common/out",
     "loom-editor": "file:loom-editor",
-    "loom-extension": "file:loom-extension"
+    "loom-extension": "file:loom-extension",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "scripts": {
     "build:common": "lerna run --scope loom-common build",
