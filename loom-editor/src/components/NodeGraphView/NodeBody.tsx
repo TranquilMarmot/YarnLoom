@@ -44,7 +44,7 @@ const parseBody = (body: string) => {
     // "goto" commands look like "[[Text|Node title]]"
     const extractedGoto = line.match(/\[\[(.*)\|(.*)\]\]/i);
 
-    // "jumps" look like "[[Node title]]" so the "|" isn;t always guaranteed
+    // "jumps" look like "[[Node title]]" so the "|" isn't always guaranteed
     // there's probably a more clever way to extract gotos and jumps with one regex, but I'm feeling lazy
     const extractedJump = line.match(/\[\[(.*)\]\]/i);
 
@@ -58,14 +58,17 @@ const parseBody = (body: string) => {
           css={css`
             color: tomato;
           `}
+          data-testid="node-body-goto-highlight"
         >
+          {/* Link text */}
           [[{extractedGoto[1]}
           <span
             css={css`
               color: #3ecfe9;
             `}
+            data-testid="node-body-goto-highlight-title"
           >
-            |{`${extractedGoto[2]}`}
+            {/* Node title */}|{`${extractedGoto[2]}`}
           </span>
           ]]
         </div>
@@ -77,6 +80,7 @@ const parseBody = (body: string) => {
           css={css`
             color: tomato;
           `}
+          data-testid="node-body-jump-highlight"
         >
           [[{extractedJump[1]}]]
         </div>
@@ -89,6 +93,7 @@ const parseBody = (body: string) => {
           css={css`
             color: violet;
           `}
+          data-testid="node-body-command-highlight"
         >
           {"<<"}
           {extractedCommand[1]}
@@ -103,6 +108,7 @@ const parseBody = (body: string) => {
         <div
           key={i}
           dangerouslySetInnerHTML={{ __html: line.replace(/ /g, "\u00a0") }}
+          data-testid="node-body-text"
         />
       );
     }
