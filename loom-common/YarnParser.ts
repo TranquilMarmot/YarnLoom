@@ -126,7 +126,7 @@ export const buildLinksFromNodes = (
           const node: YarnNode = {
             title: link,
             tags: "",
-            body: "",
+            body: "\n",
           };
 
           nodes.push(node);

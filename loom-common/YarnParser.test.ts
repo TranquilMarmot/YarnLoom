@@ -166,13 +166,13 @@ B: You'll be back soon!
       const blankNode1: YarnNode = {
         title: "Leave",
         tags: "",
-        body: "",
+        body: "\n",
       };
 
       const blankNode2: YarnNode = {
         title: "LearnMore",
         tags: "",
-        body: "",
+        body: "\n",
       };
 
       // should be the two added nodes
