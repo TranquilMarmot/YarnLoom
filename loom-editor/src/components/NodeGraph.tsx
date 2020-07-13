@@ -30,7 +30,7 @@ export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
  * Given a list of nodes, will map them to nodes for react-d3-graph to render
  * @param nodes List of all nodes
  */
-const mapNodesToGraphData = (
+export const mapNodesToGraphData = (
   nodes: YarnNode[],
   focusedNodeId?: string
 ): GraphData<YarnGraphNode, GraphLink> => {
