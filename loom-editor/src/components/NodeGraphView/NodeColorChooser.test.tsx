@@ -41,14 +41,12 @@ describe("<NodeColorChooser />", () => {
     expect(onClose).toHaveBeenCalledTimes(2);
   });
 
-  it("closes when the Cancel button is clicked", async () => {
+  it("closes when the Cancel button is clicked", () => {
     const onClose = jest.fn();
 
     render(<NodeColorChooser onClose={onClose} nodeTitle={nodeTitle} />);
 
-    fireEvent.click(
-      await screen.findByTestId("node-color-chooser-cancel-button")
-    );
+    fireEvent.click(screen.getByTestId("node-color-chooser-cancel-button"));
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

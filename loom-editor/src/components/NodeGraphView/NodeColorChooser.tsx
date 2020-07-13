@@ -63,7 +63,7 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
   };
 
   return (
-    <div css={containerStyle}>
+    <div css={containerStyle} data-testid="node-title-color-chooser">
       <div css={buttonContainerStyle}>
         {titleColors.map((color, index) => (
           <button

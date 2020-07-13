@@ -69,12 +69,14 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({ title, colorID }) => {
       <button
         css={settingsButtonStyle}
         onClick={() => setColorChooserOpen(!colorChooserOpen)}
+        data-testid="node-title-color-button"
       >
         <ColorIcon css={iconStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
+        data-testid="node-title-delete-button"
       >
         <TrashIcon css={iconStyle} />
       </button>

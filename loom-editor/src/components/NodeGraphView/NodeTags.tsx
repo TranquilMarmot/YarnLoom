@@ -44,6 +44,7 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
       css={tagStyle}
       key={tag}
       onClick={() => dispatch(searchForTag(tag))}
+      data-testid="node-tag-button"
     >
       {tag}
     </button>
