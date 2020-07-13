@@ -5,8 +5,6 @@ import { FunctionComponent, useState } from "react";
 import { ReactComponent as ChevronDown } from "../../icons/chevron-down.svg";
 import { ReactComponent as ChevronRight } from "../../icons/chevron-right.svg";
 
-import { useYarnState } from "../../state/YarnContext";
-
 import SearchBox from "./SearchBox";
 import NodeList from "./NodeList";
 import TagList from "./TagList";
@@ -57,19 +55,16 @@ const chevronIconStyle = css`
 `;
 
 const NodeSearch: FunctionComponent = () => {
-  const [state] = useYarnState();
   const [showingNodeList, setShowingNodeList] = useState(false);
   const [showingTagList, setShowingTagList] = useState(false);
 
-  if (!state) {
-    return null;
-  }
   return (
     <div css={containerStyle}>
       <SearchBox />
       <button
         type="button"
         css={expandListButtonStyle}
+        data-testid="node-search-show-node-list-button"
         onClick={() => setShowingNodeList(!showingNodeList)}
       >
         {showingNodeList ? (
@@ -84,6 +79,7 @@ const NodeSearch: FunctionComponent = () => {
       <button
         type="button"
         css={expandListButtonStyle}
+        data-testid="node-search-show-tag-list-button"
         onClick={() => setShowingTagList(!showingTagList)}
       >
         {showingTagList ? (

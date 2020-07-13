@@ -28,12 +28,13 @@ const NodeList: FunctionComponent = () => {
   const nodes = getNodes(state);
 
   return (
-    <div css={containerStyle}>
+    <div css={containerStyle} data-testid="node-search-node-list">
       {nodes.map((node) => (
         <button
           key={`node-list-${node.title}`}
           css={listItemBase}
           onClick={() => dispatch(setFocusedNode(node.title))}
+          data-testid="node-search-node-button"
         >
           <div
             css={css`${colorBlockStyle} background-color: ${

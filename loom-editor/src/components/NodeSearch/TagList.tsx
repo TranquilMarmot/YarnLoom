@@ -56,17 +56,18 @@ const NodeList: FunctionComponent = () => {
   const tagNames = Object.keys(tags);
 
   return (
-    <div css={containerStyle}>
+    <div css={containerStyle} data-testid="node-search-tag-list">
       {tagNames.length === 0 ? (
         <div css={noTagsMessageStyle}>No tags</div>
       ) : (
         tagNames.map((tag) => (
           <button
+            data-testid="node-search-tag-button"
             key={`tag-list-${tag}`}
             css={css`${listItemBase}${listItemStyle}`}
             onClick={() => dispatch(searchForTag(tag))}
           >
-            <div>{tag}</div>
+            <div data-testid="node-search-tag-label">{tag}</div>
             <div>
               {tags[tag]} node{tags[tag] > 1 ? "s" : ""}
             </div>
