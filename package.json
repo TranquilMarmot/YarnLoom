@@ -15,15 +15,16 @@
     "react-dom": "^16.13.1"
   },
   "scripts": {
+    "install": "lerna exec -- npm install && lerna bootstrap",
     "build:common": "lerna run --scope loom-common build",
     "build:editor": "lerna run --scope loom-editor build",
     "build:extension": "lerna run --scope loom-extension build",
     "build": "npm run build:common && npm run build:editor && npm run build:extension",
-    "install": "lerna exec -- npm install && lerna bootstrap",
     "test:common": "lerna run --scope loom-common test",
     "test:extension": "lerna run --scope loom-extension test",
-    "test:editor": "lerna run --scope loom-editor test",
-    "test": "lerna run test"
+    "test:editor": "cross-env CI=true lerna run --scope loom-editor test",
+    "test": "cross-env CI=true lerna run test",
+    "package": "lerna run --scope loom-extension package"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -36,11 +37,13 @@
     "@types/react-dom": "^16.9.8",
     "@types/rimraf": "^3.0.0",
     "@types/vscode": "^1.46.0",
+    "cross-env": "^7.0.2",
     "jest": "^24.9.0",
     "lerna": "^3.22.1",
     "react-test-renderer": "^16.13.1",
     "ts-jest": "^26.1.1",
-    "typescript": "^3.9.6"
+    "typescript": "^3.9.6",
+    "vsce": "^1.77.0"
   },
   "engines": {
     "vscode": "^1.44.0"

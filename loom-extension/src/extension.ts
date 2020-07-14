@@ -1,6 +1,6 @@
 import { ExtensionContext } from "vscode";
 
-import LoomProvider from "./LoomEditorProvider";
+import LoomEditorProvider from "./LoomEditorProvider";
 import { deleteAllTemporaryFiles } from "./TemporaryFiles";
 
 /**
@@ -9,7 +9,7 @@ import { deleteAllTemporaryFiles } from "./TemporaryFiles";
  * opening specific file types and commands.
  */
 export const activate = (context: ExtensionContext) =>
-  context.subscriptions.push(LoomProvider.register(context));
+  context.subscriptions.push(LoomEditorProvider.register(context));
 
 /**
  * The is called when the extension is de-activated.

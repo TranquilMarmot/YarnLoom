@@ -2,15 +2,42 @@
 
 Yarn Loom is an editor for [yarn files](https://yarnspinner.dev/). It is a version of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) re-built from the ground up to integrate seamlessly with Visual Studio Code.
 
+- [Yarn Loom Visual Studio Code Extension](#yarn-loom-visual-studio-code-extension)
+  - [Installing](#installing)
+  - [Usage](#usage)
+  - [How To](#how-to)
+    - [Renaming nodes](#renaming-nodes)
+    - [Changing node tags](#changing-node-tags)
+    - [Adding new nodes](#adding-new-nodes)
+    - [Searching](#searching)
+    - [Switching between the graph editor and a text editor](#switching-between-the-graph-editor-and-a-text-editor)
+  - [Contributing and Technical Details](#contributing-and-technical-details)
+  - [Special Thanks](#special-thanks)
+
 ## Installing
+
+- TODO Visual Studio Code marketplace link
+- TODO Install from `.vsix` build artifacts
 
 ## Usage
 
-## FAQ
+Once the extension is installed, simply open up a `.yarn` or a `.yarn.txt` file to use it!
 
-## Contributing
+## How To
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md).
+### Renaming nodes
+
+### Changing node tags
+
+### Adding new nodes
+
+### Searching
+
+### Switching between the graph editor and a text editor
+
+## Contributing and Technical Details
+
+For juicy in-depth technical details for how this works, and how to contribute to it yourself, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Special Thanks
 

@@ -56,12 +56,13 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run loom:build",
+    "vscode:prepublish": "npm run build",
     "build": "rm -rf out && npm run compile && cd ../loom-editor && cp -r ./build ../loom-extension/out",
     "compile": "tsc -p ./",
     "lint": "eslint -c .eslintrc.js --ext .ts ./",
     "watch": "tsc -watch -p ./",
-    "test": "jest"
+    "test": "jest",
+    "package": "vsce package"
   },
   "dependencies": {
     "rimraf": "^3.0.2",
