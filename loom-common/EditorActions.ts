@@ -1,6 +1,7 @@
 import { action } from "typesafe-actions";
 
 import { YarnNode } from "./YarnNode";
+import { act } from "react-dom/test-utils";
 
 /** Types of messages that can be sent from the editor to the extension */
 export enum YarnEditorMessageTypes {
@@ -15,6 +16,9 @@ export enum YarnEditorMessageTypes {
 
   /** Delete a specific node */
   DeleteNode = "DeleteNode",
+
+  /** Create a new node */
+  CreateNewNode = "CreateNewNode",
 
   /** Set the color for a node */
   SetNodeColor = "SetNodeColor",
@@ -34,6 +38,8 @@ export const openNode = (nodeId: string) =>
 
 export const deleteNode = (nodeTitle: string) =>
   action(YarnEditorMessageTypes.DeleteNode, { nodeTitle });
+
+export const createNewNode = () => action(YarnEditorMessageTypes.CreateNewNode);
 
 export const setNodeColor = (nodeTitle: string, colorIndex: number) =>
   action(YarnEditorMessageTypes.SetNodeColor, { nodeTitle, colorIndex });

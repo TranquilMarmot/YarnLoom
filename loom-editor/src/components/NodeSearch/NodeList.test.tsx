@@ -6,6 +6,7 @@ import NodeList from "./NodeList";
 import { YarnNode } from "loom-common/YarnNode";
 import { defaultState } from "../../state/YarnContext";
 import { setFocusedNode } from "../../state/UiActions";
+import { createNewNode } from "loom-common/EditorActions";
 
 describe("<NodeList />", () => {
   const nodeList: YarnNode[] = [
@@ -62,8 +63,30 @@ describe("<NodeList />", () => {
     fireEvent.click(nodeButtons[2]);
 
     expect(dispatch).toHaveBeenCalledTimes(3);
-    expect(dispatch).toHaveBeenNthCalledWith(1, setFocusedNode(nodeList[0].title));
-    expect(dispatch).toHaveBeenNthCalledWith(2, setFocusedNode(nodeList[1].title));
-    expect(dispatch).toHaveBeenNthCalledWith(3, setFocusedNode(nodeList[2].title));
+    expect(dispatch).toHaveBeenNthCalledWith(
+      1,
+      setFocusedNode(nodeList[0].title)
+    );
+    expect(dispatch).toHaveBeenNthCalledWith(
+      2,
+      setFocusedNode(nodeList[1].title)
+    );
+    expect(dispatch).toHaveBeenNthCalledWith(
+      3,
+      setFocusedNode(nodeList[2].title)
+    );
+  });
+
+  it("adds new nodes", () => {
+    window.vsCodeApi = {
+      postMessage: jest.fn(),
+    };
+
+    renderWithProvider(<NodeList />);
+
+    fireEvent.click(screen.getByTestId("node-search-add-node-button"));
+
+    expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
+    expect(window.vsCodeApi.postMessage).toHaveBeenCalledWith(createNewNode());
   });
 });

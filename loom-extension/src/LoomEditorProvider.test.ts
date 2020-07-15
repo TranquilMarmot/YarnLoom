@@ -166,7 +166,7 @@ A: HAHAHA
       expect(workspaceEditInsertMock).toHaveBeenCalledTimes(0);
     });
 
-    it("adds new nodes", () => {
+    it("adds new nodes when there are new links", () => {
       // this node links out to "New Node" which should be created
       const updatedNode: YarnNode = {
         title: "Start",
@@ -174,7 +174,7 @@ A: HAHAHA
         tags: "new tags",
       };
 
-      // we're calling with the original "Start" but updating its title
+      // update the node to pick up the new text
       provider.updateNode("Start", updatedNode);
 
       // underlying nodes should have been updated
@@ -213,6 +213,40 @@ A: HAHAHA
         createNodeText({
           title: "New Node",
           body: "",
+          tags: "",
+        })
+      );
+    });
+
+    it("adds new nodes by title", () => {
+      const newNodeTitle = "A Whole New Node";
+
+      provider.addNewNode(newNodeTitle);
+
+      // new node was added! originally we had 3
+      expect(provider.nodes).toHaveLength(4);
+
+      // a message should have been sent back to the editor to tell it about the new nodes
+      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
+        1
+      );
+      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
+        setNodes(provider.nodes)
+      );
+
+      // and a workspace edit should have been created and applied
+      expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
+
+      // this should have been called once to add the new node
+      const workspaceEditInsertMock =
+        vscodeMock.WorkspaceEdit.mock.results[0].value.insert;
+      expect(workspaceEditInsertMock).toHaveBeenCalledTimes(1);
+      expect(workspaceEditInsertMock).toHaveBeenCalledWith(
+        provider.document?.uri,
+        {},
+        createNodeText({
+          title: newNodeTitle,
+          body: "\n",
           tags: "",
         })
       );

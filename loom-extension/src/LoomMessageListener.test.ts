@@ -191,6 +191,25 @@ describe("LoomMessageListener", () => {
       confirmAndDeleteNodeMock.mockRestore();
     });
 
+    it("listens for YarnEditorMessageTypes.CreateNewNode", () => {
+      const mockWebviewPanel = createMockWebviewWithMessage(
+        EditorActionCreators.createNewNode()
+      );
+
+      const askForNameAndAddNewNodeMock = jest.spyOn(
+        LoomMessageListener,
+        "askForNameAndAddNewNode"
+      );
+      askForNameAndAddNewNodeMock.mockImplementationOnce(() => {});
+
+      LoomMessageListener.listenForMessages(mockWebviewPanel, mockEditor);
+
+      expect(askForNameAndAddNewNodeMock).toHaveBeenCalledTimes(1);
+      expect(askForNameAndAddNewNodeMock).toHaveBeenCalledWith(mockEditor);
+
+      askForNameAndAddNewNodeMock.mockRestore();
+    });
+
     it("Listens for YarnEditorMessageTypes.SetNodeColor", () => {
       const nodeColorID = 5;
 

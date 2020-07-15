@@ -4,7 +4,6 @@ import {
   window,
   ConfigurationChangeEvent,
   ViewColumn,
-  DebugConsoleMode,
 } from "vscode";
 
 import EditorActions from "loom-common/EditorActionType";
@@ -125,6 +124,43 @@ export const confirmAndDeleteNode = (
 };
 
 /**
+ * Asks the user for the name of a new node to add and then adds it to the document.
+ * This will ensure that the node being added has a unique title that no other node has.
+ *
+ * @param editor Editor to add node to
+ */
+export const askForNameAndAddNewNode = (editor: LoomEditorProvider) => {
+  window
+    .showInputBox({
+      prompt: "Enter name for new node",
+      placeHolder: "New Node",
+      ignoreFocusOut: true, // in case they want to look at their current nodes
+
+      // if this function returns a string, it's shown as an error and prevents the
+      // user from hitting enter; returning `undefined` means we're good-to-go
+      validateInput: (val: string) => {
+        if (getNodeByTitle(editor.nodes, val)) {
+          return `Node with name ${val} already exists`;
+        }
+
+        return undefined;
+      },
+    })
+    .then((val) => {
+      if (!val) {
+        return;
+      }
+
+      if (getNodeByTitle(editor.nodes, val)) {
+        window.showErrorMessage(`Node with name ${val} already exists`);
+        return;
+      }
+
+      editor.addNewNode(val);
+    });
+};
+
+/**
  * Listens for message being send with `window.vsCodeApi.postMessage({ type: string, payload: string });`
  * @param webviewPanel Panel to attach event listener to
  * @param document Document that webview is currently showing (undefined if showing an editor that's not looking at a document)
@@ -156,6 +192,8 @@ export const listenForMessages = (
           editor
         );
         break;
+      case YarnEditorMessageTypes.CreateNewNode:
+        askForNameAndAddNewNode(editor);
       default:
         break;
     }

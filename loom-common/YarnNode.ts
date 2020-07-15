@@ -154,4 +154,4 @@ export const getNodeByTitle = (
   nodes: YarnNode[],
   title: string
 ): YarnNode | undefined =>
-  Object.values(nodes).find((node) => node.title.trim() === title.trim());
+  nodes.find((node) => node.title.trim() === title.trim());

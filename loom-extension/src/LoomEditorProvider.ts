@@ -256,6 +256,34 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
   };
 
   /**
+   * Add a new node to the text document.
+   *
+   * @param title Title of node to add. Must not be an existing title.
+   */
+  addNewNode = (title: string) => {
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to add node ${title} but we don't have a webview!`
+      );
+    }
+
+    const node: YarnNode = {
+      title,
+      body: "\n",
+      tags: "",
+    };
+
+    this.nodes.push(node);
+
+    // update all the nodes in the editor
+    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
+
+    const edit = new WorkspaceEdit();
+    this.createNodeInDocument(node, edit);
+    workspace.applyEdit(edit);
+  };
+
+  /**
    * Add a new node to the backing text document
    * @param node Node to insert into document
    * @param edit Edit to apply insert to

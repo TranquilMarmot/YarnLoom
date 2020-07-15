@@ -2,12 +2,15 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
+import { createNewNode } from "loom-common/EditorActions";
+
 import { getNodes } from "../../state/Selectors";
 import { useYarnState } from "../../state/YarnContext";
 import { setFocusedNode } from "../../state/UiActions";
 
 import { titleColors } from "../NodeGraphView";
 
+import { ReactComponent as NewFile } from "../../icons/new-file.svg";
 import { listItemBase } from "../../Styles";
 
 const containerStyle = css`
@@ -20,6 +23,10 @@ const colorBlockStyle = css`
   height: 15px;
 
   margin-right: 5px;
+`;
+
+const newNodeIconStyle = css`
+  margin-right: 4px;
 `;
 
 const NodeList: FunctionComponent = () => {
@@ -46,6 +53,13 @@ const NodeList: FunctionComponent = () => {
           {node.title}
         </button>
       ))}
+      <button
+        css={listItemBase}
+        onClick={() => window.vsCodeApi.postMessage(createNewNode())}
+        data-testid="node-search-add-node-button"
+      >
+        <NewFile css={newNodeIconStyle} /> Add new node
+      </button>
     </div>
   );
 };
