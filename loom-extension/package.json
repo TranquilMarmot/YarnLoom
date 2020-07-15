@@ -53,6 +53,29 @@
         ],
         "priority": "default"
       }
+    ],
+    "languages": [
+      {
+        "id": "yarnspinner",
+        "aliases": [
+          "Yarn Spinner",
+          "yarnspinner",
+          "Yarn"
+        ],
+        "extensions": [
+          ".yarn",
+          ".yarn.txt",
+          ".yarn.node"
+        ],
+        "configuration": "./syntax-highlighting/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "yarnspinner",
+        "scopeName": "source.yarnspinner",
+        "path": "./syntax-highlighting/yarnspinner.tmLanguage.json"
+      }
     ]
   },
   "scripts": {
