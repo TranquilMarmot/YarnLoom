@@ -14,6 +14,8 @@ const containerStyle = css`
   top: 5px;
   left: 5px;
 
+  z-index: 1000;
+
   border: 1px solid var(--vscode-panelSection-border);
 
   color: var(--vscode-input-foreground);

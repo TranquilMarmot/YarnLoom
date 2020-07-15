@@ -4,6 +4,7 @@ import { FunctionComponent } from "react";
 
 import "./App.css";
 import NodeGraph from "./NodeGraph";
+import NodeSearch from "./NodeSearch";
 
 const appStyle = css`
   width: 100%;
@@ -12,6 +13,7 @@ const appStyle = css`
 
 const App: FunctionComponent = () => (
   <div css={appStyle}>
+    <NodeSearch />
     <NodeGraph />
   </div>
 );

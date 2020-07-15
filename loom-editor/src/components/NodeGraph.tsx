@@ -15,13 +15,17 @@ import { openNode, setNodePosition } from "loom-common/EditorActions";
 
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
-import NodeSearch from "./NodeSearch";
 import { getNodes, getFocusedNode } from "../state/Selectors";
 import { setFocusedNode } from "../state/UiActions";
 
 const containerStyle = css`
   width: 100%;
   height: 100%;
+
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 export type YarnGraphNode = GraphNode & { yarnNode: YarnNode };
@@ -160,7 +164,6 @@ const NodeGraph: FunctionComponent = () => {
         onNodePositionChange={onNodePositionChange}
         onClickGraph={() => dispatch(setFocusedNode(undefined))}
       />
-      <NodeSearch />
     </div>
   );
 };
