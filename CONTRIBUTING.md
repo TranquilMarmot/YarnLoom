@@ -53,9 +53,7 @@ If actively working on `loom-editor`, it is often best to run `../node_modules/.
 
 ## How to Contribute
 
-To contribute to this repo, [fork it](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), make changes and open up a pull request.
-
-[Issues are also welcome!](https://github.com/TranquilMarmot/YarnLoom/issues)
+To contribute to this repo, [fork it](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), make changes and open up a pull request agains the `main` branch.
 
 ### CI/CD
 
@@ -98,6 +96,8 @@ This includes:
 It uses [react-d3-graph](https://github.com/danielcaldas/react-d3-graph) for node rendering and [emotion](https://github.com/emotion-js/emotion) for its styling.
 
 It is worth noting that, while this is a React SPA, it can _only_ be run within the context of the extension. Without the extension host, the SPA is essentially useless.
+
+Icons come from the [`microsoft/vscode-codicons`](https://github.com/microsoft/vscode-codicons) repo, which is where the icons for Visual Studio Code come form.
 
 ### `loom-extension`
 
