@@ -210,11 +210,11 @@ A: HAHAHA
       expect(workspaceEditInsertMock).toHaveBeenCalledWith(
         provider.document?.uri,
         {},
-        createNodeText({
+        `${createNodeText({
           title: "New Node",
           body: "",
           tags: "",
-        })
+        })}\n`
       );
     });
 
@@ -244,11 +244,11 @@ A: HAHAHA
       expect(workspaceEditInsertMock).toHaveBeenCalledWith(
         provider.document?.uri,
         {},
-        createNodeText({
+        `${createNodeText({
           title: newNodeTitle,
           body: "\n",
           tags: "",
-        })
+        })}\n`
       );
     });
   });
