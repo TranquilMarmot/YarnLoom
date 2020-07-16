@@ -6,7 +6,7 @@ Yarn Loom is an editor for [yarn files](https://yarnspinner.dev/). It is a versi
   - [Installing](#installing)
   - [Usage](#usage)
   - [How To](#how-to)
-    - [Edit nodes](#edit-nodes)
+    - [Editing nodes](#editing-nodes)
     - [Renaming nodes](#renaming-nodes)
     - [Changing node tags](#changing-node-tags)
     - [Changing a node's color](#changing-a-nodes-color)
@@ -14,6 +14,7 @@ Yarn Loom is an editor for [yarn files](https://yarnspinner.dev/). It is a versi
     - [Adding new nodes](#adding-new-nodes)
     - [Deleting nodes](#deleting-nodes)
     - [Searching](#searching)
+      - [Quick tag search](#quick-tag-search)
     - [Switching between the graph editor and a text editor](#switching-between-the-graph-editor-and-a-text-editor)
   - [Contributing, Reporting Issues/Bugs, and Technical Details](#contributing-reporting-issuesbugs-and-technical-details)
   - [Special Thanks](#special-thanks)
@@ -31,7 +32,7 @@ Once the extension is installed, simply open up a `.yarn` or a `.yarn.txt` file 
 
 Each of the examples below has an expandable gif that shows the editor in action.
 
-### Edit nodes
+### Editing nodes
 
 To edit a node, double click it. This will open the node up in a text editor next to the open `.yarn` file.
 
@@ -74,6 +75,10 @@ The search bar can be used to search for specific nodes.
 When searching, nodes that do not contain the search term will be dimmed. Node containing the search term will stay solid.
 
 The "Title", "Body", and "Tags" buttons in the search bar control whether or not to search within node titles, bodies, and tags, respectfully. This is an "or" search, so if searching in all three locations and one node has "Sally" in the title, one has "Sally" in the body, and one has a tag of "Sally", then all three will show up in the search.
+
+#### Quick tag search
+
+To quickly search for a tag, you can either click on it in the footer of a node or expand the tag list and select it from there. This will automatically fill in the search box with the tag and limit the search to tags.
 
 ### Switching between the graph editor and a text editor
 
