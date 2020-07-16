@@ -16,7 +16,7 @@ const containerStyle = css`
   height: 161px;
   width: 200px;
 
-  background: #c5c5c5d9;
+  background: var(--vscode-sideBar-background);
 
   display: flex;
   flex-direction: column;

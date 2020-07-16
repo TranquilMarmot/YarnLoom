@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import { useYarnState } from "../../state/YarnContext";
 import {
@@ -14,6 +14,7 @@ import { YarnGraphNode } from "../NodeGraph";
 import NodeTitle from "./NodeTitle";
 import NodeTags from "./NodeTags";
 import NodeBody from "./NodeBody";
+import NodeColorChooser from "./NodeColorChooser";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const titleColors = [
@@ -64,6 +65,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   },
 }) => {
   const [state] = useYarnState();
+  const [colorChooserOpen, setColorChooserOpen] = useState(false);
 
   if (!state) {
     return null;
@@ -89,8 +91,19 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         searched ? "node-graph-view-searched" : "node-graph-view-not-searched"
       }
     >
-      <NodeTitle title={title} colorID={colorID} />
-      <NodeBody body={body} tags={tags} />
+      <NodeTitle
+        title={title}
+        colorID={colorID}
+        onOpenColorChooser={() => setColorChooserOpen(!colorChooserOpen)}
+      />
+      {colorChooserOpen ? (
+        <NodeColorChooser
+          onClose={() => setColorChooserOpen(false)}
+          nodeTitle={title}
+        />
+      ) : (
+        <NodeBody body={body} tags={tags} />
+      )}
       {tags && (
         <NodeTags
           tags={tags}

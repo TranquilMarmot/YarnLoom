@@ -1,14 +1,12 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 
 import { deleteNode } from "loom-common/EditorActions";
 
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
 import { isDark } from "../../Util";
-
-import NodeColorChooser from "./NodeColorChooser";
 
 import { titleColors } from "./";
 
@@ -40,11 +38,14 @@ const settingsButtonStyle = css`
 interface NodeTitleProps {
   title: string;
   colorID?: number;
+  onOpenColorChooser: () => void;
 }
 
-const NodeTitle: FunctionComponent<NodeTitleProps> = ({ title, colorID }) => {
-  const [colorChooserOpen, setColorChooserOpen] = useState(false);
-
+const NodeTitle: FunctionComponent<NodeTitleProps> = ({
+  title,
+  colorID,
+  onOpenColorChooser,
+}) => {
   // grab the color by its ID and determine if it is dark or not
   const color = titleColors[colorID || 0];
   const fontColor = isDark(color) ? "white" : "black";
@@ -68,7 +69,7 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({ title, colorID }) => {
       <div css={css`${titleLabelStyle}${fontStyle}`}>{title}</div>
       <button
         css={settingsButtonStyle}
-        onClick={() => setColorChooserOpen(!colorChooserOpen)}
+        onClick={onOpenColorChooser}
         data-testid="node-title-color-button"
       >
         <ColorIcon css={iconStyle} />
@@ -80,13 +81,6 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({ title, colorID }) => {
       >
         <TrashIcon css={iconStyle} />
       </button>
-
-      {colorChooserOpen && (
-        <NodeColorChooser
-          nodeTitle={title}
-          onClose={() => setColorChooserOpen(false)}
-        />
-      )}
     </div>
   );
 };

@@ -10,13 +10,17 @@ describe("<NodeTitle />", () => {
   const nodeTitle = "Some Title";
 
   it("renders", () => {
-    renderWithProvider(<NodeTitle title={nodeTitle} />);
+    renderWithProvider(
+      <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
+    );
   });
 
   it("posts message when trying to delete node", () => {
     window.vsCodeApi = { postMessage: jest.fn() };
 
-    renderWithProvider(<NodeTitle title={nodeTitle} />);
+    renderWithProvider(
+      <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
+    );
 
     fireEvent.click(screen.getByTestId("node-title-delete-button"));
 
@@ -28,12 +32,14 @@ describe("<NodeTitle />", () => {
   });
 
   it("shows color picker when color picker button is clicked", () => {
-    renderWithProvider(<NodeTitle title={nodeTitle} />);
+    const onOpenColorChooserSpy = jest.fn();
 
-    expect(screen.queryByTestId("node-title-color-chooser")).toBeNull();
+    renderWithProvider(
+      <NodeTitle title={nodeTitle} onOpenColorChooser={onOpenColorChooserSpy} />
+    );
 
     fireEvent.click(screen.getByTestId("node-title-color-button"));
 
-    expect(screen.queryByTestId("node-title-color-chooser")).not.toBeNull();
+    expect(onOpenColorChooserSpy).toHaveBeenCalledTimes(1);
   });
 });

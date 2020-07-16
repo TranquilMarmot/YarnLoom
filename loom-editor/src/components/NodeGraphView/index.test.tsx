@@ -1,6 +1,6 @@
 import React from "react";
 import { renderWithProvider } from "../../utils/test-utils";
-import { screen } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 
 import NodeGraphView from "./";
 import { YarnGraphNode } from "../NodeGraph";
@@ -29,6 +29,16 @@ describe("<NodeGraphView />", () => {
     };
     renderWithProvider(<NodeGraphView node={nodeWithNoTags} />);
     expect(screen.queryByTestId("node-graph-view-tags")).toBeNull();
+  });
+
+  it("opens the color picker", () => {
+    renderWithProvider(<NodeGraphView node={mockNode} />);
+
+    expect(screen.queryByTestId("node-title-color-chooser")).toBeNull();
+
+    fireEvent.click(screen.getByTestId("node-title-color-button"));
+
+    expect(screen.queryByTestId("node-title-color-chooser")).not.toBeNull();
   });
 
   describe("searching", () => {
