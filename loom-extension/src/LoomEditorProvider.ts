@@ -298,7 +298,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     edit.insert(
       this.document.uri,
       new Position(this.document.getText().split("\n").length + 1, 0),
-      createNodeText(node)
+      `${createNodeText(node)}\n`
     );
   };
 }
