@@ -137,7 +137,7 @@ In this menu, clicking the gear icon will set an editor as the default editor fo
 
 ## Contributing, Reporting Issues/Bugs, and Technical Details
 
-If you find any issues or bugs with this extension, [please open up a new issue on the GitHub repo](https://github.com/TranquilMarmot/YarnLoom/issues/new) and include as much detail as possible!
+If you find any issues or bugs with this extension, [please open up a new issue on the GitHub repo](https://github.com/TranquilMarmot/YarnLoom/issues/new/choose) and include as much detail as possible!
 
 For juicy in-depth technical details for how this works, and how to contribute to it yourself, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
