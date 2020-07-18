@@ -1,7 +1,6 @@
 import { action } from "typesafe-actions";
 
 import { YarnNode } from "./YarnNode";
-import { act } from "react-dom/test-utils";
 
 /** Types of messages that can be sent from the editor to the extension */
 export enum YarnEditorMessageTypes {
