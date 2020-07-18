@@ -107,7 +107,11 @@ const parseBody = (body: string) => {
       newBody[i] = (
         <div
           key={i}
-          dangerouslySetInnerHTML={{ __html: line.replace(/ /g, "\u00a0") }}
+          dangerouslySetInnerHTML={{
+            // We replace spaces with a whitespace character so that indentation takes up space properly.
+            // We also remove any line identifiers that have been added to the line (this is used to uniquely identify lines for internationalization)
+            __html: line.replace(/ /g, "\u00a0").replace(/#line:.*/, ""),
+          }}
           data-testid="node-body-text"
         />
       );
