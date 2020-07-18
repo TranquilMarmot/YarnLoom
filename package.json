@@ -5,7 +5,7 @@
   "description": "Root package for running scripts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TranquilMarmot/YarnLoom.git"
+    "url": "https://github.com/TranquilMarmot/YarnLoom.git"
   },
   "dependencies": {
     "loom-common": "file:loom-common/out",
