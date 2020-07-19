@@ -22,7 +22,7 @@ jobs:
       # This is needed because lerna expects loom-common to be an npm package (which it only is if it has a package.json file)
       # Normally, this is done as part of the build process, but it also needs to be done for a fresh install.
       - name: Setup loom-common
-      - run: mkdir -p loom-common/out && cp loom-common/package.json loom-common/out
+        run: mkdir -p loom-common/out && cp loom-common/package.json loom-common/out
 
       - name: Install dependencies
         run: npm install
