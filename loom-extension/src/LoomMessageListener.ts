@@ -194,6 +194,7 @@ export const listenForMessages = (
         break;
       case YarnEditorMessageTypes.CreateNewNode:
         askForNameAndAddNewNode(editor);
+        break;
       default:
         break;
     }

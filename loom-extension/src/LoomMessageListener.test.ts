@@ -13,7 +13,7 @@ import EditorActions from "loom-common/EditorActionType";
 jest.mock("./TemporaryFiles", () => ({
   createTemporaryFileForNode: jest
     .fn()
-    .mockImplementation((node: YarnNode, editor: LoomEditorProvider) => ({
+    .mockImplementation((node: YarnNode) => ({
       // we just mock _some_ value here so that it seems like an actual file is being created
       path: `${node.title}.yarn.node`,
     })),

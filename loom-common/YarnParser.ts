@@ -38,7 +38,7 @@ export const parseYarnFile = (file: string): YarnNode[] => {
           obj = { ...emptyNode };
         }
 
-        var xy = lines[i].substr(9, lines[i].length - 9).split(",");
+        const xy = lines[i].substr(9, lines[i].length - 9).split(",");
         obj.position = { x: Number(xy[0].trim()), y: Number(xy[1].trim()) };
       } else if (lines[i].indexOf("colorID:") > -1) {
         if (!obj) {

@@ -3,7 +3,6 @@ import { screen, fireEvent } from "@testing-library/react";
 import { renderWithProvider } from "../../utils/test-utils";
 
 import TagList from "./TagList";
-import { YarnNode } from "loom-common/YarnNode";
 import { defaultState } from "../../state/YarnContext";
 import { searchForTag } from "../../state/UiActions";
 

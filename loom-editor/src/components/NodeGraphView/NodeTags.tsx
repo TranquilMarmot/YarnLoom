@@ -51,7 +51,7 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
   ));
 
 const NodeTags: FunctionComponent<NodeTagsProps> = ({ tags, colorId }) => {
-  const [state, dispatch] = useYarnState();
+  const dispatch = useYarnState()[1];
 
   return (
     <div

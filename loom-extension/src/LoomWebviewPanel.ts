@@ -1,5 +1,5 @@
-import { WebviewPanel, Uri, TextDocument, workspace } from "vscode";
-import { readFileSync, readdirSync } from "fs";
+import { WebviewPanel, Uri } from "vscode";
+import { readFileSync } from "fs";
 import { join as joinPath } from "path";
 
 /**
