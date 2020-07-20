@@ -1,12 +1,17 @@
 # Yarn Loom Visual Studio Code Extension
 
-Yarn Loom is an editor for [yarn files](https://yarnspinner.dev/). It is a version of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) re-built from the ground up to integrate seamlessly with Visual Studio Code.
+<p align="center">
+<img src="./images/logo.svg" alt="Yarn Loom Logo" />
+</p>
+
+Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yarnspinner.dev/). It is a re-imagining of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) built from the ground up to integrate seamlessly with Visual Studio Code.
 
 ![demo video](./images/demo.gif)
 
 - [Yarn Loom Visual Studio Code Extension](#yarn-loom-visual-studio-code-extension)
   - [Installing](#installing)
   - [Usage](#usage)
+  - [Reporting Issues/Bugs, Contributing, and Technical Details](#reporting-issuesbugs-contributing-and-technical-details)
   - [How To](#how-to)
     - [Editing nodes](#editing-nodes)
     - [Renaming nodes](#renaming-nodes)
@@ -18,7 +23,6 @@ Yarn Loom is an editor for [yarn files](https://yarnspinner.dev/). It is a versi
     - [Searching](#searching)
       - [Quick tag search](#quick-tag-search)
     - [Switching between the graph editor and a text editor](#switching-between-the-graph-editor-and-a-text-editor)
-  - [Contributing, Reporting Issues/Bugs, and Technical Details](#contributing-reporting-issuesbugs-and-technical-details)
   - [Special Thanks](#special-thanks)
 
 ## Installing
@@ -29,6 +33,12 @@ Yarn Loom is an editor for [yarn files](https://yarnspinner.dev/). It is a versi
 ## Usage
 
 Once the extension is installed, simply open up a `.yarn` or a `.yarn.txt` file to use it!
+
+## Reporting Issues/Bugs, Contributing, and Technical Details
+
+If you find any issues or bugs with this extension, [please open up a new issue on the GitHub repo](https://github.com/TranquilMarmot/YarnLoom/issues/new/choose) and include as much detail as possible!
+
+For in-depth technical details on how this extension works, and how to contribute to it yourself, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## How To
 
@@ -95,7 +105,7 @@ You can also add new nodes by opening up the node list, scrolling to the bottom,
 
 ### Deleting nodes
 
-Nodes can be deleted by clicking the garbage can/trash icon in the their title (![garbage can icon](./loom-editor.loom-editor/src/icons/trash.svg)). A confirmation message will be displayed.
+Nodes can be deleted by clicking the garbage can/trash icon in the their title (![garbage can icon](./loom-editor/src/icons/trash.svg)) . A confirmation message will be displayed.
 
 <details>
   <summary>Expand for demo of deleting a node</summary>
@@ -134,12 +144,6 @@ In this menu, clicking the gear icon will set an editor as the default editor fo
   <summary>Expand for demo of switching between the text editor and Yarn Loom</summary>
   <img src="./images/reopen-with-text-editor.gif" alt="Demo of switching between Yarn Loom and a text editor" />
 </details>
-
-## Contributing, Reporting Issues/Bugs, and Technical Details
-
-If you find any issues or bugs with this extension, [please open up a new issue on the GitHub repo](https://github.com/TranquilMarmot/YarnLoom/issues/new/choose) and include as much detail as possible!
-
-For juicy in-depth technical details for how this works, and how to contribute to it yourself, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Special Thanks
 

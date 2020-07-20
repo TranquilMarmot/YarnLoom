@@ -70,7 +70,9 @@ All scripts **must** be run at the root of the repo. Because of the way that Ler
 
 ### CI/CD
 
-TODO Github Actions
+Every pull request and merge to the `main` branch has the [`continuous-integration-worfkflow.yml`](./.github/workflows/continuous-integration-workflow.yml) run against it.
+
+TODO: CD for automatic releases
 
 ### Packaging the extension
 
