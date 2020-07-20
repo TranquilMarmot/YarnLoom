@@ -59,7 +59,7 @@ Changes saved in this text editor will be reflected in the `.yarn` file editor. 
 
 A node can be renamed by changing its `title` after opening it up in the text editor.
 
-Note that when renaming a node that has incoming links, it will automatically be re-created when renamed since the editor will auto-create linked nodes. To renamed a node with incoming links, you must rename the outgoing links to the new name and then delete the existing node. A future update will make this easier.
+Note that when renaming a node that has incoming links, it will automatically be re-created when renamed since the editor will auto-create linked nodes. To rename a node with incoming links, you must rename the outgoing links to the desired name and then delete the existing node. A future update will make this easier.
 
 <details>
   <summary>Expand for demo of renaming a node</summary>
@@ -68,9 +68,9 @@ Note that when renaming a node that has incoming links, it will automatically be
 
 ### Changing node tags
 
-Tags can be added/removed by changing the `tags` of a node after opening it up in the text editor.
+Tags can be added/removed by changing the `tags` value in the header of a node after opening it up in the text editor.
 
-`tags` is a space-separated list of tags.
+`tags` is a space-separated list of strings.
 
 <details>
   <summary>Expand for demo of changing node tags</summary>

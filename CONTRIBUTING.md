@@ -1,8 +1,8 @@
-# Contributing
+# Contributing to Yarn Loom
 
 This document outlines how to contribute to this project, as well as an overview of the project layout and structure.
 
-- [Contributing](#contributing)
+- [Contributing to Yarn Loom](#contributing-to-yarn-loom)
   - [Requirements](#requirements)
   - [Getting Started](#getting-started)
   - [Testing](#testing)
@@ -19,7 +19,7 @@ This document outlines how to contribute to this project, as well as an overview
 
 ## Requirements
 
-To develop this project, you need to have the following installed:
+To run this project from source, you need to have the following installed:
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [node.js and npm](https://nodejs.org/en/)
@@ -40,39 +40,31 @@ Tests are all done using [jest](https://jestjs.io/).
 
 In `loom-editor`, [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro) is also used.
 
-To run tests in all sub-projects, run `npm test` at the root of the repo.
+Tests are automatically run on all Pull Requests.
 
-To run tests against a specific subproject:
-
-- `npm run test:common`
-- `npm run test:editor`
-- `npm run test:extension`
-
-**NOTE:** Running `npm test` inside one of the subprojects will **not** work since the necessary dependencies are located in the root `package.json` and are bootstrapped in the subprojects by lerna.
-
-If actively working on `loom-editor`, it is often best to run `../node_modules/.bin/react-scripts test` to get the interactive test runner.
+See [Available scripts](#available-scripts) below for commands to run tests.
 
 ## How to Contribute
 
-To contribute to this repo, [fork it](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), make changes and open up a pull request agains the `main` branch.
+To contribute to this repo, [fork it](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), make changes and open up a pull request against the `main` branch.
 
 ### Available scripts
 
 All scripts **must** be run at the root of the repo.
 
-Because of the way that [lerna](https://lerna.js.org/) works, most scripts cannot be run directly in sub-projects. See the [Project Layout](#project-layout) section for more information.
+Because of the way that [lerna](https://lerna.js.org/) works, most scripts cannot be run directly in sub-projects since the necessary dependencies are located in the root `package.json` and are bootstrapped in the subprojects. See the [Project Layout](#project-layout) section for more information.
 
 | Command                                                              | Description                                                                                                                                                                                                                                                                                                                                                                                                          |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `build`<br><br>`build:common`<br>`build:editor`<br>`build:extension` | `npm run build` will build all sub-projects in the correct order.<br><br>This is what is called when launching the extension. See [`launch.json`](./.vscode/launch.json).<br><br>The other tasks are used to build specific sub-projects. In general, these need to be executed in a specific order for the extension to compile properly: `build:common`, then `build:editor`, then `build:extension`.              |
 | `test`<br><br>`test:common`<br>`test:editor`<br>`test:extension`     | `npm test` will run all tests in all sub-projects.<br><br>This sets the environment variable `CI=true`. This is mainly because the `create-react-app` tests usually run in an interactive mode.<br><br>To run the `loom-editor` tests interactively, run the following:<br>`cd loom-editor/ && ../node_modules/.bin/react-scripts test`<br><br>This will re-run tests for changed files in the editor in watch mode. |
 | `package`                                                            | `npm run package` will build and package the extension. This just runs the `package` command in the `loom-extension` project. `build` must be called first.                                                                                                                                                                                                                                                          |
-| `pretter`                                                            | `npm run prettier` will run [Prettier](https://prettier.io/) on all files in the project and overwrite them if they need formatting changes.                                                                                                                                                                                                                                                                         |
+| `prettier`                                                           | `npm run prettier` will run [Prettier](https://prettier.io/) on all files in the project and overwrite them if they need formatting changes.                                                                                                                                                                                                                                                                         |
 | `lint`<br><br>`lint:common`<br>`lint:editor`<br>`lint:extension`     | `npm run lint` will run [eslint](https://eslint.org/) on all files in all sub-projects, as well as running prettier on all files in check mode (not overwriting them).<br><br>This will fail if any files do not pass lint or have not been formatted with `npm run prettier`.                                                                                                                                       |
 
 ### CI/CD
 
-Every pull request and merge to the `main` branch has the [`continuous-integration-worfkflow.yml`](./.github/workflows/continuous-integration-workflow.yml) run against it.
+Every pull request and merge to the `main` branch has the [`continuous-integration-workflow.yml`](./.github/workflows/continuous-integration-workflow.yml) run against it.
 
 TODO: CD for automatic releases
 
@@ -144,7 +136,7 @@ It's helpful to think of `loom-extension` as the server and `loom-editor` as the
 
 ![Diagram of communication between extension and editor](./images/extension-editor-communication.drawio.png)
 
-In the webview, `window.vsCodeApi` is created by calling `acquireVsCodeApi();` in [`LoomWebviewPanel`](./loom-extension/src/LoomWebviewPanel.ts). This is basically hakced into the `<head>` tag of the document.
+In the webview, `window.vsCodeApi` is created by calling `acquireVsCodeApi();` in [`LoomWebviewPanel`](./loom-extension/src/LoomWebviewPanel.ts). This is basically hacked into the `<head>` tag of the document.
 
 The "Backing `TextDocument`" is the actual `.yarn` file that is currently being edited. When nodes are changed/added/removed, the `LoomEditorProvider` is smart enough to know which exact lines to change in the text document for the node. This allows for native undo/redo for all changes that are applied to the document itself.
 
