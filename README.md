@@ -1,6 +1,8 @@
 # Yarn Loom Visual Studio Code Extension
 
-<img src="./images/logo.svg" alt="Yarn Loom Logo" align="right" width="100px" />
+<p align="center">
+  <img src="./images/logo.svg" alt="Yarn Loom Logo" />
+</P>
 
 Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yarnspinner.dev/). It is a re-imagining of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) built from the ground up to integrate seamlessly with Visual Studio Code.
 
@@ -57,7 +59,12 @@ Changes saved in this text editor will be reflected in the `.yarn` file editor. 
 
 A node can be renamed by changing its `title` after opening it up in the text editor.
 
-Note that renaming a node will break any existing links to it!
+Note that when renaming a node that has incoming links, it will automatically be re-created when renamed since the editor will auto-create linked nodes. To renamed a node with incoming links, you must rename the outgoing links to the new name and then delete the existing node. A future update will make this easier.
+
+<details>
+  <summary>Expand for demo of renaming a node</summary>
+  <img src="./images/rename-node.gif" alt="Demo of renaming a node" />
+</details>
 
 ### Changing node tags
 
