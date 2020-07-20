@@ -1,8 +1,6 @@
 # Yarn Loom Visual Studio Code Extension
 
-<p align="center">
-<img src="./images/logo.svg" alt="Yarn Loom Logo" />
-</p>
+<img src="./images/logo.svg" alt="Yarn Loom Logo" align="right" width="100px" />
 
 Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yarnspinner.dev/). It is a re-imagining of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) built from the ground up to integrate seamlessly with Visual Studio Code.
 
@@ -150,3 +148,5 @@ In this menu, clicking the gear icon will set an editor as the default editor fo
 The syntax highlighting portion of this extension was copied over from the [Yarn VSCode Extension](https://github.com/YarnSpinnerTool/VSCodeExtension) and all credit for it goes to [@desplesda](https://github.com/desplesda).
 
 Portions of Yarn file parsing and in-editor highlighting were copied over from the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) and all credit for it goes to the Yarn Editor contributors, but especially [@blurymind](https://github.com/blurymind).
+
+The original [Yarn Spinner logo](https://yarnspinner.dev/img/YarnSpinnerLogo.png) was made by [Cecile Richard](https://www.cecile-richard.com/) and was remixed to create the logo for this extension.
