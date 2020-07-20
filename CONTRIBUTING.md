@@ -48,6 +48,8 @@ See [Available scripts](#available-scripts) below for commands to run tests.
 
 To contribute to this repo, [fork it](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), make changes and open up a pull request against the `main` branch.
 
+**Note:** There are two nearly identical `README.md` files in this repo; [one at the root](./README.md) and [one in the `loom-extension` directory](./loom-extension/README.md). The one at the root is mainly for showing on GitHub; the one in the `loom-extension` directory is for the Visual Studio Code marketplace. All images in the `loom-extension`'s `README.md` must be direct links to the image on GitHub and not a relative path, otherwise they will not properly work.
+
 ### Available scripts
 
 All scripts **must** be run at the root of the repo.

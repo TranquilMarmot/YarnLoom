@@ -1,12 +1,16 @@
 {
-  "name": "loom-extension",
-  "displayName": "Yarn Loom",
-  "description": "Adds support for the Yarn Spinner dialogue language.",
-  "version": "1.2.0",
-  "homepage": "https://yarnspinner.dev",
+  "name": "yarn-spinner-loom",
+  "displayName": "Yarn Spinner Loom",
+  "description": "Visual editor for the Yarn Spinner dialogue language.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/TranquilMarmot/YarnLoom",
   "repository": {
     "type": "git",
     "url": "https://github.com/TranquilMarmot/YarnLoom"
+  },
+  "bugs": {
+    "url": "https://github.com/TranquilMarmot/YarnLoom/issues/new/choose",
+    "email": "nate@moore.codes"
   },
   "license": "MIT",
   "keywords": [
@@ -14,25 +18,36 @@
     "yarnspinner",
     "yarn",
     "game writing",
+    "game development",
+    "gaming",
     "narrative",
     "tree",
     "branch",
     "branching",
+    "graph",
     "dialog",
     "dialogue"
   ],
-  "qna": false,
+  "qna": "https://github.com/TranquilMarmot/YarnLoom/issues",
   "publisher": "TranquilMarmot",
   "icon": "icon.png",
   "galleryBanner": {
-    "color": "#C5E29B",
-    "theme": "light"
+    "color": "#37895F",
+    "theme": "dark"
   },
+  "badges": [
+    {
+      "description": "Continuous Integration",
+      "href": "https://github.com/TranquilMarmot/YarnLoom/actions?query=workflow%3A%22Continuous+Integration%22",
+      "url": "https://github.com/TranquilMarmot/YarnLoom/workflows/Continuous%20Integration/badge.svg"
+    }
+  ],
   "engines": {
     "vscode": "^1.44.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Visualization"
   ],
   "activationEvents": [
     "onCustomEditor:yarnLoom.editor"

@@ -1,19 +1,16 @@
-# Yarn Spinner Loom Visual Studio Code Extension
+# Yarn Spinner Loom
 
 <p align="center">
-  <img src="./images/logo.svg" alt="Yarn Loom Logo" height="256px" />
+  <img src="./icon.png" alt="Yarn Loom Logo" />
 </P>
 
 Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yarnspinner.dev/). It is a re-imagining of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) built from the ground up to integrate seamlessly with Visual Studio Code.
 
-![demo video](./images/demo.gif)
+![demo video](https://github.com/TranquilMarmot/YarnLoom/raw/main/images/demo.gif)
 
-![Continuous Integration](https://github.com/TranquilMarmot/YarnLoom/workflows/Continuous%20Integration/badge.svg)
-
-- [Yarn Spinner Loom Visual Studio Code Extension](#yarn-spinner-loom-visual-studio-code-extension)
-  - [Installing](#installing)
+- [Yarn Spinner Loom](#yarn-spinner-loom)
   - [Usage](#usage)
-  - [Reporting Issues/Bugs, Contributing, and Technical Details](#reporting-issuesbugs-contributing-and-technical-details)
+  - [Reporting Issues/Bugs](#reporting-issuesbugs)
   - [How To](#how-to)
     - [Editing nodes](#editing-nodes)
     - [Renaming nodes](#renaming-nodes)
@@ -27,20 +24,13 @@ Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yar
     - [Switching between the graph editor and a text editor](#switching-between-the-graph-editor-and-a-text-editor)
   - [Special Thanks](#special-thanks)
 
-## Installing
-
-- TODO Visual Studio Code marketplace link
-- TODO Install from `.vsix` build artifacts
-
 ## Usage
 
 Once the extension is installed, simply open up a `.yarn` or a `.yarn.txt` file to use it!
 
-## Reporting Issues/Bugs, Contributing, and Technical Details
+## Reporting Issues/Bugs
 
 If you find any issues or bugs with this extension, [please open up a new issue on the GitHub repo](https://github.com/TranquilMarmot/YarnLoom/issues/new/choose) and include as much detail as possible!
-
-For in-depth technical details on how this extension works, and how to contribute to it yourself, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## How To
 
@@ -54,7 +44,7 @@ Changes saved in this text editor will be reflected in the `.yarn` file editor. 
 
 <details>
   <summary>Expand for demo of editing nodes</summary>
-  <img src="./images/editing-node.gif" alt="Demo of editing a node" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/editing-node.gif" alt="Demo of editing a node" />
 </details>
 
 ### Renaming nodes
@@ -65,7 +55,7 @@ Note that when renaming a node that has incoming links, it will automatically be
 
 <details>
   <summary>Expand for demo of renaming a node</summary>
-  <img src="./images/rename-node.gif" alt="Demo of renaming a node" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/rename-node.gif" alt="Demo of renaming a node" />
 </details>
 
 ### Changing node tags
@@ -76,18 +66,18 @@ Tags can be added/removed by changing the `tags` value in the header of a node a
 
 <details>
   <summary>Expand for demo of changing node tags</summary>
-  <img src="./images/editing-tags.gif" alt="Demo of editing a node's tags" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/editing-tags.gif" alt="Demo of editing a node's tags" />
 </details>
 
 ### Changing a node's color
 
-Node colors can be changed by clicking the color change icon (![color change icon](./loom-editor/src/icons/symbol-color.svg)).
+Node colors can be changed by clicking the color change icon.
 
 This will bring up a list of colors to choose from. The `colorID` that you see when opening a node in the text editor corresponds to a color in this list.
 
 <details>
   <summary>Expand for demo of changing a node's color</summary>
-  <img src="./images/changing-color.gif" alt="Demo of editing a node's color" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/changing-color.gif" alt="Demo of editing a node's color" />
 </details>
 
 ### Changing a node's position
@@ -96,7 +86,7 @@ A node's position can be changed by dragging it around in the graph view of the 
 
 <details>
   <summary>Expand for demo of changing a node's position</summary>
-  <img src="./images/moving-nodes.gif" alt="Demo of move nodes around in the graph editor" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/moving-nodes.gif" alt="Demo of move nodes around in the graph editor" />
 </details>
 
 ### Adding new nodes
@@ -107,16 +97,16 @@ You can also add new nodes by opening up the node list, scrolling to the bottom,
 
 <details>
   <summary>Expand for demo of adding a new node</summary>
-  <img src="./images/adding-new-node.gif" alt="Demo of adding a new node" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/adding-new-node.gif" alt="Demo of adding a new node" />
 </details>
 
 ### Deleting nodes
 
-Nodes can be deleted by clicking the garbage can/trash icon in the their title (![garbage can icon](./loom-editor/src/icons/trash.svg)) . A confirmation message will be displayed.
+Nodes can be deleted by clicking the garbage can/trash icon in the their title. A confirmation message will be displayed.
 
 <details>
   <summary>Expand for demo of deleting a node</summary>
-  <img src="./images/deleting-node.gif" alt="Demo of deleting a node" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/deleting-node.gif" alt="Demo of deleting a node" />
 </details>
 
 ### Searching
@@ -129,7 +119,7 @@ The "Title", "Body", and "Tags" buttons in the search bar control whether or not
 
 <details>
   <summary>Expand for demo of searching for nodes</summary>
-  <img src="./images/searching.gif" alt="Demo of searching for nodes" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/searching.gif" alt="Demo of searching for nodes" />
 </details>
 
 #### Quick tag search
@@ -138,7 +128,7 @@ To quickly search for a tag, you can either click on it in the footer of a node 
 
 <details>
   <summary>Expand for demo of quick tag searching</summary>
-  <img src="./images/quick-tag-search.gif" alt="Demo of quickly searching for tags" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/quick-tag-search.gif" alt="Demo of quickly searching for tags" />
 </details>
 
 ### Switching between the graph editor and a text editor
@@ -149,7 +139,7 @@ In this menu, clicking the gear icon will set an editor as the default editor fo
 
 <details>
   <summary>Expand for demo of switching between the text editor and Yarn Loom</summary>
-  <img src="./images/reopen-with-text-editor.gif" alt="Demo of switching between Yarn Loom and a text editor" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/images/reopen-with-text-editor.gif" alt="Demo of switching between Yarn Loom and a text editor" />
 </details>
 
 ## Special Thanks
