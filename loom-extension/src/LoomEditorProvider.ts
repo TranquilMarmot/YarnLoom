@@ -13,7 +13,11 @@ import {
 import rimraf from "rimraf";
 
 import { YarnNode, createNodeText } from "loom-common/YarnNode";
-import { parseYarnFile, buildLinksFromNodes } from "loom-common/YarnParser";
+import {
+  parseYarnFile,
+  buildLinksFromNodes,
+  renameLinksFromNode,
+} from "loom-common/YarnParser";
 import { setNodes } from "loom-common/EditorActions";
 
 import LoomWebviewPanel from "./LoomWebviewPanel";
@@ -213,6 +217,66 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     addedNodes.forEach((addedNode) =>
       this.createNodeInDocument(addedNode, edit)
     );
+    workspace.applyEdit(edit);
+  };
+
+  /**
+   * Renames a node and changes all links going to that node to point to the new node title.
+   * @param oldTitle Old title of node
+   * @param newTitle New title of node
+   */
+  renameNode = (oldTitle: string, newTitle: string) => {
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to rename node ${oldTitle} to ${newTitle} but we don't have a webview!`
+      );
+    }
+
+    if (!this.document) {
+      throw new Error(
+        `Tried to rename node ${oldTitle} to ${newTitle} but we don't have a document!`
+      );
+    }
+
+    const originalNodeIndex = this.nodes.findIndex(
+      (originalNode) => originalNode.title === oldTitle
+    );
+
+    // this is the node we're actually renaming
+    const node = {
+      ...this.nodes[originalNodeIndex],
+      title: newTitle,
+    };
+
+    // update the one node we're updating and leave the rest alone
+    this.nodes = [
+      ...this.nodes.slice(0, originalNodeIndex),
+      ...[node],
+      ...this.nodes.slice(originalNodeIndex + 1),
+    ];
+
+    // this will change _all_ links going to this node and return a list of changed nodes
+    const changedNodes = renameLinksFromNode(this.nodes, oldTitle, newTitle);
+
+    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
+
+    // and finally, apply the actual edit to the text document
+    const edit = new WorkspaceEdit();
+    edit.replace(
+      this.document.uri,
+      this.getRangeForNode(oldTitle),
+      createNodeText(node)
+    );
+
+    // also apply an edit for each changed node
+    for (let i = 0; i < changedNodes.length; i++) {
+      edit.replace(
+        this.document!.uri,
+        this.getRangeForNode(changedNodes[i].title),
+        createNodeText(changedNodes[i])
+      );
+    }
+
     workspace.applyEdit(edit);
   };
 

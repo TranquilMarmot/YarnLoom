@@ -138,3 +138,44 @@ export const buildLinksFromNodes = (
 
   return addedNodes;
 };
+
+/**
+ * Will rename all links that point to a node to a new title.
+ * @param nodes List of all nodes
+ * @param oldTitle Title of node to rename links to
+ * @param newTitle New title of node being renamed
+ * @returns List of nodes that were changed
+ */
+export const renameLinksFromNode = (
+  nodes: YarnNode[],
+  oldTitle: string,
+  newTitle: string
+): YarnNode[] => {
+  const updatedNodes: YarnNode[] = [];
+
+  nodes.forEach((node) => {
+    // because this is a changing regex, we have to use the constructor and "double-escape" the literal characters
+    // links come in two forms:
+    // [[Some text.|some-node-title]]
+    // [[some-node-title]]
+    //
+    // Here, we're using RegEx capturing groups. The actual regex looks something like:
+    // [[(.*?\|)(some-node-title)]]
+    //
+    // This results in capturing two groups:
+    // $1 is the text of the link, with the "|" at the end. When there is no text, this is empty.
+    // $2 is the title of the node being renamed. We throw this out and replace it with the new title.
+    //
+    // The replacement of:
+    // [[$1${newTitle}]]
+    // is essentially just grabbing the optional node text and then appending the new title
+    const regex = new RegExp(`\\[\\[(.*?\\|?)(${oldTitle})\\]\\]`, "g");
+
+    if (node.body.match(regex)) {
+      node.body = node.body.replace(regex, `[[$1${newTitle}]]`);
+      updatedNodes.push(node);
+    }
+  });
+
+  return updatedNodes;
+};

@@ -24,6 +24,9 @@ export enum YarnEditorMessageTypes {
 
   /** Set the position for a node */
   SetNodePosition = "SetNodePosition",
+
+  /** Change a node's title */
+  RenameNode = "RenameNode",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -45,3 +48,6 @@ export const setNodeColor = (nodeTitle: string, colorIndex: number) =>
 
 export const setNodePosition = (nodeTitle: string, x: number, y: number) =>
   action(YarnEditorMessageTypes.SetNodePosition, { nodeTitle, x, y });
+
+export const renameNode = (nodeTitle: string) =>
+  action(YarnEditorMessageTypes.RenameNode, { nodeTitle });

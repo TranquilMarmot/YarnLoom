@@ -2,10 +2,11 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { deleteNode } from "loom-common/EditorActions";
+import { deleteNode, renameNode } from "loom-common/EditorActions";
 
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
+import { ReactComponent as EditIcon } from "../../icons/edit.svg";
 import { isDark } from "../../Util";
 
 import { titleColors } from "./";
@@ -67,6 +68,13 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
       `}
     >
       <div css={css`${titleLabelStyle}${fontStyle}`}>{title}</div>
+      <button
+        css={settingsButtonStyle}
+        onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
+        data-testid="node-title-edit-button"
+      >
+        <EditIcon css={iconStyle} />
+      </button>
       <button
         css={settingsButtonStyle}
         onClick={onOpenColorChooser}
