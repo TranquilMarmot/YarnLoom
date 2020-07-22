@@ -4,9 +4,9 @@ import { FunctionComponent } from "react";
 
 import { deleteNode, renameNode } from "loom-common/EditorActions";
 
+import { ReactComponent as RenameIcon } from "../../icons/rename.svg";
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
-import { ReactComponent as EditIcon } from "../../icons/edit.svg";
 import { isDark } from "../../Util";
 
 import { titleColors } from "./";
@@ -73,7 +73,7 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
         onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
         data-testid="node-title-edit-button"
       >
-        <EditIcon css={iconStyle} />
+        <RenameIcon css={iconStyle} />
       </button>
       <button
         css={settingsButtonStyle}

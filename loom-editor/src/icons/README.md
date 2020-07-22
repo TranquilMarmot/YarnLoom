@@ -1,4 +1,4 @@
-All icons come from the [microsoft/vscode-codicong](https://github.com/microsoft/vscode-codicons) repo.
+All icons come from the [microsoft/vscode-codicons](https://github.com/microsoft/vscode-codicons) repo. (with the exception of the `rename` icon which came from [the icon project](https://thenounproject.com/term/rename/61456/) and was modified).
 
 To use an icon, do:
 
