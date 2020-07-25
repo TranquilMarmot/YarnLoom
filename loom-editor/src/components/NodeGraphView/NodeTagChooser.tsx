@@ -12,7 +12,7 @@ import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 
 import { listItemBase } from "../../Styles";
 
-import { toggleTagOnNode, addNewTag } from "loom-common/EditorActions";
+import { toggleTagOnNode, promptForNewTags } from "loom-common/EditorActions";
 
 const containerStyle = css`
   position: absolute;
@@ -28,18 +28,41 @@ const containerStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+`;
+
+const tagButtonContainerStyle = css`
+  max-height: 120px;
+  overflow-x: auto;
+  width: 100%;
+`;
+
+const bottomButtonContainerStyle = css`
+  display: flex;
+  width: 100%;
+`;
+
+const bottomButtonsStyle = css`
+  ${listItemBase}
+
+  justify-content: center;
 `;
 
 const newTagIconStyle = css`
   margin-right: 4px;
 `;
 
-const tagButtonStyle = css`
+const tagButtonContentStyle = css`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+
+  width: 100%;
 `;
 
+/**
+ * From the list of all nodes get all unique tag names
+ * @param nodes List of all nodes
+ */
 const getTagList = (nodes: YarnNode[]) => {
   const tags = new Set<string>();
 
@@ -67,8 +90,8 @@ const renderTag = (
   onClick: (tag: string) => void
 ) => (
   <button css={listItemBase} onClick={() => onClick(tag)}>
-    <div css={tagButtonStyle}>
-      {tag}
+    <div css={tagButtonContentStyle}>
+      <div>{tag}</div>
       {nodeTags.includes(tag) && <CheckIcon />}
     </div>
   </button>
@@ -78,27 +101,33 @@ const NodeTagChooser: FunctionComponent<NodeTagChooserProps> = ({
   node,
   onClose,
 }) => {
-  const [state, dispatch] = useYarnState();
+  const [state] = useYarnState();
 
   const nodes = getNodes(state);
 
   const nodeTags = node.tags.split(" ");
 
   const onTagClick = (tag: string) =>
-    dispatch(toggleTagOnNode(node.title, tag));
+    window.vsCodeApi.postMessage(toggleTagOnNode(node.title, tag));
 
   return (
     <div css={containerStyle}>
-      {getTagList(nodes).map((tag) => renderTag(tag, nodeTags, onTagClick))}
-      <button
-        css={listItemBase}
-        onClick={() => dispatch(addNewTag(node.title))}
-      >
-        <PlusIcon css={newTagIconStyle} /> New tag
-      </button>
-      <button css={listItemBase} onClick={onClose}>
-        Close
-      </button>
+      <div css={tagButtonContainerStyle}>
+        {getTagList(nodes).map((tag) => renderTag(tag, nodeTags, onTagClick))}
+      </div>
+      <div css={bottomButtonContainerStyle}>
+        <button css={bottomButtonsStyle} onClick={onClose}>
+          Close
+        </button>
+        <button
+          css={bottomButtonsStyle}
+          onClick={() =>
+            window.vsCodeApi.postMessage(promptForNewTags(node.title))
+          }
+        >
+          <PlusIcon css={newTagIconStyle} /> New tag
+        </button>
+      </div>
     </div>
   );
 };

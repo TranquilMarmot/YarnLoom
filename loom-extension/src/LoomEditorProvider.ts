@@ -312,6 +312,114 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
   };
 
   /**
+   * Add the given tags to the specified node
+   * @param nodeTitle Title of node to add tags to
+   * @param tags Tags to add to node (separated by spaced)
+   */
+  addTagsToNode = (nodeTitle: string, tags: string) => {
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to add tags to ${nodeTitle} but we don't have a webview!`
+      );
+    }
+
+    if (!this.document) {
+      throw new Error(
+        `Tried to add tags to ${nodeTitle} but we don't have a document!`
+      );
+    }
+
+    const originalNodeIndex = this.nodes.findIndex(
+      (originalNode) => originalNode.title === nodeTitle
+    );
+
+    // this is the node we're actually renaming
+    const node = {
+      ...this.nodes[originalNodeIndex],
+    };
+
+    const existingTags = node.tags.split(" ");
+    const newTags = tags.split(" ");
+
+    // create a set, then join it with spaces... this is to guarantee unique tag names
+    node.tags = Array.from(new Set([...existingTags, ...newTags]))
+      .join(" ")
+      .trim();
+
+    // update the one node we're updating and leave the rest alone
+    this.nodes = [
+      ...this.nodes.slice(0, originalNodeIndex),
+      ...[node],
+      ...this.nodes.slice(originalNodeIndex + 1),
+    ];
+
+    // and finally, apply the actual edit to the text document
+    const edit = new WorkspaceEdit();
+    edit.replace(
+      this.document.uri,
+      this.getRangeForNode(nodeTitle),
+      createNodeText(node)
+    );
+    workspace.applyEdit(edit);
+  };
+
+  /**
+   * Add/remove the given tags to the specified node
+   * @param nodeTitle Title of node to add tags to
+   * @param tags Tags to add to node (separated by spaced)
+   */
+  toggleTagsOnNode = (nodeTitle: string, tags: string) => {
+    if (!this.webviewPanel) {
+      throw new Error(
+        `Tried to add tags to ${nodeTitle} but we don't have a webview!`
+      );
+    }
+
+    if (!this.document) {
+      throw new Error(
+        `Tried to add tags to ${nodeTitle} but we don't have a document!`
+      );
+    }
+
+    const originalNodeIndex = this.nodes.findIndex(
+      (originalNode) => originalNode.title === nodeTitle
+    );
+
+    // this is the node we're actually renaming
+    const node = {
+      ...this.nodes[originalNodeIndex],
+    };
+
+    const existingTags = node.tags.split(" ");
+    const tagsToToggle = tags.split(" ");
+
+    // create a set, then join it with spaces... this is to guarantee unique tag names
+    node.tags = existingTags
+      // filter out any existing tags
+      .filter((tag) => !tagsToToggle.includes(tag))
+
+      // add in any tags we didn't have
+      .concat(tagsToToggle.filter((tag) => !existingTags.includes(tag)))
+      .join(" ");
+
+    // update the one node we're updating and leave the rest alone
+    this.nodes = [
+      ...this.nodes.slice(0, originalNodeIndex),
+      ...[node],
+      ...this.nodes.slice(originalNodeIndex + 1),
+    ];
+
+    // and finally, apply the actual edit to the text document
+    const edit = new WorkspaceEdit();
+    edit.replace(
+      this.document.uri,
+      this.getRangeForNode(nodeTitle),
+      createNodeText(node)
+    );
+    workspace.applyEdit(edit);
+  };
+
+  /**
    * Delete a node with the given title
    * @param nodeTitle Title of node to delete
    */

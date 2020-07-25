@@ -202,36 +202,26 @@ export const askForNameAndRenameNode = (
     });
 };
 
-export const askForNewTagAndAddItToNode = (
+/**
+ * Asks for new tags and then adds them to the given node
+ * @param editor Editor to apply new tags to
+ * @param nodeTitle Title of node to apply tags to
+ */
+export const promptForNewTags = (
   editor: LoomEditorProvider,
   nodeTitle: string
 ) => {
   window
     .showInputBox({
-      prompt: `Enter a tag to add to ${nodeTitle}`,
+      prompt: `Enter a tag to add to ${nodeTitle} (use spaces to separate multiple tags)`,
       ignoreFocusOut: true, // in case they want to look at their current nodes
-
-      // if this function returns a string, it's shown as an error and prevents the
-      // user from hitting enter; returning `undefined` means we're good-to-go
-      validateInput: (val: string) => {
-        if (getNodeByTitle(editor.nodes, val)) {
-          return `Node with name ${val} already exists`;
-        }
-
-        return undefined;
-      },
     })
     .then((val) => {
       if (!val) {
         return;
       }
 
-      if (getNodeByTitle(editor.nodes, val)) {
-        window.showErrorMessage(`Node with name ${val} already exists`);
-        return;
-      }
-
-      editor.renameNode(nodeTitle, val);
+      editor.addTagsToNode(nodeTitle, val);
     });
 };
 
@@ -272,6 +262,12 @@ export const listenForMessages = (
         break;
       case YarnEditorMessageTypes.RenameNode:
         askForNameAndRenameNode(editor, message.payload.nodeTitle);
+        break;
+      case YarnEditorMessageTypes.PromptForNewTags:
+        promptForNewTags(editor, message.payload.nodeTitle);
+        break;
+      case YarnEditorMessageTypes.ToggleTagOnNode:
+        editor.toggleTagsOnNode(message.payload.nodeTitle, message.payload.tag);
         break;
       default:
         break;
