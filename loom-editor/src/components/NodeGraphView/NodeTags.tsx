@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 
 import { titleColors } from "../NodeGraphView";
 import { useYarnState } from "../../state/YarnContext";
@@ -8,7 +8,6 @@ import { searchForTag } from "../../state/UiActions";
 import UiActionType from "../../state/UiActionType";
 
 import { ReactComponent as AddIcon } from "../../icons/add.svg";
-import NodeTagChooser from "./NodeTagChooser";
 import { YarnNode } from "loom-common/YarnNode";
 
 const containerStyle = css`
@@ -57,6 +56,7 @@ interface NodeTagsProps {
   node: YarnNode;
 
   colorId?: number;
+  onOpenTagChooser: () => void;
 }
 
 const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
@@ -71,9 +71,12 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
     </button>
   ));
 
-const NodeTags: FunctionComponent<NodeTagsProps> = ({ node, colorId }) => {
+const NodeTags: FunctionComponent<NodeTagsProps> = ({
+  node,
+  colorId,
+  onOpenTagChooser,
+}) => {
   const dispatch = useYarnState()[1];
-  const [showingAddTags, setShowingAddTags] = useState(false);
 
   return (
     <div
@@ -85,13 +88,10 @@ const NodeTags: FunctionComponent<NodeTagsProps> = ({ node, colorId }) => {
         <div css={tagListStyle}>
           {node.tags && renderTags(node.tags.split(" "), dispatch)}
         </div>
-        <button css={addTagButtonStyle} onClick={() => setShowingAddTags(true)}>
+        <button css={addTagButtonStyle} onClick={onOpenTagChooser}>
           <AddIcon />
         </button>
       </div>
-      {showingAddTags && (
-        <NodeTagChooser node={node} onClose={() => setShowingAddTags(false)} />
-      )}
     </div>
   );
 };
