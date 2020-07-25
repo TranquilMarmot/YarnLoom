@@ -38,3 +38,21 @@ export const listItemBase = css`
     background-color: var(--vscode-list-focusBackground);
   }
 `;
+
+/** Container for things that overlay the node */
+export const nodeOverlayContainer = css`
+  position: absolute;
+  left: 0px;
+  top: 39px;
+
+  /* Ideally, these would be calculated but for now we'll leave them as magic numbers... */
+  height: 161px;
+  width: 200px;
+
+  background: var(--vscode-sideBar-background);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;

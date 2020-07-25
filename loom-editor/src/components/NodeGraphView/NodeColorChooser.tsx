@@ -5,22 +5,11 @@ import { FunctionComponent } from "react";
 import { setNodeColor } from "loom-common/EditorActions";
 
 import { titleColors } from "./index";
-import { buttonBase } from "../../Styles";
+import { buttonBase, nodeOverlayContainer } from "../../Styles";
 
 const containerStyle = css`
-  position: absolute;
-  left: 0px;
-  top: 39px;
+  ${nodeOverlayContainer}
 
-  /* Ideally, these would be calculated but for now we'll leave them as magic numbers... */
-  height: 161px;
-  width: 200px;
-
-  background: var(--vscode-sideBar-background);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: space-around;
 `;
 

@@ -10,26 +10,9 @@ import { useYarnState } from "../../state/YarnContext";
 import { ReactComponent as PlusIcon } from "../../icons/add.svg";
 import { ReactComponent as CheckIcon } from "../../icons/check.svg";
 
-import { listItemBase } from "../../Styles";
+import { listItemBase, nodeOverlayContainer } from "../../Styles";
 
 import { toggleTagOnNode, promptForNewTags } from "loom-common/EditorActions";
-
-const containerStyle = css`
-  position: absolute;
-  left: 0px;
-  top: 39px;
-
-  /* Ideally, these would be calculated but for now we'll leave them as magic numbers... */
-  height: 161px;
-  width: 200px;
-
-  background: var(--vscode-sideBar-background);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-`;
 
 const tagButtonContainerStyle = css`
   max-height: 120px;
@@ -76,7 +59,7 @@ const getTagList = (nodes: YarnNode[]) => {
     });
   });
 
-  return Array.from(tags);
+  return Array.from(tags).sort();
 };
 
 interface NodeTagChooserProps {
@@ -111,7 +94,7 @@ const NodeTagChooser: FunctionComponent<NodeTagChooserProps> = ({
     window.vsCodeApi.postMessage(toggleTagOnNode(node.title, tag));
 
   return (
-    <div css={containerStyle}>
+    <div css={nodeOverlayContainer}>
       <div css={tagButtonContainerStyle}>
         {getTagList(nodes).map((tag) => renderTag(tag, nodeTags, onTagClick))}
       </div>
