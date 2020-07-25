@@ -5,14 +5,27 @@ import { renderWithProvider } from "../../utils/test-utils";
 import { searchForTag } from "../../state/UiActions";
 
 import NodeTags from "./NodeTags";
+import { YarnNode } from "loom-common/YarnNode";
 
 describe("<NodeTags />", () => {
+  const node: YarnNode = {
+    title: "Test node",
+    body: "",
+    tags: "",
+  };
+
   it("renders", () => {
-    renderWithProvider(<NodeTags />);
+    renderWithProvider(<NodeTags node={node} onOpenTagChooser={() => {}} />);
   });
 
   it("renders all tags", () => {
-    renderWithProvider(<NodeTags tags="a lot of different tags" />);
+    const nodeWithTags = {
+      ...node,
+      tags: "a lot of different tags",
+    };
+    renderWithProvider(
+      <NodeTags node={nodeWithTags} onOpenTagChooser={() => {}} />
+    );
 
     expect(screen.getAllByTestId("node-tag-button")).toHaveLength(5);
   });
@@ -20,7 +33,16 @@ describe("<NodeTags />", () => {
   it("searches for a tag when the tag is clicked", async () => {
     const dispatch = jest.fn();
 
-    renderWithProvider(<NodeTags tags="some tags" />, undefined, dispatch);
+    const nodeWithTags = {
+      ...node,
+      tags: "some tags",
+    };
+
+    renderWithProvider(
+      <NodeTags node={nodeWithTags} onOpenTagChooser={() => {}} />,
+      undefined,
+      dispatch
+    );
 
     fireEvent.click(await screen.getByText("some"));
     fireEvent.click(await screen.getByText("tags"));
