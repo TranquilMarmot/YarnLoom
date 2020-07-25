@@ -100,7 +100,7 @@ const SearchBox: FunctionComponent = () => {
         type="search"
         placeholder="Search"
         value={searchString}
-        data-testid="search-box-input"
+        aria-label="Search for text within nodes"
         onChange={(e) => dispatch(setSearchString(e.target.value))}
       />
       <div>
@@ -109,7 +109,6 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingTitle}
-          data-testid="search-box-title-button"
           onClick={() => {
             dispatch(setSearchingNodeTitles(!searchingTitle));
             inputRef?.current?.focus();
@@ -123,7 +122,6 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingBody}
-          data-testid="search-box-body-button"
           onClick={() => {
             dispatch(setSearchingNodeBodies(!searchingBody));
             inputRef?.current?.focus();
@@ -137,7 +135,6 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingTags}
-          data-testid="search-box-tags-button"
           onClick={() => {
             dispatch(setSearchingNodeTags(!searchingTags));
             inputRef?.current?.focus();

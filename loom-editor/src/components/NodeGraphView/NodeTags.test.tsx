@@ -52,4 +52,16 @@ describe("<NodeTags />", () => {
     expect(dispatch).toHaveBeenNthCalledWith(1, searchForTag("some"));
     expect(dispatch).toHaveBeenNthCalledWith(2, searchForTag("tags"));
   });
+
+  it("opens the tag chooser", () => {
+    const onOpenTagChooserSpy = jest.fn();
+
+    renderWithProvider(
+      <NodeTags node={node} onOpenTagChooser={onOpenTagChooserSpy} />
+    );
+
+    fireEvent.click(screen.getByLabelText("Add tags to node"));
+
+    expect(onOpenTagChooserSpy).toHaveBeenCalledTimes(1);
+  });
 });

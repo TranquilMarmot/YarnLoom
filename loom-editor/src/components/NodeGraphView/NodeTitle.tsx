@@ -71,21 +71,21 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
-        data-testid="node-title-edit-button"
+        aria-label="Rename node"
       >
         <RenameIcon css={iconStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={onOpenColorChooser}
-        data-testid="node-title-color-button"
+        aria-label="Change node color"
       >
         <ColorIcon css={iconStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
-        data-testid="node-title-delete-button"
+        aria-label="Delete node"
       >
         <TrashIcon css={iconStyle} />
       </button>

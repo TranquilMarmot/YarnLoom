@@ -2,7 +2,7 @@ import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
 import { renderWithProvider } from "../../utils/test-utils";
 
-import { deleteNode } from "loom-common/EditorActions";
+import { deleteNode, renameNode } from "loom-common/EditorActions";
 
 import NodeTitle from "./NodeTitle";
 
@@ -22,7 +22,7 @@ describe("<NodeTitle />", () => {
       <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
     );
 
-    fireEvent.click(screen.getByTestId("node-title-delete-button"));
+    fireEvent.click(screen.getByLabelText("Delete node"));
 
     // this posts a message to the extension which shows the confirm/cancel message
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
@@ -38,8 +38,23 @@ describe("<NodeTitle />", () => {
       <NodeTitle title={nodeTitle} onOpenColorChooser={onOpenColorChooserSpy} />
     );
 
-    fireEvent.click(screen.getByTestId("node-title-color-button"));
+    fireEvent.click(screen.getByLabelText("Change node color"));
 
     expect(onOpenColorChooserSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("posts message when rename button is clicked", () => {
+    window.vsCodeApi = { postMessage: jest.fn() };
+
+    renderWithProvider(
+      <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
+    );
+
+    fireEvent.click(screen.getByLabelText("Rename node"));
+
+    expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
+    expect(window.vsCodeApi.postMessage).toHaveBeenCalledWith(
+      renameNode(nodeTitle)
+    );
   });
 });

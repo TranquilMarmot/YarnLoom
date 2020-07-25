@@ -18,9 +18,7 @@ describe("<NodeColorChooser />", () => {
 
     render(<NodeColorChooser onClose={onClose} nodeTitle={nodeTitle} />);
 
-    const buttons = await screen.findAllByTestId(
-      "node-color-chooser-color-button"
-    );
+    const buttons = await screen.findAllByLabelText(/Choose color/);
 
     // just... click some buttons
     fireEvent.click(buttons[0]);
@@ -46,7 +44,7 @@ describe("<NodeColorChooser />", () => {
 
     render(<NodeColorChooser onClose={onClose} nodeTitle={nodeTitle} />);
 
-    fireEvent.click(screen.getByTestId("node-color-chooser-cancel-button"));
+    fireEvent.click(screen.getByText("Cancel"));
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

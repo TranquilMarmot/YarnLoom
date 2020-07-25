@@ -58,21 +58,17 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
           <button
             onClick={() => onChooseColor(index)}
             key={color}
+            aria-label={`Choose color ${index}`}
             css={css`
             ${buttonStyle}
             background-color: ${color};
           `}
-            data-testid="node-color-chooser-color-button"
           >
             {" "}
           </button>
         ))}
       </div>
-      <button
-        css={cancelButtonStyle}
-        onClick={onClose}
-        data-testid="node-color-chooser-cancel-button"
-      >
+      <button css={cancelButtonStyle} onClick={onClose}>
         Cancel
       </button>
     </div>

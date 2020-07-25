@@ -84,7 +84,7 @@ describe("<NodeList />", () => {
 
     renderWithProvider(<NodeList />);
 
-    fireEvent.click(screen.getByTestId("node-search-add-node-button"));
+    fireEvent.click(screen.getByText("Add new node"));
 
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledWith(createNewNode());

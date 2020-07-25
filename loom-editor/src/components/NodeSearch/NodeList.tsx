@@ -56,7 +56,6 @@ const NodeList: FunctionComponent = () => {
       <button
         css={listItemBase}
         onClick={() => window.vsCodeApi.postMessage(createNewNode())}
-        data-testid="node-search-add-node-button"
       >
         <NewFile css={newNodeIconStyle} /> Add new node
       </button>

@@ -88,7 +88,11 @@ const NodeTags: FunctionComponent<NodeTagsProps> = ({
         <div css={tagListStyle}>
           {node.tags && renderTags(node.tags.split(" "), dispatch)}
         </div>
-        <button css={addTagButtonStyle} onClick={onOpenTagChooser}>
+        <button
+          aria-label="Add tags to node"
+          css={addTagButtonStyle}
+          onClick={onOpenTagChooser}
+        >
           <AddIcon />
         </button>
       </div>

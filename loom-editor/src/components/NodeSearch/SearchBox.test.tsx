@@ -24,7 +24,7 @@ describe("<SearchBox />", () => {
 
       renderWithProvider(<SearchBox />, undefined, dispatch);
 
-      fireEvent.change(screen.getByTestId("search-box-input"), {
+      fireEvent.change(screen.getByLabelText("Search for text within nodes"), {
         target: {
           value: inputValue,
         },
@@ -44,7 +44,9 @@ describe("<SearchBox />", () => {
       });
 
       expect(
-        screen.getByTestId("search-box-input").getAttribute("value")
+        screen
+          .getByLabelText("Search for text within nodes")
+          .getAttribute("value")
       ).toEqual(inputValue);
     });
   });
@@ -55,7 +57,7 @@ describe("<SearchBox />", () => {
 
       renderWithProvider(<SearchBox />, undefined, dispatch);
 
-      fireEvent.click(screen.getByTestId("search-box-title-button"));
+      fireEvent.click(screen.getByText("Title"));
 
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith(setSearchingNodeTitles(false));
@@ -70,11 +72,9 @@ describe("<SearchBox />", () => {
         },
       });
 
-      expect(
-        screen
-          .getByTestId("search-box-title-button")
-          .getAttribute("aria-checked")
-      ).toEqual(`${!defaultState.search.searchingTitle}`);
+      expect(screen.getByText("Title").getAttribute("aria-checked")).toEqual(
+        `${!defaultState.search.searchingTitle}`
+      );
     });
   });
 
@@ -84,7 +84,7 @@ describe("<SearchBox />", () => {
 
       renderWithProvider(<SearchBox />, undefined, dispatch);
 
-      fireEvent.click(screen.getByTestId("search-box-body-button"));
+      fireEvent.click(screen.getByText("Body"));
 
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith(setSearchingNodeBodies(false));
@@ -99,11 +99,9 @@ describe("<SearchBox />", () => {
         },
       });
 
-      expect(
-        screen
-          .getByTestId("search-box-body-button")
-          .getAttribute("aria-checked")
-      ).toEqual(`${!defaultState.search.searchingBody}`);
+      expect(screen.getByText("Body").getAttribute("aria-checked")).toEqual(
+        `${!defaultState.search.searchingBody}`
+      );
     });
   });
 
@@ -113,7 +111,7 @@ describe("<SearchBox />", () => {
 
       renderWithProvider(<SearchBox />, undefined, dispatch);
 
-      fireEvent.click(screen.getByTestId("search-box-tags-button"));
+      fireEvent.click(screen.getByText("Tags"));
 
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith(setSearchingNodeTags(false));
@@ -128,11 +126,9 @@ describe("<SearchBox />", () => {
         },
       });
 
-      expect(
-        screen
-          .getByTestId("search-box-tags-button")
-          .getAttribute("aria-checked")
-      ).toEqual(`${!defaultState.search.searchingTags}`);
+      expect(screen.getByText("Tags").getAttribute("aria-checked")).toEqual(
+        `${!defaultState.search.searchingTags}`
+      );
     });
   });
 });

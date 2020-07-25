@@ -74,7 +74,7 @@ const renderTag = (
 ) => (
   <button css={listItemBase} onClick={() => onClick(tag)}>
     <div css={tagButtonContentStyle}>
-      <div>{tag}</div>
+      <div data-testid="tag-chooser-tag-button-text">{tag}</div>
       {nodeTags.includes(tag) && <CheckIcon />}
     </div>
   </button>
@@ -94,7 +94,7 @@ const NodeTagChooser: FunctionComponent<NodeTagChooserProps> = ({
     window.vsCodeApi.postMessage(toggleTagOnNode(node.title, tag));
 
   return (
-    <div css={nodeOverlayContainer}>
+    <div css={nodeOverlayContainer} data-testid="node-tag-chooser">
       <div css={tagButtonContainerStyle}>
         {getTagList(nodes).map((tag) => renderTag(tag, nodeTags, onTagClick))}
       </div>
