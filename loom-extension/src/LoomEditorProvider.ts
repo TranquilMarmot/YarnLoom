@@ -400,7 +400,8 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
       // add in any tags we didn't have
       .concat(tagsToToggle.filter((tag) => !existingTags.includes(tag)))
-      .join(" ");
+      .join(" ")
+      .trim();
 
     // update the one node we're updating and leave the rest alone
     this.nodes = [
