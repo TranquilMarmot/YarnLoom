@@ -202,6 +202,39 @@ export const askForNameAndRenameNode = (
     });
 };
 
+export const askForNewTagAndAddItToNode = (
+  editor: LoomEditorProvider,
+  nodeTitle: string
+) => {
+  window
+    .showInputBox({
+      prompt: `Enter a tag to add to ${nodeTitle}`,
+      ignoreFocusOut: true, // in case they want to look at their current nodes
+
+      // if this function returns a string, it's shown as an error and prevents the
+      // user from hitting enter; returning `undefined` means we're good-to-go
+      validateInput: (val: string) => {
+        if (getNodeByTitle(editor.nodes, val)) {
+          return `Node with name ${val} already exists`;
+        }
+
+        return undefined;
+      },
+    })
+    .then((val) => {
+      if (!val) {
+        return;
+      }
+
+      if (getNodeByTitle(editor.nodes, val)) {
+        window.showErrorMessage(`Node with name ${val} already exists`);
+        return;
+      }
+
+      editor.renameNode(nodeTitle, val);
+    });
+};
+
 /**
  * Listens for message being send with `window.vsCodeApi.postMessage({ type: string, payload: string });`
  * @param webviewPanel Panel to attach event listener to

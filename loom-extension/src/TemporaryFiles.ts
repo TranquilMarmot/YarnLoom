@@ -13,7 +13,6 @@ import {
 import sanitizeFileName from "sanitize-filename";
 
 import type { YarnNode } from "loom-common/YarnNode";
-import { createNodeText, parseNodeText } from "loom-common/YarnNode";
 import LoomEditorProvider from "./LoomEditorProvider";
 
 export interface TemporaryFile {
@@ -24,7 +23,9 @@ export interface TemporaryFile {
   watcher: FSWatcher;
 
   /** If we have a yarn file open, this will be the file this node is in */
-  document?: TextDocument;
+  document: TextDocument;
+
+  node: YarnNode;
 }
 
 /**
@@ -115,7 +116,7 @@ export const createTemporaryFileForNode = (
       `${sanitizeFileName(node.title)}.yarn.node` // .yarn.node files are syntax highlighted
     );
 
-    writeFileSync(tmpFilePath, createNodeText(node));
+    writeFileSync(tmpFilePath, node.body);
 
     // watch the temporary file
     // whenever it changes, we send a message back to the editor...
@@ -130,6 +131,7 @@ export const createTemporaryFileForNode = (
       path: tmpFilePath,
       watcher,
       document: editor.document,
+      node,
     };
 
     trackTemporaryFile(temporaryFile);
@@ -150,7 +152,7 @@ export const createTemporaryFileForNode = (
  */
 const watchTemporaryFileAndUpdateEditorOnChanges = (
   tmpFilePath: string,
-  originalNode: YarnNode,
+  node: YarnNode,
   editor: LoomEditorProvider
 ): FSWatcher =>
   watch(tmpFilePath, () =>
@@ -162,19 +164,10 @@ const watchTemporaryFileAndUpdateEditorOnChanges = (
         );
       } else {
         // only send an update if the text has actually changed
-        if (data !== createNodeText(originalNode)) {
-          const updatedNode = parseNodeText(data);
-
-          // sometimes this will get triggered before writing the file
-          if (updatedNode.title.trim().length > 0) {
-            editor.updateNode(originalNode.title, updatedNode);
-
-            // if the node's title has changed, update the original node's title so that
-            // if the user makes another change, the editor changes the proper node
-            if (originalNode.title !== updatedNode.title) {
-              originalNode.title = updatedNode.title;
-            }
-          }
+        // sometimes this will get triggered before writing the file
+        if (data.length > 0 && data !== node.body) {
+          editor.updateNodeBody(node.title, data);
+          node.body = data;
         }
       }
     })

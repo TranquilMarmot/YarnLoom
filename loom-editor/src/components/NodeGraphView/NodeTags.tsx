@@ -1,16 +1,38 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 
 import { titleColors } from "../NodeGraphView";
 import { useYarnState } from "../../state/YarnContext";
 import { searchForTag } from "../../state/UiActions";
 import UiActionType from "../../state/UiActionType";
 
+import { ReactComponent as AddIcon } from "../../icons/add.svg";
+import NodeTagChooser from "./NodeTagChooser";
+import { YarnNode } from "loom-common/YarnNode";
+
 const containerStyle = css`
   grid-row: 3 / 4;
+`;
+
+const tagListStyle = css`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const tagListContainerStyle = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const addTagButtonStyle = css`
+  background: none;
+  border: none;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const tagStyle = css`
@@ -32,8 +54,7 @@ const tagStyle = css`
 `;
 
 interface NodeTagsProps {
-  /** List of tags for the node */
-  tags?: string;
+  node: YarnNode;
 
   colorId?: number;
 }
@@ -50,8 +71,9 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
     </button>
   ));
 
-const NodeTags: FunctionComponent<NodeTagsProps> = ({ tags, colorId }) => {
+const NodeTags: FunctionComponent<NodeTagsProps> = ({ node, colorId }) => {
   const dispatch = useYarnState()[1];
+  const [showingAddTags, setShowingAddTags] = useState(false);
 
   return (
     <div
@@ -59,7 +81,17 @@ const NodeTags: FunctionComponent<NodeTagsProps> = ({ tags, colorId }) => {
         ${containerStyle}
         background-color: ${titleColors[colorId || 0]}`}
     >
-      {tags && renderTags(tags.split(" "), dispatch)}
+      <div css={tagListContainerStyle}>
+        <div css={tagListStyle}>
+          {node.tags && renderTags(node.tags.split(" "), dispatch)}
+        </div>
+        <button css={addTagButtonStyle} onClick={() => setShowingAddTags(true)}>
+          <AddIcon />
+        </button>
+      </div>
+      {showingAddTags && (
+        <NodeTagChooser node={node} onClose={() => setShowingAddTags(false)} />
+      )}
     </div>
   );
 };

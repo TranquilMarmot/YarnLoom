@@ -1,6 +1,7 @@
 import { action } from "typesafe-actions";
 
 import { YarnNode } from "./YarnNode";
+import { act } from "react-dom/test-utils";
 
 /** Types of messages that can be sent from the editor to the extension */
 export enum YarnEditorMessageTypes {
@@ -27,6 +28,12 @@ export enum YarnEditorMessageTypes {
 
   /** Change a node's title */
   RenameNode = "RenameNode",
+
+  /** Add/remove a tag from a node */
+  ToggleTagOnNode = "ToggleTagOnNode",
+
+  /** Add a new tag to a node; opens a prompt for text input */
+  AddNewTag = "AddNewTag",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -51,3 +58,9 @@ export const setNodePosition = (nodeTitle: string, x: number, y: number) =>
 
 export const renameNode = (nodeTitle: string) =>
   action(YarnEditorMessageTypes.RenameNode, { nodeTitle });
+
+export const toggleTagOnNode = (nodeTitle: string, tag: string) =>
+  action(YarnEditorMessageTypes.ToggleTagOnNode, { nodeTitle, tag });
+
+export const addNewTag = (nodeTitle: string) =>
+  action(YarnEditorMessageTypes.AddNewTag, { nodeTitle });

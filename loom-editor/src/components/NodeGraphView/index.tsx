@@ -60,12 +60,12 @@ interface NodeGraphViewProps {
 }
 
 const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
-  node: {
-    yarnNode: { colorID, title, body, tags },
-  },
+  node: { yarnNode },
 }) => {
   const [state] = useYarnState();
   const [colorChooserOpen, setColorChooserOpen] = useState(false);
+
+  const { colorID, title, body, tags } = yarnNode;
 
   if (!state) {
     return null;
@@ -102,15 +102,13 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
           nodeTitle={title}
         />
       ) : (
-        <NodeBody body={body} tags={tags} />
+        <NodeBody body={body} />
       )}
-      {tags && (
-        <NodeTags
-          tags={tags}
-          colorId={colorID}
-          data-testid="node-graph-view-tags"
-        />
-      )}
+      <NodeTags
+        node={yarnNode}
+        colorId={colorID}
+        data-testid="node-graph-view-tags"
+      />
     </div>
   );
 };

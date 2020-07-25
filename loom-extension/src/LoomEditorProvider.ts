@@ -28,6 +28,7 @@ import {
 import {
   getTemporaryFolderPath,
   unwatchTemporaryFilesForDocument,
+  createdTemporaryFiles,
 } from "./TemporaryFiles";
 
 /**
@@ -101,6 +102,7 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     // this is so that we can re-update the editor
     workspace.onDidChangeTextDocument((e) => {
       if (e.document.uri === document.uri) {
+        console.log("doin it");
         this.nodes = parseYarnFile(e.document.getText());
         webviewPanel.webview.postMessage(setNodes(this.nodes));
       }
@@ -221,6 +223,26 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
   };
 
   /**
+   * Update just the body of a node by its title
+   * @param title Title of node to update
+   * @param body New body to set for node
+   */
+  updateNodeBody = (title: string, body: string) => {
+    const node = this.nodes.find((node) => node.title === title);
+
+    if (!node) {
+      throw new Error(
+        `Tried to update body for ${title} but no node with that title was found.`
+      );
+    }
+
+    this.updateNode(title, {
+      ...node,
+      body,
+    });
+  };
+
+  /**
    * Renames a node and changes all links going to that node to point to the new node title.
    * @param oldTitle Old title of node
    * @param newTitle New title of node
@@ -278,6 +300,15 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     }
 
     workspace.applyEdit(edit);
+
+    // update references to this node in any open temporary files
+    // it's worth noting that if the user undoes this rename (via Ctrl+Z) then the link between
+    // the node and the open file will be broken (there's no real good way to detect when this happens 😢)
+    createdTemporaryFiles.forEach((tmpFile) => {
+      if (tmpFile.node.title === oldTitle) {
+        tmpFile.node.title = newTitle;
+      }
+    });
   };
 
   /**
