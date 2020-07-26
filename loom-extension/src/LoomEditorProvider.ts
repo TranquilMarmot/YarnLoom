@@ -100,9 +100,10 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
     // track when the document that's opened changes
     // this is so that we can re-update the editor
+    // this is what actually triggers updates in the editor; every change to a node (editing, renaming, etc.)
+    // changes the backing document which triggers this and updates the editor
     workspace.onDidChangeTextDocument((e) => {
       if (e.document.uri === document.uri) {
-        console.log("doin it");
         this.nodes = parseYarnFile(e.document.getText());
         webviewPanel.webview.postMessage(setNodes(this.nodes));
       }
@@ -206,19 +207,21 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     // this will return any new nodes that were auto-created from added links
     const addedNodes = buildLinksFromNodes(this.nodes, true);
 
-    // update all the nodes in the editor
-    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
-
     // and finally, apply the actual edit to the text document
     const edit = new WorkspaceEdit();
+
+    // change the node we're actually updating
     edit.replace(
       this.document.uri,
       this.getRangeForNode(originalTitle),
       createNodeText(node)
     );
+
+    // add in all the new nodes
     addedNodes.forEach((addedNode) =>
       this.createNodeInDocument(addedNode, edit)
     );
+
     workspace.applyEdit(edit);
   };
 
@@ -279,8 +282,6 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
     // this will change _all_ links going to this node and return a list of changed nodes
     const changedNodes = renameLinksFromNode(this.nodes, oldTitle, newTitle);
-
-    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
 
     // and finally, apply the actual edit to the text document
     const edit = new WorkspaceEdit();
@@ -438,9 +439,6 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
     // re-build the links in case they changed
     buildLinksFromNodes(this.nodes, false);
 
-    // update all the nodes in the editor
-    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
-
     // and finally, apply the actual edit to the text document
     const edit = new WorkspaceEdit();
     edit.delete(this.document.uri, this.getRangeForNode(nodeTitle));
@@ -467,16 +465,16 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
 
     this.nodes.push(node);
 
-    // update all the nodes in the editor
-    this.webviewPanel.webview.postMessage(setNodes(this.nodes));
-
     const edit = new WorkspaceEdit();
     this.createNodeInDocument(node, edit);
     workspace.applyEdit(edit);
   };
 
   /**
-   * Add a new node to the backing text document
+   * Add a new node to the backing text document.
+   * Note: This just adds the new node to the given WorkspaceEdit but does *not* actually apply it!
+   * `workspace.applyEdit` must be called to actually apply the edit
+   *
    * @param node Node to insert into document
    * @param edit Edit to apply insert to
    */

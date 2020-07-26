@@ -2,7 +2,6 @@ import LoomEditorProvider from "./LoomEditorProvider";
 import * as vscode from "vscode";
 import { YarnNode, createNodeText } from "loom-common/YarnNode";
 import { parseYarnFile } from "loom-common/YarnParser";
-import { setNodes } from "loom-common/EditorActions";
 
 // for asserting functions are called properly
 const vscodeMock = require("../__mocks__/vscode");
@@ -98,14 +97,6 @@ A: HAHAHA
       // no new nodes should have been added
       expect(provider.nodes).toHaveLength(3);
 
-      // a message should have been sent back to the editor to tell it about the new nodes
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
-        1
-      );
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
-        setNodes(provider.nodes)
-      );
-
       // and a workspace edit should have been created and applied
       expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
 
@@ -139,14 +130,6 @@ A: HAHAHA
 
       // no new nodes should have been added
       expect(provider.nodes).toHaveLength(3);
-
-      // a message should have been sent back to the editor to tell it about the new nodes
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
-        1
-      );
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
-        setNodes(provider.nodes)
-      );
 
       // and a workspace edit should have been created and applied
       expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
@@ -183,14 +166,6 @@ A: HAHAHA
       // new node was added! originally we had 3
       expect(provider.nodes).toHaveLength(4);
 
-      // a message should have been sent back to the editor to tell it about the new nodes
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
-        1
-      );
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
-        setNodes(provider.nodes)
-      );
-
       // and a workspace edit should have been created and applied
       expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
 
@@ -225,14 +200,6 @@ A: HAHAHA
 
       // new node was added! originally we had 3
       expect(provider.nodes).toHaveLength(4);
-
-      // a message should have been sent back to the editor to tell it about the new nodes
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
-        1
-      );
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
-        setNodes(provider.nodes)
-      );
 
       // and a workspace edit should have been created and applied
       expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
@@ -310,14 +277,6 @@ B: What would you prefer to do next?
             y: 181,
           },
         })}`
-      );
-
-      // a message should have been sent back to the editor to tell it about the new nodes
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
-        1
-      );
-      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
-        setNodes(provider.nodes)
       );
     });
   });
