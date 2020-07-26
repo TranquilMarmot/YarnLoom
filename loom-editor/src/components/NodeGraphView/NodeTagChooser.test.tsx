@@ -87,7 +87,7 @@ describe("<NodeTagChooser />", () => {
     );
   });
 
-  it("opens prompts for a new tag when new tag button is clicked", async () => {
+  it("opens prompts for to add tags when add tagsbutton is clicked", async () => {
     window.vsCodeApi = { postMessage: jest.fn() };
 
     renderWithProvider(
@@ -95,7 +95,7 @@ describe("<NodeTagChooser />", () => {
       stateWithNodes
     );
 
-    fireEvent.click(await screen.findByText("New tag"));
+    fireEvent.click(await screen.findByText("Add tags"));
 
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledWith(

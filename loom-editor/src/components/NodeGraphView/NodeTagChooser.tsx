@@ -38,6 +38,7 @@ const newTagIconStyle = css`
 const tagButtonContentStyle = css`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   width: 100%;
 `;
@@ -108,7 +109,7 @@ const NodeTagChooser: FunctionComponent<NodeTagChooserProps> = ({
             window.vsCodeApi.postMessage(promptForNewTags(node.title))
           }
         >
-          <PlusIcon css={newTagIconStyle} /> New tag
+          <PlusIcon css={newTagIconStyle} /> Add tags
         </button>
       </div>
     </div>

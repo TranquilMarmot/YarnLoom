@@ -213,7 +213,7 @@ export const promptForNewTags = (
 ) => {
   window
     .showInputBox({
-      prompt: `Enter a tag to add to ${nodeTitle} (use spaces to separate multiple tags)`,
+      prompt: `Enter a tag to add to ${nodeTitle}. Use spaces to separate multiple tags.`,
       ignoreFocusOut: true, // in case they want to look at their current nodes
     })
     .then((val) => {
