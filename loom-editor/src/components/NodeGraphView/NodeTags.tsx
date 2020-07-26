@@ -7,10 +7,31 @@ import { useYarnState } from "../../state/YarnContext";
 import { searchForTag } from "../../state/UiActions";
 import UiActionType from "../../state/UiActionType";
 
+import { ReactComponent as AddIcon } from "../../icons/add.svg";
+import { YarnNode } from "loom-common/YarnNode";
+
 const containerStyle = css`
   grid-row: 3 / 4;
+`;
+
+const tagListStyle = css`
   display: flex;
   flex-wrap: wrap;
+`;
+
+const tagListContainerStyle = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const addTagButtonStyle = css`
+  background: none;
+  border: none;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const tagStyle = css`
@@ -32,10 +53,10 @@ const tagStyle = css`
 `;
 
 interface NodeTagsProps {
-  /** List of tags for the node */
-  tags?: string;
+  node: YarnNode;
 
   colorId?: number;
+  onOpenTagChooser: () => void;
 }
 
 const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
@@ -50,7 +71,11 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
     </button>
   ));
 
-const NodeTags: FunctionComponent<NodeTagsProps> = ({ tags, colorId }) => {
+const NodeTags: FunctionComponent<NodeTagsProps> = ({
+  node,
+  colorId,
+  onOpenTagChooser,
+}) => {
   const dispatch = useYarnState()[1];
 
   return (
@@ -59,7 +84,18 @@ const NodeTags: FunctionComponent<NodeTagsProps> = ({ tags, colorId }) => {
         ${containerStyle}
         background-color: ${titleColors[colorId || 0]}`}
     >
-      {tags && renderTags(tags.split(" "), dispatch)}
+      <div css={tagListContainerStyle}>
+        <div css={tagListStyle}>
+          {node.tags && renderTags(node.tags.split(" "), dispatch)}
+        </div>
+        <button
+          aria-label="Add tags to node"
+          css={addTagButtonStyle}
+          onClick={onOpenTagChooser}
+        >
+          <AddIcon />
+        </button>
+      </div>
     </div>
   );
 };

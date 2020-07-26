@@ -161,6 +161,77 @@ export const askForNameAndAddNewNode = (editor: LoomEditorProvider) => {
 };
 
 /**
+ * Asks the user for the name of a new node to add and then adds it to the document.
+ * This will ensure that the node being added has a unique title that no other node has.
+ *
+ * @param editor Editor to add node to
+ * @param nodeTitle Current title of node to rename
+ */
+export const askForNameAndRenameNode = (
+  editor: LoomEditorProvider,
+  nodeTitle: string
+) => {
+  window
+    .showInputBox({
+      prompt: `Enter a new name for ${nodeTitle}`,
+      value: nodeTitle, // this will automatically be fully selected
+      placeHolder: nodeTitle,
+      ignoreFocusOut: true, // in case they want to look at their current nodes
+
+      // if this function returns a string, it's shown as an error and prevents the
+      // user from hitting enter; returning `undefined` means we're good-to-go
+      validateInput: (val: string) => {
+        if (getNodeByTitle(editor.nodes, val)) {
+          return `Node with name ${val} already exists`;
+        }
+
+        return undefined;
+      },
+    })
+    .then((val) => {
+      if (!val) {
+        return;
+      }
+
+      if (getNodeByTitle(editor.nodes, val)) {
+        window.showErrorMessage(`Node with name ${val} already exists`);
+        return;
+      }
+
+      editor.renameNode(nodeTitle, val);
+    });
+};
+
+/**
+ * Asks for new tags and then adds them to the given node
+ * @param editor Editor to apply new tags to
+ * @param nodeTitle Title of node to apply tags to
+ */
+export const promptForNewTags = (
+  editor: LoomEditorProvider,
+  nodeTitle: string
+) => {
+  window
+    .showInputBox({
+      prompt: `Enter a tag to add to ${nodeTitle}. Use spaces to separate multiple tags.`,
+      ignoreFocusOut: true, // in case they want to look at their current nodes
+    })
+    .then((val) => {
+      if (!val) {
+        return;
+      }
+
+      editor.addTagsToNode(nodeTitle, val);
+    });
+};
+
+export const toggleTagsOnNode = (
+  editor: LoomEditorProvider,
+  nodeTitle: string,
+  tag: string
+) => editor.toggleTagsOnNode(nodeTitle, tag);
+
+/**
  * Listens for message being send with `window.vsCodeApi.postMessage({ type: string, payload: string });`
  * @param webviewPanel Panel to attach event listener to
  * @param document Document that webview is currently showing (undefined if showing an editor that's not looking at a document)
@@ -194,6 +265,19 @@ export const listenForMessages = (
         break;
       case YarnEditorMessageTypes.CreateNewNode:
         askForNameAndAddNewNode(editor);
+        break;
+      case YarnEditorMessageTypes.RenameNode:
+        askForNameAndRenameNode(editor, message.payload.nodeTitle);
+        break;
+      case YarnEditorMessageTypes.PromptForNewTags:
+        promptForNewTags(editor, message.payload.nodeTitle);
+        break;
+      case YarnEditorMessageTypes.ToggleTagOnNode:
+        toggleTagsOnNode(
+          editor,
+          message.payload.nodeTitle,
+          message.payload.tag
+        );
         break;
       default:
         break;

@@ -25,6 +25,7 @@ Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yar
     - [Searching](#searching)
       - [Quick tag search](#quick-tag-search)
     - [Switching between the graph editor and a text editor](#switching-between-the-graph-editor-and-a-text-editor)
+    - [Theme support](#theme-support)
   - [Special Thanks](#special-thanks)
 
 ## Installing
@@ -59,9 +60,11 @@ Changes saved in this text editor will be reflected in the `.yarn` file editor. 
 
 ### Renaming nodes
 
-A node can be renamed by changing its `title` after opening it up in the text editor.
+A node can be renamed by clicking on the rename icon (![rename icon](./loom-editor/src/icons/rename.svg))
 
-Note that when renaming a node that has incoming links, it will automatically be re-created when renamed since the editor will auto-create linked nodes. To rename a node with incoming links, you must rename the outgoing links to the desired name and then delete the existing node. A future update will make this easier.
+Any nodes that are linking to a node will have their links automatically updated when a node is renamed.
+
+An error message will be shown if there is already a node with the entered name.
 
 <details>
   <summary>Expand for demo of renaming a node</summary>
@@ -70,9 +73,11 @@ Note that when renaming a node that has incoming links, it will automatically be
 
 ### Changing node tags
 
-Tags can be added/removed by changing the `tags` value in the header of a node after opening it up in the text editor.
+Tags can be added/removed by clicking the add icon (![add icon](./loom-editor/src/icons/add.svg)) on the bottom of a node.
 
-`tags` is a space-separated list of strings.
+Existing tags will be shown in a list and can be toggled on and off.
+
+To add new tags, click the "+ Add Tags" button. You can then enter a list of space-separated tags here and they will all be added to the node.
 
 <details>
   <summary>Expand for demo of changing node tags</summary>
@@ -150,6 +155,17 @@ In this menu, clicking the gear icon will set an editor as the default editor fo
 <details>
   <summary>Expand for demo of switching between the text editor and Yarn Loom</summary>
   <img src="./images/reopen-with-text-editor.gif" alt="Demo of switching between Yarn Loom and a text editor" />
+</details>
+
+### Theme support
+
+This extension should fully support all Visual Studio Code themes. Better and more integrated theme support will be added gradually.
+
+If there is a theme where something doesn't look right or is unreadable, please don't hesitate to [open up a new issue on the GitHub repo](https://github.com/TranquilMarmot/YarnLoom/issues/new/choose).
+
+<details>
+  <summary>Expand for demo of switching themes</summary>
+  <img src="./images/theme-change.gif" alt="Demo of switching themes in Visual Studio Code" />
 </details>
 
 ## Special Thanks

@@ -28,14 +28,12 @@ describe("<TagList />", () => {
       ],
     });
 
-    const tagLabels = screen.getAllByTestId("node-search-tag-label");
-    expect(tagLabels).toHaveLength(5);
-
-    expect(tagLabels[0].textContent).toEqual("some");
-    expect(tagLabels[1].textContent).toEqual("test");
-    expect(tagLabels[2].textContent).toEqual("tags");
-    expect(tagLabels[3].textContent).toEqual("more");
-    expect(tagLabels[4].textContent).toEqual("other");
+    // these will throw if there are no elements with this text
+    screen.getByText("some");
+    screen.getByText("test");
+    screen.getByText("tags");
+    screen.getByText("more");
+    screen.getByText("other");
   });
 
   it("renders plural nodes if there are more than 1 node with a tag", () => {

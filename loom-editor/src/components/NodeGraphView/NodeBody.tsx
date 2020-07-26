@@ -7,27 +7,16 @@ const bodyStyle = css`
   overflow: auto;
   padding-left: 3px;
 
+  grid-row: 2 / 3;
+
   ::-webkit-scrollbar-corner {
     background-color: white;
   }
 `;
 
-/** If there are no tags for the node, this style is mixed in */
-const noTagsBodyStyle = css`
-  grid-row: 2 / 4;
-`;
-
-/** If there are tags for the node, this style is mixed in */
-const withTagsBodyStyle = css`
-  grid-row: 2 / 3;
-`;
-
 interface NodeBodyProps {
   /** Body of node to render */
   body: string;
-
-  /** List of tags; not actually rendered, but used to determine the height of the body container */
-  tags?: string;
 }
 
 /**
@@ -122,12 +111,8 @@ const parseBody = (body: string) => {
 };
 
 /** Render the body of a node with some basic syntax highlighting. */
-const NodeBody: FunctionComponent<NodeBodyProps> = ({ body, tags }) => {
-  return (
-    <div css={css`${bodyStyle}${tags ? withTagsBodyStyle : noTagsBodyStyle}`}>
-      {parseBody(body)}
-    </div>
-  );
+const NodeBody: FunctionComponent<NodeBodyProps> = ({ body }) => {
+  return <div css={bodyStyle}>{parseBody(body)}</div>;
 };
 
 export default NodeBody;

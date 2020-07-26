@@ -15,7 +15,8 @@
           "name": "keyword.other"
         },
         {
-          "match": "(?<=:).*$",
+          "comment": "All text in the line, not including name and optional line identifier",
+          "match": "(?<=:\\s).*?(?=\\s*#line:.*|$)",
           "name": "keyword.control"
         },
         {
@@ -24,8 +25,6 @@
       ]
     },
     "nodebody": {
-      "begin": "---",
-      "end": "===",
       "patterns": [
         {
           "include": "#comments"
@@ -67,6 +66,11 @@
           "name": "comment.line.double-slash.yarnspinner",
           "begin": "//",
           "end": "$"
+        },
+        {
+          "comment": "Line identifier",
+          "name": "comment.line.number-sign",
+          "match": "#line:.*"
         }
       ]
     },
@@ -160,6 +164,11 @@
           "comment": "Shortcut option",
           "name": "keyword.control",
           "match": "^\\s*-\\>"
+        },
+        {
+          "comment": "Node begin/end",
+          "name": "keyword.control",
+          "match": "---|==="
         },
         {
           "include": "#commands"

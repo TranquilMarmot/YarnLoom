@@ -67,7 +67,7 @@ const NodeList: FunctionComponent = () => {
             css={css`${listItemBase}${listItemStyle}`}
             onClick={() => dispatch(searchForTag(tag))}
           >
-            <div data-testid="node-search-tag-label">{tag}</div>
+            <div>{tag}</div>
             <div>
               {tags[tag]} node{tags[tag] > 1 ? "s" : ""}
             </div>

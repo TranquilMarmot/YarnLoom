@@ -9,7 +9,7 @@ import {
 } from "./TemporaryFiles";
 
 import { join } from "path";
-import { YarnNode, createNodeText } from "loom-common/YarnNode";
+import { YarnNode } from "loom-common/YarnNode";
 import LoomEditorProvider from "./LoomEditorProvider";
 
 // vscodeMock contains mock functions for the "vscode" library
@@ -90,7 +90,7 @@ describe("TemporaryFiles", () => {
       expect(fs.writeFileSync).toHaveBeenNthCalledWith(
         1,
         expectedMockFilePath,
-        createNodeText(testNode)
+        testNode.body
       );
 
       // this will also call out to `watchTemporaryFileAndUpdateEditorOnChanges` which watches the file...
@@ -111,11 +111,21 @@ describe("TemporaryFiles", () => {
     it("un-watches all tracked files for the given document", () => {
       const mockTemporaryFiles: TemporaryFile[] = [
         {
+          node: {
+            title: "Some node",
+            body: "",
+            tags: "",
+          },
           path: "some-path.yarn.node",
           watcher: { close: jest.fn() } as any,
           document: mockTextDocument,
         },
         {
+          node: {
+            title: "Some other node",
+            body: "",
+            tags: "",
+          },
           path: "some-other-path.yarn.node",
           watcher: { close: jest.fn() } as any,
           document: mockTextDocument,
@@ -141,11 +151,21 @@ describe("TemporaryFiles", () => {
 
       const mockTemporaryFiles: TemporaryFile[] = [
         {
+          node: {
+            title: "Some node",
+            body: "",
+            tags: "",
+          },
           path: "some-path.yarn.node",
           watcher: { close: jest.fn() } as any,
           document: mockTextDocument,
         },
         {
+          node: {
+            title: "Some other node",
+            body: "",
+            tags: "",
+          },
           path: "some-other-path.yarn.node",
           watcher: { close: jest.fn() } as any,
           document: otherMockTextDocument,
@@ -174,6 +194,11 @@ describe("TemporaryFiles", () => {
   describe("deleteAllTemporaryFiles", () => {
     it("deletes all temporary files", () => {
       const mockTemporaryFile: TemporaryFile = {
+        node: {
+          title: "Some node",
+          body: "",
+          tags: "",
+        },
         path: "some-path.yarn.node",
         watcher: { close: jest.fn() } as any,
         document: mockTextDocument,

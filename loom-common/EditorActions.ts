@@ -24,6 +24,18 @@ export enum YarnEditorMessageTypes {
 
   /** Set the position for a node */
   SetNodePosition = "SetNodePosition",
+
+  /** Change a node's title */
+  RenameNode = "RenameNode",
+
+  /** Add/remove a tag from a node */
+  ToggleTagOnNode = "ToggleTagOnNode",
+
+  /** Prompt the user for new tags and add them to the node */
+  PromptForNewTags = "PromptForNewTags",
+
+  /** Add a specific tag to the node */
+  AddTagToNode = "AddTagToNode",
 }
 
 export const setNodes = (nodes: YarnNode[]) =>
@@ -45,3 +57,12 @@ export const setNodeColor = (nodeTitle: string, colorIndex: number) =>
 
 export const setNodePosition = (nodeTitle: string, x: number, y: number) =>
   action(YarnEditorMessageTypes.SetNodePosition, { nodeTitle, x, y });
+
+export const renameNode = (nodeTitle: string) =>
+  action(YarnEditorMessageTypes.RenameNode, { nodeTitle });
+
+export const toggleTagOnNode = (nodeTitle: string, tag: string) =>
+  action(YarnEditorMessageTypes.ToggleTagOnNode, { nodeTitle, tag });
+
+export const promptForNewTags = (nodeTitle: string) =>
+  action(YarnEditorMessageTypes.PromptForNewTags, { nodeTitle });

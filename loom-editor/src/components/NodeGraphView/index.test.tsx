@@ -31,14 +31,24 @@ describe("<NodeGraphView />", () => {
     expect(screen.queryByTestId("node-graph-view-tags")).toBeNull();
   });
 
-  it("opens the color picker", () => {
+  it("opens the color chooser", () => {
     renderWithProvider(<NodeGraphView node={mockNode} />);
 
     expect(screen.queryByTestId("node-title-color-chooser")).toBeNull();
 
-    fireEvent.click(screen.getByTestId("node-title-color-button"));
+    fireEvent.click(screen.getByLabelText("Change node color"));
 
     expect(screen.queryByTestId("node-title-color-chooser")).not.toBeNull();
+  });
+
+  it("opens the tag chooser", () => {
+    renderWithProvider(<NodeGraphView node={mockNode} />);
+
+    expect(screen.queryByTestId("node-tag-chooser")).toBeNull();
+
+    fireEvent.click(screen.getByLabelText("Add tags to node"));
+
+    expect(screen.queryByTestId("node-tag-chooser")).not.toBeNull();
   });
 
   describe("searching", () => {

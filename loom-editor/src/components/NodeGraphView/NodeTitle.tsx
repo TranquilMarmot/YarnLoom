@@ -2,8 +2,9 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { deleteNode } from "loom-common/EditorActions";
+import { deleteNode, renameNode } from "loom-common/EditorActions";
 
+import { ReactComponent as RenameIcon } from "../../icons/rename.svg";
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
 import { isDark } from "../../Util";
@@ -54,8 +55,12 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
     color: ${fontColor};
   `;
 
-  const iconStyle = css`
+  const iconFillStyle = css`
     fill: ${fontColor};
+  `;
+
+  const iconStrokeStyle = css`
+    stroke: ${fontColor};
   `;
 
   return (
@@ -69,17 +74,24 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
       <div css={css`${titleLabelStyle}${fontStyle}`}>{title}</div>
       <button
         css={settingsButtonStyle}
-        onClick={onOpenColorChooser}
-        data-testid="node-title-color-button"
+        onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
+        aria-label="Rename node"
       >
-        <ColorIcon css={iconStyle} />
+        <RenameIcon css={iconStrokeStyle} />
+      </button>
+      <button
+        css={settingsButtonStyle}
+        onClick={onOpenColorChooser}
+        aria-label="Change node color"
+      >
+        <ColorIcon css={iconFillStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
-        data-testid="node-title-delete-button"
+        aria-label="Delete node"
       >
-        <TrashIcon css={iconStyle} />
+        <TrashIcon css={iconFillStyle} />
       </button>
     </div>
   );
