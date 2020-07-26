@@ -55,8 +55,12 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
     color: ${fontColor};
   `;
 
-  const iconStyle = css`
+  const iconFillStyle = css`
     fill: ${fontColor};
+  `;
+
+  const iconStrokeStyle = css`
+    stroke: ${fontColor};
   `;
 
   return (
@@ -73,21 +77,21 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
         onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
         aria-label="Rename node"
       >
-        <RenameIcon css={iconStyle} />
+        <RenameIcon css={iconStrokeStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={onOpenColorChooser}
         aria-label="Change node color"
       >
-        <ColorIcon css={iconStyle} />
+        <ColorIcon css={iconFillStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
         aria-label="Delete node"
       >
-        <TrashIcon css={iconStyle} />
+        <TrashIcon css={iconFillStyle} />
       </button>
     </div>
   );
