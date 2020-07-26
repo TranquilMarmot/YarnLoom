@@ -317,12 +317,6 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
    * @param tags Tags to add to node (separated by spaced)
    */
   addTagsToNode = (nodeTitle: string, tags: string) => {
-    if (!this.webviewPanel) {
-      throw new Error(
-        `Tried to add tags to ${nodeTitle} but we don't have a webview!`
-      );
-    }
-
     if (!this.document) {
       throw new Error(
         `Tried to add tags to ${nodeTitle} but we don't have a document!`
@@ -369,12 +363,6 @@ export default class LoomEditorProvider implements CustomTextEditorProvider {
    * @param tags Tags to add to node (separated by spaced)
    */
   toggleTagsOnNode = (nodeTitle: string, tags: string) => {
-    if (!this.webviewPanel) {
-      throw new Error(
-        `Tried to add tags to ${nodeTitle} but we don't have a webview!`
-      );
-    }
-
     if (!this.document) {
       throw new Error(
         `Tried to add tags to ${nodeTitle} but we don't have a document!`

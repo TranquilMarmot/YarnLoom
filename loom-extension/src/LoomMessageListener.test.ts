@@ -39,7 +39,14 @@ describe("LoomMessageListener", () => {
       webviewPanel: {}, // needs to be defined or errors are thrown
       updateNode: jest.fn(),
       deleteNode: jest.fn(),
+      addNewNode: jest.fn(),
+      renameNode: jest.fn(),
+      addTagsToNode: jest.fn(),
     } as unknown) as LoomEditorProvider;
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe("openNodeInTemporaryFileEditor", () => {
@@ -126,6 +133,126 @@ describe("LoomMessageListener", () => {
 
       // not called since the user would have decided not to delete it
       expect(mockEditor.deleteNode).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe("askForNameAndAddNewNode", () => {
+    it("adds a new node", () => {
+      const newNodeName = "New Node";
+
+      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
+        newNodeName
+      );
+
+      LoomMessageListener.askForNameAndAddNewNode(mockEditor);
+
+      expect(mockedInputBoxResponse).toHaveBeenCalledTimes(1);
+
+      // actually called once with the node title
+      expect(mockEditor.addNewNode).toHaveBeenCalledTimes(1);
+      expect(mockEditor.addNewNode).toHaveBeenCalledWith(newNodeName);
+    });
+
+    it("does not add nodes that already exist", () => {
+      const existingNodeName = "Existing Node";
+
+      mockEditor.nodes = [
+        {
+          title: existingNodeName,
+          body: "",
+          tags: "",
+        },
+      ];
+
+      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
+        existingNodeName
+      );
+
+      LoomMessageListener.askForNameAndAddNewNode(mockEditor);
+
+      expect(mockedInputBoxResponse).toHaveBeenCalledTimes(1);
+
+      // not called since there was already a node with the name
+      expect(mockEditor.addNewNode).toHaveBeenCalledTimes(0);
+
+      expect(vscodeMock.window.showErrorMessage).toHaveBeenCalledTimes(1);
+      expect(vscodeMock.window.showErrorMessage).toHaveBeenCalledWith(
+        `Node with name ${existingNodeName} already exists`
+      );
+    });
+  });
+
+  describe("askForNameAndRenameNode", () => {
+    it("renames nodes", () => {
+      const newNodeName = "New Node Name";
+
+      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
+        newNodeName
+      );
+
+      LoomMessageListener.askForNameAndRenameNode(mockEditor, mockNodeTitle);
+
+      expect(mockedInputBoxResponse).toHaveBeenCalledTimes(1);
+
+      // actually called once with the node title
+      expect(mockEditor.renameNode).toHaveBeenCalledTimes(1);
+      expect(mockEditor.renameNode).toHaveBeenCalledWith(
+        mockNodeTitle,
+        newNodeName
+      );
+    });
+
+    it("does not add rename to a name that already exist", () => {
+      const existingNodeName = "Existing Node";
+
+      mockEditor.nodes = [
+        {
+          title: mockNodeTitle,
+          body: "",
+          tags: "",
+        },
+        {
+          title: existingNodeName,
+          body: "",
+          tags: "",
+        },
+      ];
+
+      // trying to rename mockNodeTitle -> existingNodeName
+      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
+        existingNodeName
+      );
+
+      LoomMessageListener.askForNameAndRenameNode(mockEditor, mockNodeTitle);
+
+      expect(mockedInputBoxResponse).toHaveBeenCalledTimes(1);
+
+      // not called since there was already a node with the name
+      expect(mockEditor.renameNode).toHaveBeenCalledTimes(0);
+
+      expect(vscodeMock.window.showErrorMessage).toHaveBeenCalledTimes(1);
+      expect(vscodeMock.window.showErrorMessage).toHaveBeenCalledWith(
+        `Node with name ${existingNodeName} already exists`
+      );
+    });
+  });
+
+  describe("promptForNewTags", () => {
+    it("adds tags", () => {
+      const tags = "some cool tags";
+
+      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(tags);
+
+      LoomMessageListener.promptForNewTags(mockEditor, mockNodeTitle);
+
+      expect(mockedInputBoxResponse).toHaveBeenCalledTimes(1);
+
+      // actually called once with the node title
+      expect(mockEditor.addTagsToNode).toHaveBeenCalledTimes(1);
+      expect(mockEditor.addTagsToNode).toHaveBeenCalledWith(
+        mockNodeTitle,
+        tags
+      );
     });
   });
 
@@ -257,6 +384,94 @@ describe("LoomMessageListener", () => {
       );
 
       setNodePositionMock.mockRestore();
+    });
+
+    it("Listens for YarnEditorMessageTypes.CreateNewNode", () => {
+      const mockWebviewPanel = createMockWebviewWithMessage(
+        EditorActionCreators.createNewNode()
+      );
+
+      const askForNameAndAddNewNodeMock = jest.spyOn(
+        LoomMessageListener,
+        "askForNameAndAddNewNode"
+      );
+      askForNameAndAddNewNodeMock.mockImplementationOnce(() => {});
+
+      LoomMessageListener.listenForMessages(mockWebviewPanel, mockEditor);
+
+      expect(askForNameAndAddNewNodeMock).toHaveBeenCalledTimes(1);
+      expect(askForNameAndAddNewNodeMock).toHaveBeenCalledWith(mockEditor);
+
+      askForNameAndAddNewNodeMock.mockRestore();
+    });
+
+    it("Listens for YarnEditorMessageTypes.RenameNode", () => {
+      const mockWebviewPanel = createMockWebviewWithMessage(
+        EditorActionCreators.renameNode(mockNodeTitle)
+      );
+
+      const askForNameAndRenameNodeMock = jest.spyOn(
+        LoomMessageListener,
+        "askForNameAndRenameNode"
+      );
+      askForNameAndRenameNodeMock.mockImplementationOnce(() => {});
+
+      LoomMessageListener.listenForMessages(mockWebviewPanel, mockEditor);
+
+      expect(askForNameAndRenameNodeMock).toHaveBeenCalledTimes(1);
+      expect(askForNameAndRenameNodeMock).toHaveBeenCalledWith(
+        mockEditor,
+        mockNodeTitle
+      );
+
+      askForNameAndRenameNodeMock.mockRestore();
+    });
+
+    it("Listens for YarnEditorMessageTypes.PromptForNewTags", () => {
+      const mockWebviewPanel = createMockWebviewWithMessage(
+        EditorActionCreators.promptForNewTags(mockNodeTitle)
+      );
+
+      const promptForNewTagsMock = jest.spyOn(
+        LoomMessageListener,
+        "promptForNewTags"
+      );
+      promptForNewTagsMock.mockImplementationOnce(() => {});
+
+      LoomMessageListener.listenForMessages(mockWebviewPanel, mockEditor);
+
+      expect(promptForNewTagsMock).toHaveBeenCalledTimes(1);
+      expect(promptForNewTagsMock).toHaveBeenCalledWith(
+        mockEditor,
+        mockNodeTitle
+      );
+
+      promptForNewTagsMock.mockRestore();
+    });
+
+    it("Listens for YarnEditorMessageTypes.ToggleTagOnNode", () => {
+      const tags = "some nodes";
+
+      const mockWebviewPanel = createMockWebviewWithMessage(
+        EditorActionCreators.toggleTagOnNode(mockNodeTitle, tags)
+      );
+
+      const toggleTagsOnNodeMock = jest.spyOn(
+        LoomMessageListener,
+        "toggleTagsOnNode"
+      );
+      toggleTagsOnNodeMock.mockImplementationOnce(() => {});
+
+      LoomMessageListener.listenForMessages(mockWebviewPanel, mockEditor);
+
+      expect(toggleTagsOnNodeMock).toHaveBeenCalledTimes(1);
+      expect(toggleTagsOnNodeMock).toHaveBeenCalledWith(
+        mockEditor,
+        mockNodeTitle,
+        tags
+      );
+
+      toggleTagsOnNodeMock.mockRestore();
     });
   });
 });

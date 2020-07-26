@@ -20,6 +20,12 @@ const window = {
       fn();
     },
   })),
+  showInputBox: jest.fn().mockImplementation(() => ({
+    then: (fn: () => void) => {
+      fn();
+    },
+  })),
+  showErrorMessage: jest.fn(),
 };
 
 const __setWorkspaceName = (name: string) => {
@@ -34,6 +40,18 @@ const __setInformationMessageResponse = (response: string) => {
   }));
 
   (window as any).showInformationMessage = mock;
+
+  return mock;
+};
+
+const __setInputBoxResponse = (response: string) => {
+  const mock = jest.fn().mockImplementationOnce(() => ({
+    then: (fn: (response: string) => void) => {
+      fn(response);
+    },
+  }));
+
+  (window as any).showInputBox = mock;
 
   return mock;
 };
@@ -67,4 +85,5 @@ module.exports = {
   WorkspaceEdit,
   __setWorkspaceName,
   __setInformationMessageResponse,
+  __setInputBoxResponse,
 };

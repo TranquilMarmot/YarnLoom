@@ -252,4 +252,197 @@ A: HAHAHA
       );
     });
   });
+
+  describe("renameNode", () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("renames a node and updates any links to it", () => {
+      const newNodeTitle = "New Name";
+
+      provider.renameNode("LearnMore", newNodeTitle);
+
+      // a new workspace edit should have been created and applied
+      expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
+
+      // this should have been called twice; once to rename the node and once to update the link to it
+      const workspaceEditReplaceMock =
+        vscodeMock.WorkspaceEdit.mock.results[0].value.replace;
+      expect(workspaceEditReplaceMock).toHaveBeenCalledTimes(2);
+
+      // renaming LearnMore -> A Whole New Node
+      expect(workspaceEditReplaceMock).toHaveBeenNthCalledWith(
+        1,
+        provider.document?.uri,
+        {},
+        `${createNodeText({
+          title: newNodeTitle,
+          body: "A: HAHAHA",
+          tags: "rawText",
+          position: {
+            x: 763,
+            y: 472,
+          },
+        })}`
+      );
+
+      // updating the link from the Start node
+      expect(workspaceEditReplaceMock).toHaveBeenNthCalledWith(
+        2,
+        provider.document?.uri,
+        {},
+        `${createNodeText({
+          title: "Start",
+          body: `A: Hey, I'm a character in a script!
+B: And I am too! You are talking to me!
+-> What's going on
+    A: Why this is a demo of the script system!
+    B: And you're in it!
+-> Um ok
+A: How delightful!
+B: What would you prefer to do next?
+[[Leave|Leave]]
+[[Learn more|${newNodeTitle}]]`,
+          tags: "",
+          position: {
+            x: 592,
+            y: 181,
+          },
+        })}`
+      );
+
+      // a message should have been sent back to the editor to tell it about the new nodes
+      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledTimes(
+        1
+      );
+      expect(provider.webviewPanel?.webview.postMessage).toHaveBeenCalledWith(
+        setNodes(provider.nodes)
+      );
+    });
+  });
+
+  describe("addTagsToNode", () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("adds tags to a node", () => {
+      provider.addTagsToNode("LearnMore", "some cool tags");
+
+      // a new workspace edit should have been created and applied
+      expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
+
+      // this should have been called twice; once to rename the node and once to update the link to it
+      const workspaceEditReplaceMock =
+        vscodeMock.WorkspaceEdit.mock.results[0].value.replace;
+      expect(workspaceEditReplaceMock).toHaveBeenCalledTimes(1);
+
+      // renaming LearnMore -> A Whole New Node
+      expect(workspaceEditReplaceMock).toHaveBeenNthCalledWith(
+        1,
+        provider.document?.uri,
+        {},
+        `${createNodeText({
+          title: "LearnMore",
+          body: "A: HAHAHA",
+          tags: "rawText some cool tags",
+          position: {
+            x: 763,
+            y: 472,
+          },
+        })}`
+      );
+    });
+
+    it("only adds tags that the node doesn't already have", () => {
+      provider.addTagsToNode("LearnMore", "some rawText rawText rawText");
+
+      // a new workspace edit should have been created and applied
+      expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
+
+      // this should have been called twice; once to rename the node and once to update the link to it
+      const workspaceEditReplaceMock =
+        vscodeMock.WorkspaceEdit.mock.results[0].value.replace;
+      expect(workspaceEditReplaceMock).toHaveBeenCalledTimes(1);
+
+      // renaming LearnMore -> A Whole New Node
+      expect(workspaceEditReplaceMock).toHaveBeenNthCalledWith(
+        1,
+        provider.document?.uri,
+        {},
+        `${createNodeText({
+          title: "LearnMore",
+          body: "A: HAHAHA",
+          tags: "rawText some",
+          position: {
+            x: 763,
+            y: 472,
+          },
+        })}`
+      );
+    });
+  });
+
+  describe("toggleTagsOnNode", () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("adds tags if they don't already exist on the node", () => {
+      provider.toggleTagsOnNode("LearnMore", "tag");
+
+      // a new workspace edit should have been created and applied
+      expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
+
+      // this should have been called twice; once to rename the node and once to update the link to it
+      const workspaceEditReplaceMock =
+        vscodeMock.WorkspaceEdit.mock.results[0].value.replace;
+      expect(workspaceEditReplaceMock).toHaveBeenCalledTimes(1);
+
+      // renaming LearnMore -> A Whole New Node
+      expect(workspaceEditReplaceMock).toHaveBeenNthCalledWith(
+        1,
+        provider.document?.uri,
+        {},
+        `${createNodeText({
+          title: "LearnMore",
+          body: "A: HAHAHA",
+          tags: "rawText tag",
+          position: {
+            x: 763,
+            y: 472,
+          },
+        })}`
+      );
+    });
+
+    it("removes tag if they already exist on the node", () => {
+      provider.toggleTagsOnNode("LearnMore", "rawText");
+
+      // a new workspace edit should have been created and applied
+      expect(vscodeMock.WorkspaceEdit).toHaveBeenCalledTimes(1);
+
+      // this should have been called twice; once to rename the node and once to update the link to it
+      const workspaceEditReplaceMock =
+        vscodeMock.WorkspaceEdit.mock.results[0].value.replace;
+      expect(workspaceEditReplaceMock).toHaveBeenCalledTimes(1);
+
+      // renaming LearnMore -> A Whole New Node
+      expect(workspaceEditReplaceMock).toHaveBeenNthCalledWith(
+        1,
+        provider.document?.uri,
+        {},
+        `${createNodeText({
+          title: "LearnMore",
+          body: "A: HAHAHA",
+          tags: "",
+          position: {
+            x: 763,
+            y: 472,
+          },
+        })}`
+      );
+    });
+  });
 });

@@ -225,6 +225,12 @@ export const promptForNewTags = (
     });
 };
 
+export const toggleTagsOnNode = (
+  editor: LoomEditorProvider,
+  nodeTitle: string,
+  tag: string
+) => editor.toggleTagsOnNode(nodeTitle, tag);
+
 /**
  * Listens for message being send with `window.vsCodeApi.postMessage({ type: string, payload: string });`
  * @param webviewPanel Panel to attach event listener to
@@ -267,7 +273,11 @@ export const listenForMessages = (
         promptForNewTags(editor, message.payload.nodeTitle);
         break;
       case YarnEditorMessageTypes.ToggleTagOnNode:
-        editor.toggleTagsOnNode(message.payload.nodeTitle, message.payload.tag);
+        toggleTagsOnNode(
+          editor,
+          message.payload.nodeTitle,
+          message.payload.tag
+        );
         break;
       default:
         break;
