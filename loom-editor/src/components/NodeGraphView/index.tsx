@@ -14,7 +14,7 @@ import {
 
 import { YarnGraphNode } from "../NodeGraph";
 import NodeHeader from "./NodeHeader";
-import NodeTags from "./NodeTags";
+import NodeFooter from "./NodeFooter";
 import NodeBody from "./NodeBody";
 import NodeColorChooser from "./NodeColorChooser";
 import { YarnNode } from "loom-common/YarnNode";
@@ -230,7 +230,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         () => setTagChooserOpen(false),
         yarnNode
       )}
-      <NodeTags
+      <NodeFooter
         node={yarnNode}
         nodeColor={nodeColor}
         nodeColorIsDark={nodeColorIsDark}

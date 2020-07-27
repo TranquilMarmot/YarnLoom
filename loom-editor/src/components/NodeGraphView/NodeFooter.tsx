@@ -55,7 +55,7 @@ const tagStyle = css`
   }
 `;
 
-interface NodeTagsProps {
+interface NodeFooterProps {
   node: YarnNode;
 
   nodeColor: string;
@@ -75,7 +75,7 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
     </button>
   ));
 
-const NodeTags: FunctionComponent<NodeTagsProps> = ({
+const NodeFooter: FunctionComponent<NodeFooterProps> = ({
   node,
   nodeColor,
   nodeColorIsDark,
@@ -109,4 +109,4 @@ const NodeTags: FunctionComponent<NodeTagsProps> = ({
   );
 };
 
-export default NodeTags;
+export default NodeFooter;
