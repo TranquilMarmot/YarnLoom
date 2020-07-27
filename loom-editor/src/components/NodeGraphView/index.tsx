@@ -19,6 +19,7 @@ import NodeBody from "./NodeBody";
 import NodeColorChooser from "./NodeColorChooser";
 import { YarnNode } from "loom-common/YarnNode";
 import NodeTagChooser from "./NodeTagChooser";
+import { isDark } from "../../Util";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const titleColors = [
@@ -205,6 +206,10 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
     regexEnabled
   );
 
+  // grab the color by its ID and determine if it is dark or not
+  const nodeColor = titleColors[colorID || 0];
+  const nodeColorIsDark = isDark(nodeColor);
+
   return (
     <div
       css={css`${containerStyle}${!searched && dimmedStyle}`}
@@ -214,7 +219,8 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
     >
       <NodeTitle
         title={title}
-        colorID={colorID}
+        nodeColor={nodeColor}
+        nodeColorIsDark={nodeColorIsDark}
         onOpenColorChooser={() => setColorChooserOpen(!colorChooserOpen)}
       />
       {renderBody(
@@ -226,7 +232,8 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
       )}
       <NodeTags
         node={yarnNode}
-        colorId={colorID}
+        nodeColor={nodeColor}
+        nodeColorIsDark={nodeColorIsDark}
         onOpenTagChooser={() => setTagChooserOpen(true)}
         data-testid="node-graph-view-tags"
       />

@@ -29,6 +29,10 @@ const addTagButtonStyle = css`
   background: none;
   border: none;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   :hover {
     cursor: pointer;
   }
@@ -55,7 +59,8 @@ const tagStyle = css`
 interface NodeTagsProps {
   node: YarnNode;
 
-  colorId?: number;
+  nodeColor: string;
+  nodeColorIsDark: boolean;
   onOpenTagChooser: () => void;
 }
 
@@ -73,16 +78,21 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
 
 const NodeTags: FunctionComponent<NodeTagsProps> = ({
   node,
-  colorId,
+  nodeColor,
+  nodeColorIsDark,
   onOpenTagChooser,
 }) => {
   const dispatch = useYarnState()[1];
+
+  const iconFillStyle = css`
+    fill: ${nodeColorIsDark ? "white" : "black"};
+  `;
 
   return (
     <div
       css={css`
         ${containerStyle}
-        background-color: ${titleColors[colorId || 0]}`}
+        background-color: ${nodeColor}`}
     >
       <div css={tagListContainerStyle}>
         <div css={tagListStyle}>
@@ -93,7 +103,7 @@ const NodeTags: FunctionComponent<NodeTagsProps> = ({
           css={addTagButtonStyle}
           onClick={onOpenTagChooser}
         >
-          <AddIcon />
+          <AddIcon css={iconFillStyle} />
         </button>
       </div>
     </div>
