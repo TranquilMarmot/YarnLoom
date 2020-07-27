@@ -136,7 +136,8 @@ const SearchBox: FunctionComponent = () => {
           `}
           type="button"
           role="switch"
-          aria-checked={false}
+          aria-checked={caseSensitivityEnabled}
+          aria-label="Toggle case sensitivity in search"
           onClick={() => {
             dispatch(setSearchCaseSensitive(!caseSensitivityEnabled));
             inputRef?.current?.focus();
@@ -148,7 +149,8 @@ const SearchBox: FunctionComponent = () => {
           css={css`${iconButtonStyle}${regexEnabled && buttonActiveStyle}`}
           type="button"
           role="switch"
-          aria-checked={false}
+          aria-checked={regexEnabled}
+          aria-label="Toggle using regular expressions in search"
           onClick={() => {
             dispatch(setSearchRegexEnabled(!regexEnabled));
             inputRef?.current?.focus();
