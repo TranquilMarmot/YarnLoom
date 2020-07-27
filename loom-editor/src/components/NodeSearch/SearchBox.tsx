@@ -5,8 +5,6 @@ import { FunctionComponent, useRef } from "react";
 import { ReactComponent as CaseSensitiveIcon } from "../../icons/case-sensitive.svg";
 import { ReactComponent as RegExIcon } from "../../icons/regex.svg";
 
-import { buttonBase } from "../../Styles";
-
 import {
   setSearchString,
   setSearchingNodeTitles,
