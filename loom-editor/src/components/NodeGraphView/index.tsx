@@ -22,7 +22,7 @@ import NodeTagChooser from "./NodeTagChooser";
 import { isDark } from "../../Util";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
-export const titleColors = [
+export const nodeColors = [
   "#EBEBEB",
   "#6EA5E0",
   "#9EDE74",
@@ -207,7 +207,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   );
 
   // grab the color by its ID and determine if it is dark or not
-  const nodeColor = titleColors[colorID || 0];
+  const nodeColor = nodeColors[colorID || 0];
   const nodeColorIsDark = isDark(nodeColor);
 
   return (

@@ -8,8 +8,6 @@ import { ReactComponent as RenameIcon } from "../../icons/rename.svg";
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
 
-import { titleColors } from "./";
-
 const titleStyle = css`
   padding: 10px;
 

@@ -8,7 +8,7 @@ import { getNodes } from "../../state/Selectors";
 import { useYarnState } from "../../state/YarnContext";
 import { setFocusedNode } from "../../state/UiActions";
 
-import { titleColors } from "../NodeGraphView";
+import { nodeColors } from "../NodeGraphView";
 
 import { ReactComponent as NewFile } from "../../icons/new-file.svg";
 import { listItemBase } from "../../Styles";
@@ -45,7 +45,7 @@ const NodeList: FunctionComponent = () => {
         >
           <div
             css={css`${colorBlockStyle} background-color: ${
-              titleColors[node.colorID || 0]
+              nodeColors[node.colorID || 0]
             };`}
           >
             {" "}

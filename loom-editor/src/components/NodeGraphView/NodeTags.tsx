@@ -2,7 +2,6 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { titleColors } from "../NodeGraphView";
 import { useYarnState } from "../../state/YarnContext";
 import { searchForTag } from "../../state/UiActions";
 import UiActionType from "../../state/UiActionType";

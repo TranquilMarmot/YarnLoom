@@ -4,7 +4,7 @@ import { FunctionComponent } from "react";
 
 import { setNodeColor } from "loom-common/EditorActions";
 
-import { titleColors } from "./index";
+import { nodeColors } from "./index";
 import { buttonBase, nodeOverlayContainer } from "../../Styles";
 
 const containerStyle = css`
@@ -54,7 +54,7 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
   return (
     <div css={containerStyle} data-testid="node-title-color-chooser">
       <div css={buttonContainerStyle}>
-        {titleColors.map((color, index) => (
+        {nodeColors.map((color, index) => (
           <button
             onClick={() => onChooseColor(index)}
             key={color}
