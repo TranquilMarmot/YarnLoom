@@ -37,14 +37,14 @@ const settingsButtonStyle = css`
   }
 `;
 
-interface NodeTitleProps {
+interface NodeHeaderProps {
   title: string;
   nodeColor: string;
   nodeColorIsDark: boolean;
   onOpenColorChooser: () => void;
 }
 
-const NodeTitle: FunctionComponent<NodeTitleProps> = ({
+const NodeHeader: FunctionComponent<NodeHeaderProps> = ({
   title,
   nodeColor,
   nodeColorIsDark,
@@ -98,4 +98,4 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
   );
 };
 
-export default NodeTitle;
+export default NodeHeader;

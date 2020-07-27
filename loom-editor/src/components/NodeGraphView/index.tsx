@@ -13,7 +13,7 @@ import {
 } from "../../state/Selectors";
 
 import { YarnGraphNode } from "../NodeGraph";
-import NodeTitle from "./NodeTitle";
+import NodeHeader from "./NodeHeader";
 import NodeTags from "./NodeTags";
 import NodeBody from "./NodeBody";
 import NodeColorChooser from "./NodeColorChooser";
@@ -217,7 +217,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         searched ? "node-graph-view-searched" : "node-graph-view-not-searched"
       }
     >
-      <NodeTitle
+      <NodeHeader
         title={title}
         nodeColor={nodeColor}
         nodeColorIsDark={nodeColorIsDark}

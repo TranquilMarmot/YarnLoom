@@ -4,14 +4,19 @@ import { renderWithProvider } from "../../utils/test-utils";
 
 import { deleteNode, renameNode } from "loom-common/EditorActions";
 
-import NodeTitle from "./NodeTitle";
+import NodeHeader from "./NodeHeader";
 
-describe("<NodeTitle />", () => {
+describe("<NodeHeader />", () => {
   const nodeTitle = "Some Title";
 
   it("renders", () => {
     renderWithProvider(
-      <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
+      <NodeHeader
+        title={nodeTitle}
+        onOpenColorChooser={() => {}}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
     );
   });
 
@@ -19,7 +24,12 @@ describe("<NodeTitle />", () => {
     window.vsCodeApi = { postMessage: jest.fn() };
 
     renderWithProvider(
-      <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
+      <NodeHeader
+        title={nodeTitle}
+        onOpenColorChooser={() => {}}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
     );
 
     fireEvent.click(screen.getByLabelText("Delete node"));
@@ -35,7 +45,12 @@ describe("<NodeTitle />", () => {
     const onOpenColorChooserSpy = jest.fn();
 
     renderWithProvider(
-      <NodeTitle title={nodeTitle} onOpenColorChooser={onOpenColorChooserSpy} />
+      <NodeHeader
+        title={nodeTitle}
+        onOpenColorChooser={onOpenColorChooserSpy}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
     );
 
     fireEvent.click(screen.getByLabelText("Change node color"));
@@ -47,7 +62,12 @@ describe("<NodeTitle />", () => {
     window.vsCodeApi = { postMessage: jest.fn() };
 
     renderWithProvider(
-      <NodeTitle title={nodeTitle} onOpenColorChooser={() => {}} />
+      <NodeHeader
+        title={nodeTitle}
+        onOpenColorChooser={() => {}}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
     );
 
     fireEvent.click(screen.getByLabelText("Rename node"));
