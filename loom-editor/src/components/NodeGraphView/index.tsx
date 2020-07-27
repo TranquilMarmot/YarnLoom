@@ -60,41 +60,6 @@ const dimmedStyle = css`
   }
 `;
 
-interface NodeGraphViewProps {
-  node: YarnGraphNode;
-}
-
-/**
- * Render tha body of the node.
- * If the color or tag chooser are open, those are rendered instead.
- * (because of rendering bugs on Ubuntu, we have to render them instead of the body...)
- *
- * @param colorChooserOpen Whether or not the color chooser is open
- * @param closeColorChooser Function to call to open the color chooser
- * @param tagChooserOpen Whether or not the tag chooser is open
- * @param closeTagChooser Function to call to close the tag chooser
- * @param node Node to render body for
- */
-const renderBody = (
-  colorChooserOpen: boolean,
-  closeColorChooser: () => void,
-  tagChooserOpen: boolean,
-  closeTagChooser: () => void,
-  node: YarnNode
-) => {
-  const { title, body } = node;
-
-  if (colorChooserOpen) {
-    return <NodeColorChooser onClose={closeColorChooser} nodeTitle={title} />;
-  }
-
-  if (tagChooserOpen) {
-    return <NodeTagChooser onClose={closeTagChooser} node={node} />;
-  }
-
-  return <NodeBody body={body} />;
-};
-
 /**
  * Returns true if the given string matches the given search string.
  *
@@ -173,6 +138,41 @@ const isSearched = (
 
   return searched;
 };
+
+/**
+ * Render tha body of the node.
+ * If the color or tag chooser are open, those are rendered instead.
+ * (because of rendering bugs on Ubuntu, we have to render them instead of the body...)
+ *
+ * @param colorChooserOpen Whether or not the color chooser is open
+ * @param closeColorChooser Function to call to open the color chooser
+ * @param tagChooserOpen Whether or not the tag chooser is open
+ * @param closeTagChooser Function to call to close the tag chooser
+ * @param node Node to render body for
+ */
+const renderBody = (
+  colorChooserOpen: boolean,
+  closeColorChooser: () => void,
+  tagChooserOpen: boolean,
+  closeTagChooser: () => void,
+  node: YarnNode
+) => {
+  const { title, body } = node;
+
+  if (colorChooserOpen) {
+    return <NodeColorChooser onClose={closeColorChooser} nodeTitle={title} />;
+  }
+
+  if (tagChooserOpen) {
+    return <NodeTagChooser onClose={closeTagChooser} node={node} />;
+  }
+
+  return <NodeBody body={body} />;
+};
+
+interface NodeGraphViewProps {
+  node: YarnGraphNode;
+}
 
 const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   node: { yarnNode },

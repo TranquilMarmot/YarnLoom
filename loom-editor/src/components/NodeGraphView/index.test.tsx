@@ -60,6 +60,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: false,
           searchingBody: false,
           searchingTags: false,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "",
         },
       });
@@ -74,6 +76,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: true,
           searchingBody: false,
           searchingTags: false,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "Mock",
         },
       });
@@ -87,6 +91,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: true,
           searchingBody: false,
           searchingTags: false,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "A different title",
         },
       });
@@ -101,6 +107,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: false,
           searchingBody: true,
           searchingTags: false,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "body",
         },
       });
@@ -115,6 +123,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: false,
           searchingBody: true,
           searchingTags: false,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "A different body",
         },
       });
@@ -129,6 +139,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: false,
           searchingBody: false,
           searchingTags: true,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "tags",
         },
       });
@@ -143,6 +155,8 @@ describe("<NodeGraphView />", () => {
           searchingTitle: false,
           searchingBody: true,
           searchingTags: false,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "other-tags",
         },
       });
@@ -157,11 +171,93 @@ describe("<NodeGraphView />", () => {
           searchingTitle: true,
           searchingBody: true,
           searchingTags: true,
+          caseSensitivityEnabled: false,
+          regexEnabled: false,
           searchString: "Some",
         },
       });
 
       screen.getByTestId("node-graph-view-searched");
+    });
+
+    it("renders searched when searching by regex", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        nodes: [],
+        search: {
+          searchingTitle: true,
+          searchingBody: true,
+          searchingTags: true,
+          caseSensitivityEnabled: false,
+          regexEnabled: true,
+          searchString: "mock.*node",
+        },
+      });
+
+      screen.getByTestId("node-graph-view-searched");
+    });
+
+    it("renders searched when searching by case sensitive regex", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        nodes: [],
+        search: {
+          searchingTitle: true,
+          searchingBody: true,
+          searchingTags: true,
+          caseSensitivityEnabled: true,
+          regexEnabled: true,
+          searchString: "Mock.*Node",
+        },
+      });
+
+      screen.getByTestId("node-graph-view-searched");
+    });
+
+    it("renders NOT searched when searching by case sensitive regex", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        nodes: [],
+        search: {
+          searchingTitle: true,
+          searchingBody: true,
+          searchingTags: true,
+          caseSensitivityEnabled: true,
+          regexEnabled: true,
+          searchString: "mock.*node",
+        },
+      });
+
+      screen.getByTestId("node-graph-view-not-searched");
+    });
+
+    it("renders searched when searching with case sensitivity on", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        nodes: [],
+        search: {
+          searchingTitle: true,
+          searchingBody: true,
+          searchingTags: true,
+          caseSensitivityEnabled: true,
+          regexEnabled: false,
+          searchString: "Mock Node",
+        },
+      });
+
+      screen.getByTestId("node-graph-view-searched");
+    });
+
+    it("renders NOT searched when searching with case sensitivity on", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        nodes: [],
+        search: {
+          searchingTitle: true,
+          searchingBody: true,
+          searchingTags: true,
+          caseSensitivityEnabled: true,
+          regexEnabled: false,
+          searchString: "mock node",
+        },
+      });
+
+      screen.getByTestId("node-graph-view-not-searched");
     });
   });
 });
