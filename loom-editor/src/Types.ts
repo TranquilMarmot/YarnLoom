@@ -15,6 +15,12 @@ export interface State {
     /** Whether or not we're currently searching by node tag */
     searchingTags: boolean;
 
+    /** Whether or not to search via RegEx */
+    regexEnabled: boolean;
+
+    /** Whether or not the search should be case sensitive */
+    caseSensitivityEnabled: boolean;
+
     /** The string we're actually searching for */
     searchString: string;
   };
