@@ -82,7 +82,7 @@ describe("<NodeFooter />", () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText("Add tags to node"));
+    fireEvent.click(screen.getByTitle("Manage node tags"));
 
     expect(onOpenTagChooserSpy).toHaveBeenCalledTimes(1);
   });

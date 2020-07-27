@@ -98,7 +98,7 @@ const NodeFooter: FunctionComponent<NodeFooterProps> = ({
           {node.tags && renderTags(node.tags.split(" "), dispatch)}
         </div>
         <button
-          aria-label="Add tags to node"
+          title="Manage node tags"
           css={addTagButtonStyle}
           onClick={onOpenTagChooser}
         >

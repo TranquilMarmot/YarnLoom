@@ -32,7 +32,7 @@ describe("<NodeHeader />", () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText("Delete node"));
+    fireEvent.click(screen.getByTitle("Delete node"));
 
     // this posts a message to the extension which shows the confirm/cancel message
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
@@ -53,7 +53,7 @@ describe("<NodeHeader />", () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText("Change node color"));
+    fireEvent.click(screen.getByTitle("Change node color"));
 
     expect(onOpenColorChooserSpy).toHaveBeenCalledTimes(1);
   });
@@ -70,7 +70,7 @@ describe("<NodeHeader />", () => {
       />
     );
 
-    fireEvent.click(screen.getByLabelText("Rename node"));
+    fireEvent.click(screen.getByTitle("Rename node"));
 
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledTimes(1);
     expect(window.vsCodeApi.postMessage).toHaveBeenCalledWith(

@@ -36,7 +36,7 @@ describe("<NodeGraphView />", () => {
 
     expect(screen.queryByTestId("node-title-color-chooser")).toBeNull();
 
-    fireEvent.click(screen.getByLabelText("Change node color"));
+    fireEvent.click(screen.getByTitle("Change node color"));
 
     expect(screen.queryByTestId("node-title-color-chooser")).not.toBeNull();
   });
@@ -46,7 +46,7 @@ describe("<NodeGraphView />", () => {
 
     expect(screen.queryByTestId("node-tag-chooser")).toBeNull();
 
-    fireEvent.click(screen.getByLabelText("Add tags to node"));
+    fireEvent.click(screen.getByTitle("Manage node tags"));
 
     expect(screen.queryByTestId("node-tag-chooser")).not.toBeNull();
   });

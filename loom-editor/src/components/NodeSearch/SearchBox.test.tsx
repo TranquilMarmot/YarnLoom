@@ -140,9 +140,7 @@ describe("<SearchBox />", () => {
 
       renderWithProvider(<SearchBox />, undefined, dispatch);
 
-      fireEvent.click(
-        screen.getByLabelText("Toggle case sensitivity in search")
-      );
+      fireEvent.click(screen.getByTitle("Match Case"));
 
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith(setSearchCaseSensitive(true));
@@ -158,9 +156,7 @@ describe("<SearchBox />", () => {
       });
 
       expect(
-        screen
-          .getByLabelText("Toggle case sensitivity in search")
-          .getAttribute("aria-checked")
+        screen.getByTitle("Match Case").getAttribute("aria-checked")
       ).toEqual(`${!defaultState.search.caseSensitivityEnabled}`);
     });
   });
@@ -171,9 +167,7 @@ describe("<SearchBox />", () => {
 
       renderWithProvider(<SearchBox />, undefined, dispatch);
 
-      fireEvent.click(
-        screen.getByLabelText("Toggle using regular expressions in search")
-      );
+      fireEvent.click(screen.getByTitle("Use Regular Expression"));
 
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith(setSearchRegexEnabled(true));
@@ -189,9 +183,7 @@ describe("<SearchBox />", () => {
       });
 
       expect(
-        screen
-          .getByLabelText("Toggle using regular expressions in search")
-          .getAttribute("aria-checked")
+        screen.getByTitle("Use Regular Expression").getAttribute("aria-checked")
       ).toEqual(`${!defaultState.search.regexEnabled}`);
     });
   });

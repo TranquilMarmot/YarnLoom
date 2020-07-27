@@ -76,21 +76,21 @@ const NodeHeader: FunctionComponent<NodeHeaderProps> = ({
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
-        aria-label="Rename node"
+        title="Rename node"
       >
         <RenameIcon css={iconStrokeStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={onOpenColorChooser}
-        aria-label="Change node color"
+        title="Change node color"
       >
         <ColorIcon css={iconFillStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
-        aria-label="Delete node"
+        title="Delete node"
       >
         <TrashIcon css={iconFillStyle} />
       </button>

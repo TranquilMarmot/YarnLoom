@@ -137,7 +137,7 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={caseSensitivityEnabled}
-          aria-label="Toggle case sensitivity in search"
+          title="Match Case"
           onClick={() => {
             dispatch(setSearchCaseSensitive(!caseSensitivityEnabled));
             inputRef?.current?.focus();
@@ -150,7 +150,7 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={regexEnabled}
-          aria-label="Toggle using regular expressions in search"
+          title="Use Regular Expression"
           onClick={() => {
             dispatch(setSearchRegexEnabled(!regexEnabled));
             inputRef?.current?.focus();
@@ -163,6 +163,7 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingTitle}
+          title="Search in node titles"
           onClick={() => {
             dispatch(setSearchingNodeTitles(!searchingTitle));
             inputRef?.current?.focus();
@@ -176,6 +177,7 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingBody}
+          title="Search in node bodies"
           onClick={() => {
             dispatch(setSearchingNodeBodies(!searchingBody));
             inputRef?.current?.focus();
@@ -189,6 +191,7 @@ const SearchBox: FunctionComponent = () => {
           type="button"
           role="switch"
           aria-checked={searchingTags}
+          title="Search in node tags"
           onClick={() => {
             dispatch(setSearchingNodeTags(!searchingTags));
             inputRef?.current?.focus();
