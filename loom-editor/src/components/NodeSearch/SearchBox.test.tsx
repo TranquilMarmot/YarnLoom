@@ -8,6 +8,8 @@ import {
   setSearchingNodeTitles,
   setSearchingNodeBodies,
   setSearchingNodeTags,
+  setSearchRegexEnabled,
+  setSearchCaseSensitive,
 } from "../../state/UiActions";
 import { defaultState } from "../../state/YarnContext";
 
@@ -129,6 +131,60 @@ describe("<SearchBox />", () => {
       expect(screen.getByText("Tags").getAttribute("aria-checked")).toEqual(
         `${!defaultState.search.searchingTags}`
       );
+    });
+  });
+
+  describe("case sensitivity enabled button", () => {
+    it("sets the value when clicked", () => {
+      const dispatch = jest.fn();
+
+      renderWithProvider(<SearchBox />, undefined, dispatch);
+
+      fireEvent.click(screen.getByTitle("Match Case"));
+
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith(setSearchCaseSensitive(true));
+    });
+
+    it("grabs its value from the state", () => {
+      renderWithProvider(<SearchBox />, {
+        ...defaultState,
+        search: {
+          ...defaultState.search,
+          caseSensitivityEnabled: !defaultState.search.caseSensitivityEnabled,
+        },
+      });
+
+      expect(
+        screen.getByTitle("Match Case").getAttribute("aria-checked")
+      ).toEqual(`${!defaultState.search.caseSensitivityEnabled}`);
+    });
+  });
+
+  describe("regex enabled button", () => {
+    it("sets the value when clicked", () => {
+      const dispatch = jest.fn();
+
+      renderWithProvider(<SearchBox />, undefined, dispatch);
+
+      fireEvent.click(screen.getByTitle("Use Regular Expression"));
+
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith(setSearchRegexEnabled(true));
+    });
+
+    it("grabs its value from the state", () => {
+      renderWithProvider(<SearchBox />, {
+        ...defaultState,
+        search: {
+          ...defaultState.search,
+          regexEnabled: !defaultState.search.regexEnabled,
+        },
+      });
+
+      expect(
+        screen.getByTitle("Use Regular Expression").getAttribute("aria-checked")
+      ).toEqual(`${!defaultState.search.regexEnabled}`);
     });
   });
 });

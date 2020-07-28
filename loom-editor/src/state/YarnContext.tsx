@@ -18,6 +18,8 @@ export const defaultState: State = {
     searchingTitle: true,
     searchingBody: true,
     searchingTags: true,
+    caseSensitivityEnabled: false,
+    regexEnabled: false,
     searchString: "",
   },
 };

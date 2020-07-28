@@ -132,6 +132,8 @@ When searching, nodes that do not contain the search term will be dimmed. Nodes 
 
 The "Title", "Body", and "Tags" buttons in the search bar control whether or not to search within node titles, bodies, and tags, respectfully. This is an "or" search, so if searching in all three locations and one node has "Sally" in the title, one has "Sally" in the body, and one has a tag of "Sally", then all three will show up in the search. Note that turning off all three options effectively disables the search.
 
+There are also two buttons to enable/disable case sensitivity (![case sensitive icon](./loom-editor/src/icons/case-sensitive.svg)) and regular expressions (![regular expression icon](./loom-editor/src/icons/regex.svg)). Regular expressions are only run on enabled search contexts ("Title", "Body", and/or "Tags") and are done via JavaScript's built-in `RegExp` functionality, so anything regular expressions that work in JavaScript will work. [The MDN Web Docs have a nice regular expression cheat-sheet available](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Cheatsheet).
+
 <details>
   <summary>Expand for demo of searching for nodes</summary>
   <img src="./images/searching.gif" alt="Demo of searching for nodes" />
@@ -140,6 +142,8 @@ The "Title", "Body", and "Tags" buttons in the search bar control whether or not
 #### Quick tag search
 
 To quickly search for a tag, you can either click on it in the footer of a node or expand the tag list and select it from there. This will automatically fill in the search box with the tag and limit the search to tags.
+
+Re-selecting the tag that is currently being searched for will de-select it and reset the search box.
 
 <details>
   <summary>Expand for demo of quick tag searching</summary>

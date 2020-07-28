@@ -9,6 +9,8 @@ import {
   setSearchString,
   setFocusedNode,
   searchForTag,
+  setSearchCaseSensitive,
+  setSearchRegexEnabled,
 } from "./UiActions";
 
 describe("Reducer", () => {
@@ -31,6 +33,8 @@ describe("Reducer", () => {
       searchingBody: false,
       searchingTags: false,
       searchingTitle: false,
+      regexEnabled: false,
+      caseSensitivityEnabled: false,
     },
     focusedNode: undefined,
   };
@@ -66,6 +70,18 @@ describe("Reducer", () => {
     expect(reduced.search.searchingTitle).toBe(true);
   });
 
+  it("handles UiMessageTypes.SetSearchCaseSensitive", () => {
+    expect(startState.search.caseSensitivityEnabled).toBe(false);
+    const reduced = reducer(startState, setSearchCaseSensitive(true));
+    expect(reduced.search.caseSensitivityEnabled).toBe(true);
+  });
+
+  it("handles UiMessageTypes.SetSearchRegexEnabled", () => {
+    expect(startState.search.regexEnabled).toBe(false);
+    const reduced = reducer(startState, setSearchRegexEnabled(true));
+    expect(reduced.search.regexEnabled).toBe(true);
+  });
+
   it("handles UiMessageTypes.SetSearchString", () => {
     expect(startState.search.searchString).toBe("");
     const reduced = reducer(startState, setSearchString("some search string"));
@@ -80,25 +96,50 @@ describe("Reducer", () => {
     expect(reduced.focusedNode).toBe(nodeToFocusOn);
   });
 
-  it("handles UiMessageTypes.SearchForTag", () => {
-    const tag = "tag";
+  describe("handles UiMessageTypes.SearchForTag", () => {
+    it("searches for tags", () => {
+      const tag = "tag";
 
-    // searching for a tag will un-search for title and body and only search tags
-    const startStateSearchingEverything: State = {
-      ...startState,
-      search: {
-        ...startState.search,
-        searchingTitle: true,
-        searchingBody: true,
-        searchingTags: false,
-      },
-    };
+      // searching for a tag will un-search for title and body and only search tags
+      const startStateSearchingEverything: State = {
+        ...startState,
+        search: {
+          ...startState.search,
+          searchingTitle: true,
+          searchingBody: true,
+          searchingTags: false,
+        },
+      };
 
-    const reduced = reducer(startStateSearchingEverything, searchForTag(tag));
+      const reduced = reducer(startStateSearchingEverything, searchForTag(tag));
 
-    expect(reduced.search.searchString).toBe(tag);
-    expect(reduced.search.searchingBody).toBe(false);
-    expect(reduced.search.searchingTitle).toBe(false);
-    expect(reduced.search.searchingTags).toBe(true);
+      expect(reduced.search.searchString).toBe(tag);
+      expect(reduced.search.searchingBody).toBe(false);
+      expect(reduced.search.searchingTitle).toBe(false);
+      expect(reduced.search.searchingTags).toBe(true);
+    });
+
+    it("un-searches for tags", () => {
+      const tag = "tag";
+
+      // searching for a tag will un-search for title and body and only search tags
+      const startStateSearchingEverything: State = {
+        ...startState,
+        search: {
+          ...startState.search,
+          searchString: tag,
+          searchingTitle: false,
+          searchingBody: false,
+          searchingTags: true,
+        },
+      };
+
+      const reduced = reducer(startStateSearchingEverything, searchForTag(tag));
+
+      expect(reduced.search.searchString).toBe("");
+      expect(reduced.search.searchingBody).toBe(true);
+      expect(reduced.search.searchingTitle).toBe(true);
+      expect(reduced.search.searchingTags).toBe(true);
+    });
   });
 });

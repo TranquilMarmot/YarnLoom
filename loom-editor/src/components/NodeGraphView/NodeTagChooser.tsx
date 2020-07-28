@@ -73,7 +73,7 @@ const renderTag = (
   nodeTags: string[],
   onClick: (tag: string) => void
 ) => (
-  <button css={listItemBase} onClick={() => onClick(tag)}>
+  <button key={tag} css={listItemBase} onClick={() => onClick(tag)}>
     <div css={tagButtonContentStyle}>
       <div data-testid="tag-chooser-tag-button-text">{tag}</div>
       {nodeTags.includes(tag) && <CheckIcon />}

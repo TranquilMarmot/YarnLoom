@@ -2,7 +2,6 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { titleColors } from "../NodeGraphView";
 import { useYarnState } from "../../state/YarnContext";
 import { searchForTag } from "../../state/UiActions";
 import UiActionType from "../../state/UiActionType";
@@ -29,6 +28,10 @@ const addTagButtonStyle = css`
   background: none;
   border: none;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   :hover {
     cursor: pointer;
   }
@@ -52,10 +55,11 @@ const tagStyle = css`
   }
 `;
 
-interface NodeTagsProps {
+interface NodeFooterProps {
   node: YarnNode;
 
-  colorId?: number;
+  nodeColor: string;
+  nodeColorIsDark: boolean;
   onOpenTagChooser: () => void;
 }
 
@@ -71,33 +75,38 @@ const renderTags = (tags: string[], dispatch: (action: UiActionType) => void) =>
     </button>
   ));
 
-const NodeTags: FunctionComponent<NodeTagsProps> = ({
+const NodeFooter: FunctionComponent<NodeFooterProps> = ({
   node,
-  colorId,
+  nodeColor,
+  nodeColorIsDark,
   onOpenTagChooser,
 }) => {
   const dispatch = useYarnState()[1];
+
+  const iconFillStyle = css`
+    fill: ${nodeColorIsDark ? "white" : "black"};
+  `;
 
   return (
     <div
       css={css`
         ${containerStyle}
-        background-color: ${titleColors[colorId || 0]}`}
+        background-color: ${nodeColor}`}
     >
       <div css={tagListContainerStyle}>
         <div css={tagListStyle}>
           {node.tags && renderTags(node.tags.split(" "), dispatch)}
         </div>
         <button
-          aria-label="Add tags to node"
+          title="Manage node tags"
           css={addTagButtonStyle}
           onClick={onOpenTagChooser}
         >
-          <AddIcon />
+          <AddIcon css={iconFillStyle} />
         </button>
       </div>
     </div>
   );
 };
 
-export default NodeTags;
+export default NodeFooter;

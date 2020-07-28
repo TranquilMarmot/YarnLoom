@@ -4,10 +4,10 @@ import { renderWithProvider } from "../../utils/test-utils";
 
 import { searchForTag } from "../../state/UiActions";
 
-import NodeTags from "./NodeTags";
+import NodeFooter from "./NodeFooter";
 import { YarnNode } from "loom-common/YarnNode";
 
-describe("<NodeTags />", () => {
+describe("<NodeFooter />", () => {
   const node: YarnNode = {
     title: "Test node",
     body: "",
@@ -15,7 +15,14 @@ describe("<NodeTags />", () => {
   };
 
   it("renders", () => {
-    renderWithProvider(<NodeTags node={node} onOpenTagChooser={() => {}} />);
+    renderWithProvider(
+      <NodeFooter
+        node={node}
+        onOpenTagChooser={() => {}}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
+    );
   });
 
   it("renders all tags", () => {
@@ -24,7 +31,12 @@ describe("<NodeTags />", () => {
       tags: "a lot of different tags",
     };
     renderWithProvider(
-      <NodeTags node={nodeWithTags} onOpenTagChooser={() => {}} />
+      <NodeFooter
+        node={nodeWithTags}
+        onOpenTagChooser={() => {}}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
     );
 
     expect(screen.getAllByTestId("node-tag-button")).toHaveLength(5);
@@ -39,7 +51,12 @@ describe("<NodeTags />", () => {
     };
 
     renderWithProvider(
-      <NodeTags node={nodeWithTags} onOpenTagChooser={() => {}} />,
+      <NodeFooter
+        node={nodeWithTags}
+        onOpenTagChooser={() => {}}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />,
       undefined,
       dispatch
     );
@@ -57,10 +74,15 @@ describe("<NodeTags />", () => {
     const onOpenTagChooserSpy = jest.fn();
 
     renderWithProvider(
-      <NodeTags node={node} onOpenTagChooser={onOpenTagChooserSpy} />
+      <NodeFooter
+        node={node}
+        onOpenTagChooser={onOpenTagChooserSpy}
+        nodeColor="#fff"
+        nodeColorIsDark={false}
+      />
     );
 
-    fireEvent.click(screen.getByLabelText("Add tags to node"));
+    fireEvent.click(screen.getByTitle("Manage node tags"));
 
     expect(onOpenTagChooserSpy).toHaveBeenCalledTimes(1);
   });

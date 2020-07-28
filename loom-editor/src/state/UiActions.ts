@@ -11,6 +11,12 @@ export enum UiMessageTypes {
   /** Set whether or not we're searching node tags */
   SetSearchingNodeTags = "SetSearchingNodeTags",
 
+  /** Set whether the current search is case sensitive or not */
+  SetSearchCaseSensitive = "SetSearchCaseSensitive",
+
+  /** Set whether or not to use regex in searches */
+  SetSearchRegexEnabled = "SetSearchRegexEnabled",
+
   /** Set the string currently being searched for */
   SetSearchString = "SetSearchString",
 
@@ -29,6 +35,12 @@ export const setSearchingNodeBodies = (searchingBody: boolean) =>
 
 export const setSearchingNodeTags = (searchingTags: boolean) =>
   action(UiMessageTypes.SetSearchingNodeTags, { searchingTags });
+
+export const setSearchCaseSensitive = (caseSensitive: boolean) =>
+  action(UiMessageTypes.SetSearchCaseSensitive, { caseSensitive });
+
+export const setSearchRegexEnabled = (regexEnabled: boolean) =>
+  action(UiMessageTypes.SetSearchRegexEnabled, { regexEnabled });
 
 export const setSearchString = (searchString: string) =>
   action(UiMessageTypes.SetSearchString, { searchString });

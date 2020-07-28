@@ -7,9 +7,6 @@ import { deleteNode, renameNode } from "loom-common/EditorActions";
 import { ReactComponent as RenameIcon } from "../../icons/rename.svg";
 import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
 import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
-import { isDark } from "../../Util";
-
-import { titleColors } from "./";
 
 const titleStyle = css`
   padding: 10px;
@@ -31,25 +28,29 @@ const settingsButtonStyle = css`
   padding-top: 0;
   padding-bottom: 0;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   :hover {
     cursor: pointer;
   }
 `;
 
-interface NodeTitleProps {
+interface NodeHeaderProps {
   title: string;
-  colorID?: number;
+  nodeColor: string;
+  nodeColorIsDark: boolean;
   onOpenColorChooser: () => void;
 }
 
-const NodeTitle: FunctionComponent<NodeTitleProps> = ({
+const NodeHeader: FunctionComponent<NodeHeaderProps> = ({
   title,
-  colorID,
+  nodeColor,
+  nodeColorIsDark,
   onOpenColorChooser,
 }) => {
-  // grab the color by its ID and determine if it is dark or not
-  const color = titleColors[colorID || 0];
-  const fontColor = isDark(color) ? "white" : "black";
+  const fontColor = nodeColorIsDark ? "white" : "black";
 
   const fontStyle = css`
     color: ${fontColor};
@@ -68,28 +69,28 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
       css={css`
         ${titleStyle}
         ${fontStyle}
-        background-color: ${color}
+        background-color: ${nodeColor}
       `}
     >
       <div css={css`${titleLabelStyle}${fontStyle}`}>{title}</div>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
-        aria-label="Rename node"
+        title="Rename node"
       >
         <RenameIcon css={iconStrokeStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={onOpenColorChooser}
-        aria-label="Change node color"
+        title="Change node color"
       >
         <ColorIcon css={iconFillStyle} />
       </button>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(deleteNode(title))}
-        aria-label="Delete node"
+        title="Delete node"
       >
         <TrashIcon css={iconFillStyle} />
       </button>
@@ -97,4 +98,4 @@ const NodeTitle: FunctionComponent<NodeTitleProps> = ({
   );
 };
 
-export default NodeTitle;
+export default NodeHeader;
