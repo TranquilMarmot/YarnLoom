@@ -73,9 +73,7 @@ Every pull request and merge to the `main` branch has the [`continuous-integrati
 
 #### Releases
 
-Running `npm run version` in the root of the repo will ask for a new version via lerna. This will bump all of the `package.json` files.
-
-`npm install` must then be run to update all of the `package-lock.json` files.
+Running `npm run version` in the root of the repo will ask for a new version via lerna. This will bump all of the `package.json` files and create a commit for the version.
 
 ##### Automatic Release
 
