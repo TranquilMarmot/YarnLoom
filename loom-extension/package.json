@@ -104,6 +104,7 @@
     "publish": "vsce publish"
   },
   "dependencies": {
+    "loom-common": "file:../loom-common/out",
     "rimraf": "^3.0.2",
     "sanitize-filename": "^1.6.3"
   },
