@@ -2,7 +2,7 @@
   "name": "yarn-spinner-loom",
   "displayName": "Yarn Spinner Loom",
   "description": "Visual editor for the Yarn Spinner dialogue language.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/TranquilMarmot/YarnLoom",
   "repository": {
     "type": "git",
