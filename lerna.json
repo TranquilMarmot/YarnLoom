@@ -1,8 +1,4 @@
 {
-  "packages": [
-    "loom-common",
-    "loom-editor",
-    "loom-extension"
-  ],
+  "packages": ["loom-common", "loom-editor", "loom-extension"],
   "version": "1.0.1"
 }
