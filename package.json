@@ -12,8 +12,7 @@
     "loom-editor": "file:loom-editor",
     "loom-extension": "file:loom-extension",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "typesafe-actions": "^5.1.0"
+    "react-dom": "^16.13.1"
   },
   "scripts": {
     "install": "lerna exec -- npm install && lerna bootstrap",
@@ -21,6 +20,7 @@
     "build:editor": "lerna run --scope loom-editor build",
     "build:extension": "lerna run --scope yarn-spinner-loom build",
     "build": "npm run build:common && npm run build:editor && npm run build:extension",
+    "clean": "lerna clean",
     "test:common": "lerna run --scope loom-common test",
     "test:extension": "lerna run --scope yarn-spinner-loom test",
     "test:editor": "cross-env CI=true lerna run --scope loom-editor test",
