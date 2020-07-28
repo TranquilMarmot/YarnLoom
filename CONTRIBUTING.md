@@ -9,6 +9,9 @@ This document outlines how to contribute to this project, as well as an overview
   - [How to Contribute](#how-to-contribute)
     - [Available scripts](#available-scripts)
     - [CI/CD](#cicd)
+      - [Releases](#releases)
+        - [Automatic Release](#automatic-release)
+        - [Manual Release](#manual-release)
     - [Packaging the extension](#packaging-the-extension)
   - [Project Layout](#project-layout)
     - [`loom-common`](#loom-common)
@@ -68,7 +71,21 @@ Because of the way that [lerna](https://lerna.js.org/) works, most scripts canno
 
 Every pull request and merge to the `main` branch has the [`continuous-integration-workflow.yml`](./.github/workflows/continuous-integration-workflow.yml) run against it.
 
-TODO: CD for automatic releases
+#### Releases
+
+Running `npm run version` in the root of the repo will ask for a new version via lerna. This will bump all of the `package.json` files.
+
+`npm install` must then be run to update all of the `package-lock.json` files.
+
+##### Automatic Release
+
+Creating a [new release from GitHub](https://github.com/TranquilMarmot/YarnLoom/releases) should trigger the [`continuous-integration-workflow.yml`](./.github/workflows/continuous-integration-workflow.yml) and publish the extension. The deploy key that `vsce` uses to deploy the extension is stored as an encrypted secret in the repo's settings.
+
+##### Manual Release
+
+The steps in the [Visual Studio Code "Publishing Extensions" docs](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) should be followed to create a personal access token (PAT) in Azure Dev Ops in order to use `vsce` to publish the extension.
+
+Once logged in to the publisher via `vsce`, running `npm run publish` from the root of the repo will publish the current version of the extension.
 
 ### Packaging the extension
 

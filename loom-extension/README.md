@@ -1,7 +1,7 @@
 # Yarn Spinner Loom
 
 <p align="center">
-  <img src="./icon.png" alt="Yarn Loom Logo" />
+  <img src="https://github.com/TranquilMarmot/YarnLoom/raw/main/loom-extension/icon.png" alt="Yarn Loom Logo" />
 </P>
 
 Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yarnspinner.dev/). It is a re-imagining of the [Yarn Editor](https://github.com/YarnSpinnerTool/YarnEditor) built from the ground up to integrate seamlessly with Visual Studio Code.

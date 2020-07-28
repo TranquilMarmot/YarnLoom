@@ -25,11 +25,13 @@
     "test:editor": "cross-env CI=true lerna run --scope loom-editor test",
     "test": "cross-env CI=true lerna run test",
     "package": "lerna run --scope yarn-spinner-loom package",
+    "publish": "npm run build && lerna run --scope yarn-spinner-loom publish",
     "prettier": "prettier --write **/*.{js,ts,tsx,md,json}",
     "lint:common": "lerna run --scope loom-common lint",
     "lint:editor": "lerna run --scope loom-editor lint",
     "lint:extension": "lerna run --scope yarn-spinner-loom lint",
-    "lint": "prettier --check **/*.{js,ts,tsx,md,json} && lerna run lint"
+    "lint": "prettier --check **/*.{js,ts,tsx,md,json} && lerna run lint",
+    "version": "lerna version --no-push"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",

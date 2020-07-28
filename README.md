@@ -30,8 +30,7 @@ Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yar
 
 ## Installing
 
-- TODO Visual Studio Code marketplace link
-- TODO Install from `.vsix` build artifacts
+This extension can be installed from the [Visual Studio Code Extension Marketplace](https://marketplace.visualstudio.com/items?itemName=TranquilMarmot.yarn-spinner-loom)
 
 ## Usage
 

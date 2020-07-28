@@ -1,9 +1,7 @@
 {
   "name": "loom-common",
   "version": "1.0.1",
-  "description": "",
-  "author": "",
-  "license": "ISC",
+  "private": true,
   "scripts": {
     "build": "rm -rf out && tsc -p ./ && cp package.json ./out",
     "test": "jest",

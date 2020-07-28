@@ -32,7 +32,7 @@
   "publisher": "TranquilMarmot",
   "icon": "icon.png",
   "galleryBanner": {
-    "color": "#37895F",
+    "color": "#235C3F",
     "theme": "dark"
   },
   "badges": [
@@ -100,7 +100,8 @@
     "lint": "eslint -c .eslintrc.js --ext .ts ./",
     "watch": "tsc -watch -p ./",
     "test": "jest",
-    "package": "vsce package"
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "dependencies": {
     "rimraf": "^3.0.2",
