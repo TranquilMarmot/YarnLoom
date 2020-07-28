@@ -10,7 +10,7 @@
   "engines": {
     "vscode": "^1.44.0"
   },
-  "peerDependencies": {
+  "dependencies": {
     "typesafe-actions": "^5.1.0"
   },
   "jest": {
