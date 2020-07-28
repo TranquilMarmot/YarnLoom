@@ -106,7 +106,8 @@
   "dependencies": {
     "loom-common": "file:../loom-common/out",
     "rimraf": "^3.0.2",
-    "sanitize-filename": "^1.6.3"
+    "sanitize-filename": "^1.6.3",
+    "typesafe-actions": "^5.1.0"
   },
   "jest": {
     "preset": "ts-jest",
