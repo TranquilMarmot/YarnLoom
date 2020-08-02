@@ -26,6 +26,7 @@ Yarn Loom is a Visual Studio Code extension for editing [yarn files](https://yar
       - [Quick tag search](#quick-tag-search)
     - [Switching between the graph editor and a text editor](#switching-between-the-graph-editor-and-a-text-editor)
     - [Theme support](#theme-support)
+  - [Keyboard Shortcuts](#keyboard-shortcuts)
   - [Special Thanks](#special-thanks)
 
 ## Installing
@@ -170,6 +171,13 @@ If there is a theme where something doesn't look right or is unreadable, please 
   <summary>Expand for demo of switching themes</summary>
   <img src="./images/theme-change.gif" alt="Demo of switching themes in Visual Studio Code" />
 </details>
+
+## Keyboard Shortcuts
+
+| Shortcut                        | Description         |
+| ------------------------------- | ------------------- |
+| <kbd>Ctrl</kbd> + <kbd>F</kbd>  | Focus on search bar |
+| <kbd>Shift</kbd> + <kbd>+</kbd> | Add new node        |
 
 ## Special Thanks
 
