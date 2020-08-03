@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent, useRef } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { ReactComponent as CaseSensitiveIcon } from "../../icons/case-sensitive.svg";
 import { ReactComponent as RegExIcon } from "../../icons/regex.svg";
@@ -105,6 +106,9 @@ const SearchBox: FunctionComponent = () => {
 
   // used to focus back on the input when clicking buttons in this box
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // ctrl+f focuses on the input box
+  useHotkeys("ctrl+f", () => inputRef.current?.focus());
 
   if (!state) {
     return null;
