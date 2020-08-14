@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
+
+import { YarnNode } from "loom-common/YarnNode";
 
 import { useYarnState } from "../../state/YarnContext";
 import {
@@ -10,16 +12,13 @@ import {
   getSearchString,
   getCaseSensitivityEnabled,
   getRegexEnabled,
+  getCurrentZoom,
 } from "../../state/Selectors";
 
 import { YarnGraphNode } from "../NodeGraph";
-import NodeHeader from "./NodeHeader";
-import NodeFooter from "./NodeFooter";
-import NodeBody from "./NodeBody";
-import NodeColorChooser from "./NodeColorChooser";
-import { YarnNode } from "loom-common/YarnNode";
-import NodeTagChooser from "./NodeTagChooser";
 import { isDark } from "../../Util";
+
+import NodeWithBody from "./NodeWithBody";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const nodeColors = [
@@ -139,37 +138,6 @@ const isSearched = (
   return searched;
 };
 
-/**
- * Render tha body of the node.
- * If the color or tag chooser are open, those are rendered instead.
- * (because of rendering bugs on Ubuntu, we have to render them instead of the body...)
- *
- * @param colorChooserOpen Whether or not the color chooser is open
- * @param closeColorChooser Function to call to open the color chooser
- * @param tagChooserOpen Whether or not the tag chooser is open
- * @param closeTagChooser Function to call to close the tag chooser
- * @param node Node to render body for
- */
-const renderBody = (
-  colorChooserOpen: boolean,
-  closeColorChooser: () => void,
-  tagChooserOpen: boolean,
-  closeTagChooser: () => void,
-  node: YarnNode
-) => {
-  const { title, body } = node;
-
-  if (colorChooserOpen) {
-    return <NodeColorChooser onClose={closeColorChooser} nodeTitle={title} />;
-  }
-
-  if (tagChooserOpen) {
-    return <NodeTagChooser onClose={closeTagChooser} node={node} />;
-  }
-
-  return <NodeBody body={body} />;
-};
-
 interface NodeGraphViewProps {
   node: YarnGraphNode;
 }
@@ -178,10 +146,8 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   node: { yarnNode },
 }) => {
   const [state] = useYarnState();
-  const [colorChooserOpen, setColorChooserOpen] = useState(false);
-  const [tagChooserOpen, setTagChooserOpen] = useState(false);
 
-  const { colorID, title } = yarnNode;
+  const { colorID } = yarnNode;
 
   if (!state) {
     return null;
@@ -193,6 +159,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
   const caseSensitivityEnabled = getCaseSensitivityEnabled(state);
   const regexEnabled = getRegexEnabled(state);
   const searchString = getSearchString(state);
+  const currentZoom = getCurrentZoom(state);
 
   // if we're searching for something, and this node matches that something,
   // then this will be true... if this is false, the node is rendered as "dimmed"
@@ -217,25 +184,10 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         searched ? "node-graph-view-searched" : "node-graph-view-not-searched"
       }
     >
-      <NodeHeader
-        title={title}
+      <NodeWithBody
+        yarnNode={yarnNode}
         nodeColor={nodeColor}
         nodeColorIsDark={nodeColorIsDark}
-        onOpenColorChooser={() => setColorChooserOpen(!colorChooserOpen)}
-      />
-      {renderBody(
-        colorChooserOpen,
-        () => setColorChooserOpen(false),
-        tagChooserOpen,
-        () => setTagChooserOpen(false),
-        yarnNode
-      )}
-      <NodeFooter
-        node={yarnNode}
-        nodeColor={nodeColor}
-        nodeColorIsDark={nodeColorIsDark}
-        onOpenTagChooser={() => setTagChooserOpen(true)}
-        data-testid="node-graph-view-tags"
       />
     </div>
   );

@@ -2,11 +2,11 @@
 import { jsx, css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
-import { useYarnState } from "../../state/YarnContext";
-import { searchForTag } from "../../state/UiActions";
-import UiActionType from "../../state/UiActionType";
+import { useYarnState } from "../../../state/YarnContext";
+import { searchForTag } from "../../../state/UiActions";
+import UiActionType from "../../../state/UiActionType";
 
-import { ReactComponent as AddIcon } from "../../icons/add.svg";
+import { ReactComponent as AddIcon } from "../../../icons/add.svg";
 import { YarnNode } from "loom-common/YarnNode";
 
 const containerStyle = css`
