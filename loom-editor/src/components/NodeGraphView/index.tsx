@@ -19,6 +19,7 @@ import { YarnGraphNode } from "../NodeGraph";
 import { isDark } from "../../Util";
 
 import NodeWithBody from "./NodeWithBody";
+import ZoomedOutNode from "./ZoomedOutNode";
 
 /** CSS colors to cycle through for the "colorID" of a yarn node */
 export const nodeColors = [
@@ -33,8 +34,17 @@ export const nodeColors = [
   "#000000",
 ];
 
-/** The width and height of the node's wrapper container */
+/**
+ * The width and height of the node's wrapper container
+ *
+ * NOTE: While this is exported, the export can NOT be used in
+ * CSS template strings or it will be ignored. This has something to do with
+ * the way that emotion creates its packaged CSS.
+ */
 export const NodeSizePx = 200;
+
+/** The zoom distance at which to switch from NodeWithBody to ZoomedOutNode */
+const ZoomedOutNodeDistance = 0.5;
 
 const containerStyle = css`
   background: white;
@@ -173,6 +183,8 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
     regexEnabled
   );
 
+  const zoomedOut = currentZoom && currentZoom <= ZoomedOutNodeDistance;
+
   // grab the color by its ID and determine if it is dark or not
   const nodeColor = nodeColors[colorID || 0];
   const nodeColorIsDark = isDark(nodeColor);
@@ -184,11 +196,19 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
         searched ? "node-graph-view-searched" : "node-graph-view-not-searched"
       }
     >
-      <NodeWithBody
-        yarnNode={yarnNode}
-        nodeColor={nodeColor}
-        nodeColorIsDark={nodeColorIsDark}
-      />
+      {zoomedOut ? (
+        <ZoomedOutNode
+          yarnNode={yarnNode}
+          nodeColor={nodeColor}
+          nodeColorIsDark={nodeColorIsDark}
+        />
+      ) : (
+        <NodeWithBody
+          yarnNode={yarnNode}
+          nodeColor={nodeColor}
+          nodeColorIsDark={nodeColorIsDark}
+        />
+      )}
     </div>
   );
 };

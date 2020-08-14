@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core";
-import { Fragment, FunctionComponent, useState } from "react";
+import React, { Fragment, FunctionComponent, useState } from "react";
 
 import { YarnNode } from "loom-common/YarnNode";
 
