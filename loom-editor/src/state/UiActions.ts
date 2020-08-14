@@ -25,6 +25,9 @@ export enum UiMessageTypes {
 
   /** Search for a specific tag */
   SearchForTag = "SearchForTag",
+
+  /** Set the current zoom level of the graph */
+  SetCurrentZoom = "SetCurrentZoom",
 }
 
 export const setSearchingNodeTitles = (searchingTitle: boolean) =>
@@ -50,3 +53,6 @@ export const setFocusedNode = (nodeTitle?: string) =>
 
 export const searchForTag = (tag: string) =>
   action(UiMessageTypes.SearchForTag, { tag });
+
+export const setCurrentZoom = (zoom: number) =>
+  action(UiMessageTypes.SetCurrentZoom, { zoom });

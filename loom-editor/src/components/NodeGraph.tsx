@@ -16,7 +16,7 @@ import { openNode, setNodePosition } from "loom-common/EditorActions";
 import { useYarnState } from "../state/YarnContext";
 import NodeGraphView, { NodeSizePx } from "./NodeGraphView";
 import { getNodes, getFocusedNode } from "../state/Selectors";
-import { setFocusedNode } from "../state/UiActions";
+import { setFocusedNode, setCurrentZoom } from "../state/UiActions";
 
 const containerStyle = css`
   width: 100%;
@@ -163,6 +163,10 @@ const NodeGraph: FunctionComponent = () => {
         onDoubleClickNode={onNodeDoubleClicked}
         onNodePositionChange={onNodePositionChange}
         onClickGraph={() => dispatch(setFocusedNode(undefined))}
+        // @ts-ignore until react-d3-graph is updated and https://github.com/DefinitelyTyped/DefinitelyTyped/pull/46632 is merged
+        onZoomChange={(previousZoom, newZoom) =>
+          dispatch(setCurrentZoom(newZoom))
+        }
       />
     </div>
   );

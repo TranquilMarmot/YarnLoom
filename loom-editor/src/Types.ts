@@ -27,4 +27,7 @@ export interface State {
 
   /** Node that is currently being focused on */
   focusedNode?: string;
+
+  /** Current zoom in the graph */
+  currentZoom?: number;
 }
