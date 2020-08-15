@@ -201,6 +201,7 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
           yarnNode={yarnNode}
           nodeColor={nodeColor}
           nodeColorIsDark={nodeColorIsDark}
+          currentZoom={currentZoom!}
         />
       ) : (
         <NodeWithBody
