@@ -19,6 +19,9 @@ const titleStyle = css`
 
 const titleLabelStyle = css`
   flex: 1;
+
+  max-width: 94px;
+  overflow-x: hidden;
 `;
 
 const settingsButtonStyle = css`
