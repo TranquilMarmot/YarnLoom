@@ -5,6 +5,7 @@ import { renderWithProvider } from "../../utils/test-utils";
 
 import NodeGraphView from "./";
 import { YarnGraphNode } from "../NodeGraph";
+import { defaultState } from "../../state/YarnContext";
 
 describe("<NodeGraphView />", () => {
   const mockNode: YarnGraphNode = {
@@ -18,6 +19,28 @@ describe("<NodeGraphView />", () => {
 
   it("renders", () => {
     renderWithProvider(<NodeGraphView node={mockNode} />);
+  });
+
+  describe("zooming", () => {
+    it("renders NodeWithBody when not zoomed out", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        ...defaultState,
+        currentZoom: 1.0,
+      });
+
+      screen.getByTestId("node-body-text");
+      expect(screen.queryByTestId("zoomed-out-node")).toBeNull();
+    });
+
+    it("renders ZoomedOutNode when zoomed out", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        ...defaultState,
+        currentZoom: 0.05,
+      });
+
+      screen.getByTestId("zoomed-out-node");
+      expect(screen.queryByTestId("node-body-text")).toBeNull();
+    });
   });
 
   describe("searching", () => {

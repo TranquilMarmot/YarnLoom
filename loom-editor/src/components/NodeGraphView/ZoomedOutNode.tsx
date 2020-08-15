@@ -134,6 +134,7 @@ const ZoomedOutNode: FunctionComponent<ZoomedOutNodeProps> = ({
         background-color: ${nodeColor};
         color: ${fontColor};
       `}
+      data-testid="zoomed-out-node"
     >
       <div css={getTitleStyle(extraZoomedOut, yarnNode.title.length)}>
         {yarnNode.title}
