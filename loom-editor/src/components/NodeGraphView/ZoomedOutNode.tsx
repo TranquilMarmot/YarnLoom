@@ -22,11 +22,6 @@ const containerStyle = css`
   width: ${NodeSizePx}px;
 `;
 
-const extraZoomedOutContainerStyle = css`
-  /* To make the node title render with the  */
-  justify-content: start;
-`;
-
 const titleStyle = css`
   font-size: 32px;
   font-weight: 500;
@@ -38,10 +33,10 @@ const titleStyle = css`
   max-height: 147px;
 `;
 
+/** Used when we're "extra" zoomed out and only showing the title (not the tags) */
 const extraZoomedOutTitleStyle = css`
   ${titleStyle}
 
-  font-size: 75px;
   max-height: 100%;
 `;
 
@@ -100,7 +95,27 @@ const getFontSizePxForExtraZoomedOutTitle = (titleLength: number): number => {
 };
 
 /**
- * This is rendered instead of NodeWithBody when the graph is sufficiently zoomed out
+ * Get the style to use for the title string.
+ *
+ * @param extraZoomedOut Whether or not we're currently "extra" zoomed out
+ * @param nodeTitleLength The length of the title string
+ */
+const getTitleStyle = (extraZoomedOut: boolean, nodeTitleLength: number) => {
+  // not extra zoomed out; return the regular style
+  if (!extraZoomedOut) {
+    return titleStyle;
+  }
+
+  // calculate our font size for the extra-zoomed-out title
+  return css`
+    ${extraZoomedOutTitleStyle}
+    font-size: ${getFontSizePxForExtraZoomedOutTitle(nodeTitleLength)}px;
+  `;
+};
+
+/**
+ * This is rendered instead of NodeWithBody when the graph is sufficiently zoomed out.
+ * By default, this shows tags. When zoomed out even further, it hides the tags.
  */
 const ZoomedOutNode: FunctionComponent<ZoomedOutNodeProps> = ({
   yarnNode,
@@ -120,26 +135,21 @@ const ZoomedOutNode: FunctionComponent<ZoomedOutNodeProps> = ({
         color: ${fontColor};
       `}
     >
-      <div
-        css={
-          extraZoomedOut
-            ? css`
-                ${extraZoomedOutTitleStyle}
-                font-size: ${getFontSizePxForExtraZoomedOutTitle(
-                  yarnNode.title.length
-                )}px;
-              `
-            : titleStyle
-        }
-      >
+      <div css={getTitleStyle(extraZoomedOut, yarnNode.title.length)}>
         {yarnNode.title}
       </div>
+
+      {/* Don't show tags if we're zoomed out far enough */}
       {!extraZoomedOut && (
         <div css={tagsContainerStyle}>
           {yarnNode.tags.split(" ").map(
             (tag) =>
               tag.length !== 0 && (
-                <div key={`${yarnNode.title}-zoomed-${tag}`} css={tagStyle}>
+                <div
+                  key={`${yarnNode.title}-zoomed-${tag}`}
+                  css={tagStyle}
+                  data-testid="zoomed-out-node-tag"
+                >
                   {tag}
                 </div>
               )

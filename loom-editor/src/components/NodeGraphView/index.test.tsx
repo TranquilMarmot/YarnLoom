@@ -1,6 +1,7 @@
 import React from "react";
-import { renderWithProvider } from "../../utils/test-utils";
 import { screen } from "@testing-library/react";
+
+import { renderWithProvider } from "../../utils/test-utils";
 
 import NodeGraphView from "./";
 import { YarnGraphNode } from "../NodeGraph";
