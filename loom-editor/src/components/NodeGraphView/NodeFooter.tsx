@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent } from "react";
 
 import { useYarnState } from "../../state/YarnContext";
@@ -91,7 +91,8 @@ const NodeFooter: FunctionComponent<NodeFooterProps> = ({
     <div
       css={css`
         ${containerStyle}
-        background-color: ${nodeColor}`}
+        background-color: ${nodeColor}
+      `}
     >
       <div css={tagListContainerStyle}>
         <div css={tagListStyle}>

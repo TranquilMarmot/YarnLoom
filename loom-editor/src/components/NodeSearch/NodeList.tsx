@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent } from "react";
 
 import { createNewNode } from "loom-common/EditorActions";
@@ -44,9 +44,11 @@ const NodeList: FunctionComponent = () => {
           data-testid="node-search-node-button"
         >
           <div
-            css={css`${colorBlockStyle} background-color: ${
-              nodeColors[node.colorID || 0]
-            };`}
+            css={css`
+              ${colorBlockStyle} background-color: ${nodeColors[
+                node.colorID || 0
+              ]};
+            `}
           >
             {" "}
           </div>

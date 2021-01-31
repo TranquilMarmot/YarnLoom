@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent, useState } from "react";
 
 import { ReactComponent as ChevronDown } from "../../icons/chevron-down.svg";
