@@ -1,4 +1,4 @@
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 /** Base button styles */
 export const buttonBase = css`
@@ -17,6 +17,7 @@ export const buttonBase = css`
 /** Used to style a button in a list of items */
 export const listItemBase = css`
   display: flex;
+  align-items: center;
 
   color: var(--vscode-menu-foreground);
 

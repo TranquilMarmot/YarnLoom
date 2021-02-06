@@ -48,7 +48,7 @@ const searchForTag = (state: State, tag: string): State => {
   };
 };
 
-export default (state: State, action: EditorActions | UiActions): State => {
+const reducer = (state: State, action: EditorActions | UiActions): State => {
   switch (action.type) {
     case YarnEditorMessageTypes.SetNodes:
       return {
@@ -120,3 +120,5 @@ export default (state: State, action: EditorActions | UiActions): State => {
       return state;
   }
 };
+
+export default reducer;

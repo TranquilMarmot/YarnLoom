@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent } from "react";
 
 import { YarnNode } from "loom-common/YarnNode";
@@ -191,7 +191,9 @@ const NodeGraphView: FunctionComponent<NodeGraphViewProps> = ({
 
   return (
     <div
-      css={css`${containerStyle}${!searched && dimmedStyle}`}
+      css={css`
+        ${containerStyle}${!searched && dimmedStyle}
+      `}
       data-testid={
         searched ? "node-graph-view-searched" : "node-graph-view-not-searched"
       }

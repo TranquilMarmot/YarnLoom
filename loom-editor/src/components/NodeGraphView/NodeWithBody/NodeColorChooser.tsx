@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent } from "react";
 
 import { setNodeColor } from "loom-common/EditorActions";
@@ -60,9 +60,9 @@ const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProp
             key={color}
             aria-label={`Choose color ${index}`}
             css={css`
-            ${buttonStyle}
-            background-color: ${color};
-          `}
+              ${buttonStyle}
+              background-color: ${color};
+            `}
           >
             {" "}
           </button>

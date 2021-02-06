@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent } from "react";
 
 import { getNodes } from "../../state/Selectors";
@@ -64,7 +64,9 @@ const NodeList: FunctionComponent = () => {
           <button
             data-testid="node-search-tag-button"
             key={`tag-list-${tag}`}
-            css={css`${listItemBase}${listItemStyle}`}
+            css={css`
+              ${listItemBase}${listItemStyle}
+            `}
             onClick={() => dispatch(searchForTag(tag))}
           >
             <div>{tag}</div>

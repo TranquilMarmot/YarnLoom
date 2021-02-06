@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -150,7 +150,9 @@ const SearchBox: FunctionComponent = () => {
           <CaseSensitiveIcon />
         </button>
         <button
-          css={css`${iconButtonStyle}${regexEnabled && buttonActiveStyle}`}
+          css={css`
+            ${iconButtonStyle}${regexEnabled && buttonActiveStyle}
+          `}
           type="button"
           role="switch"
           aria-checked={regexEnabled}
@@ -163,7 +165,9 @@ const SearchBox: FunctionComponent = () => {
           <RegExIcon />
         </button>
         <button
-          css={css`${textButtonStyle}${searchingTitle && buttonActiveStyle}`}
+          css={css`
+            ${textButtonStyle}${searchingTitle && buttonActiveStyle}
+          `}
           type="button"
           role="switch"
           aria-checked={searchingTitle}
@@ -177,7 +181,9 @@ const SearchBox: FunctionComponent = () => {
         </button>
 
         <button
-          css={css`${textButtonStyle}${searchingBody && buttonActiveStyle}`}
+          css={css`
+            ${textButtonStyle}${searchingBody && buttonActiveStyle}
+          `}
           type="button"
           role="switch"
           aria-checked={searchingBody}
@@ -191,7 +197,9 @@ const SearchBox: FunctionComponent = () => {
         </button>
 
         <button
-          css={css`${textButtonStyle}${searchingTags && buttonActiveStyle}`}
+          css={css`
+            ${textButtonStyle}${searchingTags && buttonActiveStyle}
+          `}
           type="button"
           role="switch"
           aria-checked={searchingTags}
