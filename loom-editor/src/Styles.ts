@@ -17,6 +17,7 @@ export const buttonBase = css`
 /** Used to style a button in a list of items */
 export const listItemBase = css`
   display: flex;
+  align-items: center;
 
   color: var(--vscode-menu-foreground);
 
