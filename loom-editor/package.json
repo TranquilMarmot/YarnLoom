@@ -5,7 +5,7 @@
   "dependencies": {
     "@emotion/babel-plugin": "^11.1.2",
     "@emotion/react": "^11.1.4",
-    "d3": "^6.5.0",
+    "d3": "^5.5.0",
     "loom-common": "file:../loom-common/out",
     "react-d3-graph": "^2.6.0",
     "react-hotkeys-hook": "^3.0.3",
