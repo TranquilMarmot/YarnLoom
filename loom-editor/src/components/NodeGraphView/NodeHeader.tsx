@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react/macro";
 import { FunctionComponent } from "react";
 
 import { deleteNode, renameNode } from "loom-common/EditorActions";
@@ -72,7 +72,13 @@ const NodeHeader: FunctionComponent<NodeHeaderProps> = ({
         background-color: ${nodeColor}
       `}
     >
-      <div css={css`${titleLabelStyle}${fontStyle}`}>{title}</div>
+      <div
+        css={css`
+          ${titleLabelStyle}${fontStyle}
+        `}
+      >
+        {title}
+      </div>
       <button
         css={settingsButtonStyle}
         onClick={() => window.vsCodeApi.postMessage(renameNode(title))}
