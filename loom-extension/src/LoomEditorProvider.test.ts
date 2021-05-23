@@ -7,9 +7,9 @@ import { parseYarnFile } from "loom-common/YarnParser";
 const vscodeMock = require("../__mocks__/vscode");
 
 describe("LoomEditorProvider", () => {
-  const mockContext: vscode.ExtensionContext = ({
+  const mockContext: vscode.ExtensionContext = {
     extensionPath: "some-extension-path",
-  } as unknown) as vscode.ExtensionContext;
+  } as unknown as vscode.ExtensionContext;
 
   const exampleYarnFile = `title: Start
 tags: 
@@ -49,16 +49,16 @@ A: HAHAHA
   beforeEach(() => {
     provider = new LoomEditorProvider(mockContext);
 
-    provider.document = ({
+    provider.document = {
       getText: () => exampleYarnFile,
       uri: "some-document-uri",
-    } as unknown) as vscode.TextDocument;
+    } as unknown as vscode.TextDocument;
 
-    provider.webviewPanel = ({
+    provider.webviewPanel = {
       webview: {
         postMessage: jest.fn(),
       } as any,
-    } as unknown) as vscode.WebviewPanel;
+    } as unknown as vscode.WebviewPanel;
 
     provider.nodes = parseYarnFile(exampleYarnFile);
   });
