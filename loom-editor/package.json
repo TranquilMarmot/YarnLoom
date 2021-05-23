@@ -3,13 +3,13 @@
   "version": "1.0.3",
   "private": true,
   "dependencies": {
-    "@emotion/babel-plugin": "^11.1.2",
-    "@emotion/react": "^11.1.4",
+    "@emotion/babel-plugin": "^11.3.0",
+    "@emotion/react": "^11.4.0",
     "d3": "^5.16.0",
     "loom-common": "file:../loom-common/out",
     "react-d3-graph": "^2.6.0",
-    "react-hotkeys-hook": "^3.0.3",
-    "react-scripts": "4.0.1",
+    "react-hotkeys-hook": "^3.3.1",
+    "react-scripts": "^4.0.3",
     "typesafe-actions": "^5.1.0"
   },
   "scripts": {
