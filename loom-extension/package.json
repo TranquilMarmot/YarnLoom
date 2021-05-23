@@ -93,6 +93,11 @@
       }
     ]
   },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "rm -rf out && npm run compile && cd ../loom-editor && cp -r ./build ../loom-extension/out",
