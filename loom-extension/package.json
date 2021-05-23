@@ -94,6 +94,7 @@
     ]
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "vscode:prepublish": "npm run build",
     "build": "rm -rf out && npm run compile && cd ../loom-editor && cp -r ./build ../loom-extension/out",
     "compile": "tsc -p ./",

@@ -1,8 +1,9 @@
 {
   "name": "loom-common",
-  "version": "1.0.3",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "rm -rf out && tsc -p ./ && cp package.json ./out && cp -r node_modules ./out/node_modules",
     "test": "jest",
     "lint": "eslint --config .eslintrc.js --ext js,ts,tsx ."

@@ -31,7 +31,9 @@ To run this project from source, you need to have the following installed:
 
 Clone this repo, and then open it up in Visual Studio Code.
 
-Install dependencies by running `npm install` at the root of the project. If you run into issues (i.e. with `ENOACCESS`) then try running `npm install` in subdirectories first, then running it again at the root.
+This project uses [`pnpm`](https://pnpm.io/) to manage dependencies, so `pnpm` must first be installed with `npm install --global pnpm`.
+
+Install dependencies by running `pnpm install` at the root of the project. If you run into issues (i.e. with `ENOACCESS`) then try running `pnpm install` in subdirectories first, then running it again at the root.
 
 To run the extension in the extension development host, use Visual Studio Code's [debug launcher](https://code.visualstudio.com/docs/editor/debugging) to launch the "Extension" configuration.
 
@@ -55,10 +57,6 @@ To contribute to this repo, [fork it](https://docs.github.com/en/github/getting-
 
 ### Available scripts
 
-All scripts **must** be run at the root of the repo.
-
-Because of the way that [lerna](https://lerna.js.org/) works, most scripts cannot be run directly in sub-projects since the necessary dependencies are located in the root `package.json` and are bootstrapped in the subprojects. See the [Project Layout](#project-layout) section for more information.
-
 | Command                                                              | Description                                                                                                                                                                                                                                                                                                                                                                                                          |
 | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `build`<br><br>`build:common`<br>`build:editor`<br>`build:extension` | `npm run build` will build all sub-projects in the correct order.<br><br>This is what is called when launching the extension. See [`launch.json`](./.vscode/launch.json).<br><br>The other tasks are used to build specific sub-projects. In general, these need to be executed in a specific order for the extension to compile properly: `build:common`, then `build:editor`, then `build:extension`.              |
@@ -73,7 +71,7 @@ Every pull request and merge to the `main` branch has the [`continuous-integrati
 
 #### Releases
 
-Running `npm run version` in the root of the repo will ask for a new version via lerna. This will bump all of the `package.json` files. This needs to be committed and pushed to the `main` branch.
+Running `pnpm version` in the root of the repo will ask for a new version. This will bump the version in the `loom-extension` `package.json` file. This needs to be committed and pushed to the `main` branch.
 
 ##### Automatic Release
 
@@ -83,11 +81,11 @@ Creating a [new release from GitHub](https://github.com/TranquilMarmot/YarnLoom/
 
 The steps in the [Visual Studio Code "Publishing Extensions" docs](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) should be followed to create a personal access token (PAT) in Azure Dev Ops in order to use `vsce` to publish the extension.
 
-Once logged in to the publisher via `vsce`, running `npm run publish` from the root of the repo will publish the current version of the extension.
+Once logged in to the publisher via `vsce`, running `pnpm publish` from the root of the repo will publish the current version of the extension.
 
 ### Packaging the extension
 
-To manually generate a `.vsix` file, run `npm run package` at the root of the repo.
+To manually generate a `.vsix` file, run `pnpm package` at the root of the repo.
 
 **Note:** Sometimes, weird things can happen with lerna and `node_modules`; if you run into weird issues here, try `cd loom-extension && rm -rf node_modules && npm install` to clean things out and make sure you have all the dependencies needed.
 
@@ -97,7 +95,7 @@ To install the `.vsix` file, run `code --install-extension {your .vsix file}`.
 
 ## Project Layout
 
-This project is a monorepo that is managed with [lerna](https://lerna.js.org/).
+This project is a monorepo that is managed with [pnpm](https://pnpm.io/).
 
 Where possible, dev dependencies are kept at the root level of the project.
 

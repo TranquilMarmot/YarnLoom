@@ -11,40 +11,50 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup node.js
-        uses: actions/setup-node@v1
+      - name: Setup node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
+          node-version: ${{ matrix.node-version }}
+      - name: Cache .pnpm-store
+        uses: actions/cache@v1
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+      - name: Install pnpm
+        run: curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6
 
       # As part of this, we have to copy loom-common's `package.json` to its `out` folder.
-      # This is needed because lerna expects loom-common/out to be an npm package (which it only is if it has a package.json file)
+      # This is needed because we expect loom-common/out to be an npm package (which it only is if it has a package.json file)
       # Normally, this is done as part of the build process, but it also needs to be done for a fresh install.
       - name: Install dependencies
         run: |
           mkdir -p loom-common/out
           cp loom-common/package.json loom-common/out
-          npm install
+          pnpm install
 
       - name: Lint
-        run: npm run lint
+        run: pnpm lint
 
       # This step has two purposes:
       # 1. Typecheck everything by putting it through tsc
       # 2. Build loom-common, which is needed by loom-editor and loom-extension tests
       - name: Typecheck and Build
-        run: npm run build
+        run: pnpm build
 
       - name: Tests
-        run: npm run test
+        run: pnpm test
 
       # This only gets run if we're pushing a new tag that starts with "v"
       - name: Publish
         if: success() && startsWith(github.ref, 'refs/tags/v')
-        run: npm run publish
+        run: pnpm publish
         env:
           VSCE_PAT: ${{ secrets.VSCE_DEPLOY_KEY }}

@@ -1,18 +1,20 @@
 {
   "name": "loom-editor",
-  "version": "1.0.3",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@emotion/babel-plugin": "^11.1.2",
     "@emotion/react": "^11.1.4",
+    "@svgr/webpack": "5.5.0",
     "d3": "^5.16.0",
     "loom-common": "file:../loom-common/out",
     "react-d3-graph": "^2.6.0",
     "react-hotkeys-hook": "^3.0.3",
-    "react-scripts": "4.0.1",
+    "react-scripts": "^4.0.3",
     "typesafe-actions": "^5.1.0"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -21,14 +23,10 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
   },
   "engines": {

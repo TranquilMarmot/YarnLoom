@@ -1,0 +1,5 @@
+packages:
+  - "loom-common/**"
+  - "loom-editor/**"
+  - "loom-extension/**"
+  - "!loom-common/out/**"

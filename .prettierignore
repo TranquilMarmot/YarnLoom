@@ -2,6 +2,3 @@
 build
 out
 coverage
-
-# lerna likes to change this file
-lerna.json
