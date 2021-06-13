@@ -42,37 +42,35 @@ interface NodeGraphViewColorChooserProps {
   nodeTitle: string;
 }
 
-const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProps> = ({
-  onClose,
-  nodeTitle,
-}) => {
-  const onChooseColor = (colorIndex: number) => {
-    window.vsCodeApi.postMessage(setNodeColor(nodeTitle, colorIndex));
-    onClose();
-  };
+const NodeGraphViewColorChooser: FunctionComponent<NodeGraphViewColorChooserProps> =
+  ({ onClose, nodeTitle }) => {
+    const onChooseColor = (colorIndex: number) => {
+      window.vsCodeApi.postMessage(setNodeColor(nodeTitle, colorIndex));
+      onClose();
+    };
 
-  return (
-    <div css={containerStyle} data-testid="node-title-color-chooser">
-      <div css={buttonContainerStyle}>
-        {nodeColors.map((color, index) => (
-          <button
-            onClick={() => onChooseColor(index)}
-            key={color}
-            aria-label={`Choose color ${index}`}
-            css={css`
-              ${buttonStyle}
-              background-color: ${color};
-            `}
-          >
-            {" "}
-          </button>
-        ))}
+    return (
+      <div css={containerStyle} data-testid="node-title-color-chooser">
+        <div css={buttonContainerStyle}>
+          {nodeColors.map((color, index) => (
+            <button
+              onClick={() => onChooseColor(index)}
+              key={color}
+              aria-label={`Choose color ${index}`}
+              css={css`
+                ${buttonStyle}
+                background-color: ${color};
+              `}
+            >
+              {" "}
+            </button>
+          ))}
+        </div>
+        <button css={cancelButtonStyle} onClick={onClose}>
+          Cancel
+        </button>
       </div>
-      <button css={cancelButtonStyle} onClick={onClose}>
-        Cancel
-      </button>
-    </div>
-  );
-};
+    );
+  };
 
 export default NodeGraphViewColorChooser;

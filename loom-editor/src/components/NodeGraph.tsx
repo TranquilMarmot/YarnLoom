@@ -71,7 +71,7 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
     mouseCursor: "grab",
     symbolType: "square",
     viewGenerator: (node) => (
-      <NodeGraphView node={(node as unknown) as YarnGraphNode} />
+      <NodeGraphView node={node as unknown as YarnGraphNode} />
     ),
     strokeWidth: 3.0,
   },
