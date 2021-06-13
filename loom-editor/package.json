@@ -1,6 +1,6 @@
 {
   "name": "loom-editor",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@emotion/babel-plugin": "^11.3.0",
