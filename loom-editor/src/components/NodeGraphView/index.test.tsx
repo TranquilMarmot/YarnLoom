@@ -1,9 +1,11 @@
 import React from "react";
+import { screen } from "@testing-library/react";
+
 import { renderWithProvider } from "../../utils/test-utils";
-import { screen, fireEvent } from "@testing-library/react";
 
 import NodeGraphView from "./";
 import { YarnGraphNode } from "../NodeGraph";
+import { defaultState } from "../../state/YarnContext";
 
 describe("<NodeGraphView />", () => {
   const mockNode: YarnGraphNode = {
@@ -19,36 +21,26 @@ describe("<NodeGraphView />", () => {
     renderWithProvider(<NodeGraphView node={mockNode} />);
   });
 
-  it("renders no tags if there are none", () => {
-    const nodeWithNoTags = {
-      ...mockNode,
-      yarnNode: {
-        ...mockNode.yarnNode,
-        tags: "",
-      },
-    };
-    renderWithProvider(<NodeGraphView node={nodeWithNoTags} />);
-    expect(screen.queryByTestId("node-graph-view-tags")).toBeNull();
-  });
+  describe("zooming", () => {
+    it("renders NodeWithBody when not zoomed out", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        ...defaultState,
+        currentZoom: 1.0,
+      });
 
-  it("opens the color chooser", () => {
-    renderWithProvider(<NodeGraphView node={mockNode} />);
+      screen.getByTestId("node-body-text");
+      expect(screen.queryByTestId("zoomed-out-node")).toBeNull();
+    });
 
-    expect(screen.queryByTestId("node-title-color-chooser")).toBeNull();
+    it("renders ZoomedOutNode when zoomed out", () => {
+      renderWithProvider(<NodeGraphView node={mockNode} />, {
+        ...defaultState,
+        currentZoom: 0.05,
+      });
 
-    fireEvent.click(screen.getByTitle("Change node color"));
-
-    expect(screen.queryByTestId("node-title-color-chooser")).not.toBeNull();
-  });
-
-  it("opens the tag chooser", () => {
-    renderWithProvider(<NodeGraphView node={mockNode} />);
-
-    expect(screen.queryByTestId("node-tag-chooser")).toBeNull();
-
-    fireEvent.click(screen.getByTitle("Manage node tags"));
-
-    expect(screen.queryByTestId("node-tag-chooser")).not.toBeNull();
+      screen.getByTestId("zoomed-out-node");
+      expect(screen.queryByTestId("node-body-text")).toBeNull();
+    });
   });
 
   describe("searching", () => {

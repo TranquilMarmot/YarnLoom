@@ -11,6 +11,7 @@ import {
   searchForTag,
   setSearchCaseSensitive,
   setSearchRegexEnabled,
+  setCurrentZoom,
 } from "./UiActions";
 
 describe("Reducer", () => {
@@ -141,5 +142,11 @@ describe("Reducer", () => {
       expect(reduced.search.searchingTitle).toBe(true);
       expect(reduced.search.searchingTags).toBe(true);
     });
+  });
+
+  it("handles UiActionType.SetCurrentZoom", () => {
+    expect(startState.currentZoom).toBeUndefined();
+    const reduced = reducer(startState, setCurrentZoom(0.5));
+    expect(reduced.currentZoom).toBe(0.5);
   });
 });

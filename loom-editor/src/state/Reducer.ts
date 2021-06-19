@@ -111,6 +111,11 @@ const reducer = (state: State, action: EditorActions | UiActions): State => {
       };
     case UiMessageTypes.SearchForTag:
       return searchForTag(state, action.payload.tag);
+    case UiMessageTypes.SetCurrentZoom:
+      return {
+        ...state,
+        currentZoom: action.payload.zoom,
+      };
     default:
       return state;
   }

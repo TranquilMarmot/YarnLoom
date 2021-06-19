@@ -1,12 +1,12 @@
 import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
-import { renderWithProvider } from "../../utils/test-utils";
+import { renderWithProvider } from "../../../utils/test-utils";
 
 import { toggleTagOnNode, promptForNewTags } from "loom-common/EditorActions";
 
 import NodeTagChooser from "./NodeTagChooser";
-import { defaultState } from "../../state/YarnContext";
-import { State } from "../../Types";
+import { defaultState } from "../../../state/YarnContext";
+import { State } from "../../../Types";
 
 describe("<NodeTagChooser />", () => {
   const node = {

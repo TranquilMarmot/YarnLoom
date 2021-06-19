@@ -4,8 +4,8 @@ import { FunctionComponent } from "react";
 
 import { setNodeColor } from "loom-common/EditorActions";
 
-import { nodeColors } from "./index";
-import { buttonBase, nodeOverlayContainer } from "../../Styles";
+import { nodeColors } from "../index";
+import { buttonBase, nodeOverlayContainer } from "../../../Styles";
 
 const containerStyle = css`
   ${nodeOverlayContainer}

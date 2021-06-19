@@ -4,9 +4,9 @@ import { FunctionComponent } from "react";
 
 import { deleteNode, renameNode } from "loom-common/EditorActions";
 
-import { ReactComponent as RenameIcon } from "../../icons/rename.svg";
-import { ReactComponent as TrashIcon } from "../../icons/trash.svg";
-import { ReactComponent as ColorIcon } from "../../icons/symbol-color.svg";
+import { ReactComponent as RenameIcon } from "../../../icons/rename.svg";
+import { ReactComponent as TrashIcon } from "../../../icons/trash.svg";
+import { ReactComponent as ColorIcon } from "../../../icons/symbol-color.svg";
 
 const titleStyle = css`
   padding: 10px;
@@ -19,6 +19,9 @@ const titleStyle = css`
 
 const titleLabelStyle = css`
   flex: 1;
+
+  max-width: 94px;
+  overflow-x: hidden;
 `;
 
 const settingsButtonStyle = css`

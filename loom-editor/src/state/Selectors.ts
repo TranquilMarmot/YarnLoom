@@ -11,3 +11,4 @@ export const getRegexEnabled = (state: State) => state.search.regexEnabled;
 export const getSearchString = (state: State) => state.search.searchString;
 
 export const getFocusedNode = (state?: State) => state?.focusedNode;
+export const getCurrentZoom = (state?: State) => state?.currentZoom;

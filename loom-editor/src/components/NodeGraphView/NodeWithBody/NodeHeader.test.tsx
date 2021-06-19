@@ -1,6 +1,6 @@
 import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
-import { renderWithProvider } from "../../utils/test-utils";
+import { renderWithProvider } from "../../../utils/test-utils";
 
 import { deleteNode, renameNode } from "loom-common/EditorActions";
 

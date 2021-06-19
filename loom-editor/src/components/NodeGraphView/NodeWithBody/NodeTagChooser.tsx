@@ -4,13 +4,13 @@ import { FunctionComponent } from "react";
 
 import { YarnNode } from "loom-common/YarnNode";
 
-import { getNodes } from "../../state/Selectors";
-import { useYarnState } from "../../state/YarnContext";
+import { getNodes } from "../../../state/Selectors";
+import { useYarnState } from "../../../state/YarnContext";
 
-import { ReactComponent as PlusIcon } from "../../icons/add.svg";
-import { ReactComponent as CheckIcon } from "../../icons/check.svg";
+import { ReactComponent as PlusIcon } from "../../../icons/add.svg";
+import { ReactComponent as CheckIcon } from "../../../icons/check.svg";
 
-import { listItemBase, nodeOverlayContainer } from "../../Styles";
+import { listItemBase, nodeOverlayContainer } from "../../../Styles";
 
 import { toggleTagOnNode, promptForNewTags } from "loom-common/EditorActions";
 

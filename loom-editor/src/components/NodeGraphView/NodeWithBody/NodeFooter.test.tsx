@@ -1,8 +1,8 @@
 import React from "react";
 import { screen, fireEvent } from "@testing-library/react";
-import { renderWithProvider } from "../../utils/test-utils";
+import { renderWithProvider } from "../../../utils/test-utils";
 
-import { searchForTag } from "../../state/UiActions";
+import { searchForTag } from "../../../state/UiActions";
 
 import NodeFooter from "./NodeFooter";
 import { YarnNode } from "loom-common/YarnNode";
