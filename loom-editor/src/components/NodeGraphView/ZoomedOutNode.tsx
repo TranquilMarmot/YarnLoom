@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/core";
 import { FunctionComponent } from "react";
 
 import { YarnNode } from "loom-common/YarnNode";
