@@ -31,9 +31,9 @@ describe("TemporaryFiles", () => {
   const mockOpenYarnFileHash = "33bde1ae455211803e3b3ed8996e7dea";
 
   // mock VSCode TextDocument
-  const mockTextDocument: vscode.TextDocument = ({
+  const mockTextDocument: vscode.TextDocument = {
     uri: vscode.Uri.file(mockOpenYarnFileName),
-  } as unknown) as vscode.TextDocument;
+  } as unknown as vscode.TextDocument;
 
   describe("getTemporaryFolderPath", () => {
     it("generates a path with the workspace name if a workspace is open", () => {
@@ -68,9 +68,9 @@ describe("TemporaryFiles", () => {
       tags: "",
     };
 
-    const mockEditor: LoomEditorProvider = ({
+    const mockEditor: LoomEditorProvider = {
       document: mockTextDocument,
-    } as unknown) as LoomEditorProvider;
+    } as unknown as LoomEditorProvider;
 
     it("creates temporary documents", () => {
       const expectedMockFilePath = join(
@@ -145,9 +145,9 @@ describe("TemporaryFiles", () => {
     });
 
     it("does not un-watch files belonging to a different document", () => {
-      const otherMockTextDocument: vscode.TextDocument = ({
+      const otherMockTextDocument: vscode.TextDocument = {
         uri: vscode.Uri.file("/some-other-file.yarn"),
-      } as unknown) as vscode.TextDocument;
+      } as unknown as vscode.TextDocument;
 
       const mockTemporaryFiles: TemporaryFile[] = [
         {

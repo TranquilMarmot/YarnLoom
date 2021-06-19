@@ -34,7 +34,7 @@ describe("LoomMessageListener", () => {
 
   beforeEach(() => {
     // we re-create this before each test since the tests can end up mutating it
-    mockEditor = ({
+    mockEditor = {
       nodes: mockNodes,
       webviewPanel: {}, // needs to be defined or errors are thrown
       updateNode: jest.fn(),
@@ -42,7 +42,7 @@ describe("LoomMessageListener", () => {
       addNewNode: jest.fn(),
       renameNode: jest.fn(),
       addTagsToNode: jest.fn(),
-    } as unknown) as LoomEditorProvider;
+    } as unknown as LoomEditorProvider;
   });
 
   afterEach(() => {
@@ -108,9 +108,8 @@ describe("LoomMessageListener", () => {
   describe("confirmAndDeleteNode", () => {
     it("deletes if the value chosen is Yes", () => {
       // this will mock the information response immediately returning "Yes"
-      const mockedSetInformationMessage = vscodeMock.__setInformationMessageResponse(
-        "Yes"
-      );
+      const mockedSetInformationMessage =
+        vscodeMock.__setInformationMessageResponse("Yes");
 
       LoomMessageListener.confirmAndDeleteNode(mockNodeTitle, mockEditor);
 
@@ -123,9 +122,8 @@ describe("LoomMessageListener", () => {
 
     it("does not delete if the value chosen is not Yes", () => {
       // this will mock the information response immediately returning "No"
-      const mockedSetInformationMessage = vscodeMock.__setInformationMessageResponse(
-        "No"
-      );
+      const mockedSetInformationMessage =
+        vscodeMock.__setInformationMessageResponse("No");
 
       LoomMessageListener.confirmAndDeleteNode(mockNodeTitle, mockEditor);
 
@@ -140,9 +138,8 @@ describe("LoomMessageListener", () => {
     it("adds a new node", () => {
       const newNodeName = "New Node";
 
-      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
-        newNodeName
-      );
+      const mockedInputBoxResponse =
+        vscodeMock.__setInputBoxResponse(newNodeName);
 
       LoomMessageListener.askForNameAndAddNewNode(mockEditor);
 
@@ -164,9 +161,8 @@ describe("LoomMessageListener", () => {
         },
       ];
 
-      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
-        existingNodeName
-      );
+      const mockedInputBoxResponse =
+        vscodeMock.__setInputBoxResponse(existingNodeName);
 
       LoomMessageListener.askForNameAndAddNewNode(mockEditor);
 
@@ -186,9 +182,8 @@ describe("LoomMessageListener", () => {
     it("renames nodes", () => {
       const newNodeName = "New Node Name";
 
-      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
-        newNodeName
-      );
+      const mockedInputBoxResponse =
+        vscodeMock.__setInputBoxResponse(newNodeName);
 
       LoomMessageListener.askForNameAndRenameNode(mockEditor, mockNodeTitle);
 
@@ -219,9 +214,8 @@ describe("LoomMessageListener", () => {
       ];
 
       // trying to rename mockNodeTitle -> existingNodeName
-      const mockedInputBoxResponse = vscodeMock.__setInputBoxResponse(
-        existingNodeName
-      );
+      const mockedInputBoxResponse =
+        vscodeMock.__setInputBoxResponse(existingNodeName);
 
       LoomMessageListener.askForNameAndRenameNode(mockEditor, mockNodeTitle);
 
@@ -263,13 +257,13 @@ describe("LoomMessageListener", () => {
      * on to the function passed in to it by `listenForMessages`.
      */
     const createMockWebviewWithMessage = (message: EditorActions) => {
-      const mockWebviewPanel: WebviewPanel = ({
+      const mockWebviewPanel: WebviewPanel = {
         webview: {
           onDidReceiveMessage: (fn: (message: EditorActions) => void) => {
             fn(message);
           },
         } as any,
-      } as unknown) as WebviewPanel;
+      } as unknown as WebviewPanel;
 
       return mockWebviewPanel;
     };
