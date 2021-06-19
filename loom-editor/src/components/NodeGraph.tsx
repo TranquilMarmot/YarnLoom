@@ -130,7 +130,6 @@ const NodeGraph: FunctionComponent = () => {
         height: containerNode.offsetHeight,
       });
 
-      // @ts-ignore https://github.com/Microsoft/TypeScript/issues/28502
       const resizeObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
           if (entry.contentRect) {
@@ -163,7 +162,7 @@ const NodeGraph: FunctionComponent = () => {
         onDoubleClickNode={onNodeDoubleClicked}
         onNodePositionChange={onNodePositionChange}
         onClickGraph={() => dispatch(setFocusedNode(undefined))}
-        // @ts-ignore until react-d3-graph is updated and https://github.com/DefinitelyTyped/DefinitelyTyped/pull/46632 is merged
+        // @ts-expect-error until react-d3-graph is updated and https://github.com/DefinitelyTyped/DefinitelyTyped/pull/46632 is merged
         onZoomChange={(previousZoom, newZoom) =>
           dispatch(setCurrentZoom(newZoom))
         }
