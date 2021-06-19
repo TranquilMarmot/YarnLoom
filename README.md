@@ -152,9 +152,9 @@ Re-selecting the tag that is currently being searched for will de-select it and 
 
 ### Switching between the graph editor and a text editor
 
-By clicking the three dots in the top-right of the open editor window, you can select "Reopen Editor With..." and choose to re-open the `.yarn` file with the default text editor.
+Switching editors can be done with the [command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette), <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, and selecting the "View: Reopen Editor With..." option.
 
-In this menu, clicking the gear icon will set an editor as the default editor for `.yarn` files. This is useful if you want Visual Studio Code to default to opening files with the text editor.
+In this menu, selecting "Configure default editor for '\*.yarn'..." will let you set the default editor for `.yarn` files. This is useful if you want Visual Studio Code to default to opening files with the text editor.
 
 <details>
   <summary>Expand for demo of switching between the text editor and Yarn Loom</summary>
