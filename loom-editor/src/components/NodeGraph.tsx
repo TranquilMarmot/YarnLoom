@@ -162,7 +162,6 @@ const NodeGraph: FunctionComponent = () => {
         onDoubleClickNode={onNodeDoubleClicked}
         onNodePositionChange={onNodePositionChange}
         onClickGraph={() => dispatch(setFocusedNode(undefined))}
-        // @ts-expect-error until react-d3-graph is updated and https://github.com/DefinitelyTyped/DefinitelyTyped/pull/46632 is merged
         onZoomChange={(previousZoom, newZoom) =>
           dispatch(setCurrentZoom(newZoom))
         }
