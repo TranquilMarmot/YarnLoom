@@ -78,6 +78,19 @@ const graphConfig: Partial<GraphConfiguration<GraphNode, GraphLink>> = {
   link: {
     highlightColor: "lightblue",
   },
+  // @ts-expect-error
+  grid: {
+    renderGridLines: true,
+    snapToGrid: true,
+    gridWidth: 100,
+    gridHeight: 100,
+    strokeWidth: 3,
+    strokeColor: "#bbbbbb",
+    innerGridXDivisions: 2,
+    innerGridYDivisions: 2,
+    innerGridStrokeWidth: 2,
+    innerGridStrokeColor: "#cccccc",
+  }
 };
 
 /**
@@ -105,8 +118,8 @@ const NodeGraph: FunctionComponent = () => {
   // the size of the graph; this will actually be the width of the wrapper container
   // the defaults are what it initially renders with and just have to be "big enough"
   const [graphSize, setGraphSize] = useState({
-    width: 2000,
-    height: 2000,
+    width: 500,
+    height: 500,
   });
 
   const graphRef = useCallback((node) => {
@@ -125,23 +138,23 @@ const NodeGraph: FunctionComponent = () => {
     // this callback will set the graph size to the wrapper div's size
     // and also add a ResizeObserver that will listen for the wrapper resizing
     if (containerNode) {
-      setGraphSize({
-        width: containerNode.offsetWidth,
-        height: containerNode.offsetHeight,
-      });
+      // setGraphSize({
+      //   width: containerNode.offsetWidth,
+      //   height: containerNode.offsetHeight,
+      // });
 
-      const resizeObserver = new ResizeObserver((entries) => {
-        for (let entry of entries) {
-          if (entry.contentRect) {
-            setGraphSize({
-              width: entry.contentRect.width,
-              height: entry.contentRect.height,
-            });
-          }
-        }
-      });
+      // const resizeObserver = new ResizeObserver((entries) => {
+      //   for (let entry of entries) {
+      //     if (entry.contentRect) {
+      //       setGraphSize({
+      //         width: entry.contentRect.width,
+      //         height: entry.contentRect.height,
+      //       });
+      //     }
+      //   }
+      // });
 
-      resizeObserver.observe(containerNode);
+      // resizeObserver.observe(containerNode);
     }
   }, []);
 
