@@ -9,7 +9,7 @@
     "loom-common": "file:../loom-common/out",
     "react-d3-graph": "^2.6.0",
     "react-hotkeys-hook": "^3.3.1",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "typesafe-actions": "^5.1.0"
   },
   "scripts": {
