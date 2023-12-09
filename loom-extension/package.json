@@ -69,6 +69,11 @@
         "priority": "default"
       }
     ],
+    "configurationDefaults": {
+      "workbench.editorAssociations": {
+        "{git,gitlens}:/**/*.{yarn,yarn.txt}": "default"
+      }
+    },
     "languages": [
       {
         "id": "yarnspinner",
